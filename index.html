@@ -7,27 +7,29 @@
   <title>Bunyaan — Scotland's First Muslim Robotics Team</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Amiri:ital,wght@0,400;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
   <style>
     /* ============================================================
        TOKENS
     ============================================================ */
     :root {
-      --navy:        #0A1628;
+      --navy:        #0D1B3E;
       --navy-2:      #111F3A;
-      --navy-3:      #192C50;
-      --navy-4:      #1E3460;
+      --navy-3:      #162B52;
+      --navy-4:      #1A3260;
       --gold:        #C9A84C;
-      --gold-light:  #E8C96B;
-      --gold-dim:    rgba(201,168,76,0.10);
-      --gold-border: rgba(201,168,76,0.22);
+      --gold-light:  #E2BE6E;
+      --gold-dim:    rgba(201,168,76,0.08);
+      --gold-border: rgba(201,168,76,0.20);
+      --gold-glow:   rgba(201,168,76,0.12);
       --white:       #FFFFFF;
-      --muted:       rgba(255,255,255,0.55);
-      --muted-2:     rgba(255,255,255,0.30);
-      --nav-h:       72px;
-      --f-display:   'Cormorant Garamond', Georgia, serif;
+      --muted:       rgba(255,255,255,0.58);
+      --muted-2:     rgba(255,255,255,0.28);
+      --nav-h:       70px;
+      --f-head:      'Rajdhani', sans-serif;
+      --f-mono:      'IBM Plex Mono', monospace;
       --f-body:      'DM Sans', system-ui, sans-serif;
-      --f-arabic:    'Noto Naskh Arabic', serif;
+      --f-arabic:    'Amiri', serif;
     }
 
     /* ============================================================
@@ -42,40 +44,21 @@
     img, svg { display: block; }
 
     /* ============================================================
-       GEOMETRIC CANVAS
+       HEX GRID BACKGROUND — Fixed layer
     ============================================================ */
-    .geo-canvas {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+    .hex-bg {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      width: 100%; height: 100%;
+      opacity: 1;
     }
-    .geo-canvas::before {
-      content: '';
-      position: absolute; inset: 0;
-      background-image:
-        linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
-      background-size: 60px 60px;
-    }
-    .geo-canvas::after {
-      content: '';
-      position: absolute; inset: 0;
-      background-image:
-        repeating-linear-gradient(45deg, rgba(201,168,76,0.025) 0, rgba(201,168,76,0.025) 1px, transparent 0, transparent 50%),
-        repeating-linear-gradient(135deg, rgba(201,168,76,0.025) 0, rgba(201,168,76,0.025) 1px, transparent 0, transparent 50%);
-      background-size: 42px 42px;
-    }
-    .geo-glow-tr {
+
+    /* Gold radial glow — top right */
+    .glow-tr {
       position: fixed; z-index: 0; pointer-events: none;
-      width: 900px; height: 900px;
-      top: -300px; right: -300px;
+      top: -20%; right: -10%;
+      width: 70vw; height: 70vw; max-width: 900px; max-height: 900px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%);
-    }
-    .geo-glow-bl {
-      position: fixed; z-index: 0; pointer-events: none;
-      width: 700px; height: 700px;
-      bottom: -200px; left: -200px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(14,40,100,0.5) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 65%);
     }
 
     /* ============================================================
@@ -90,49 +73,54 @@
       border-block-end: 1px solid transparent;
     }
     nav.scrolled {
-      background: rgba(10,22,40,0.95);
+      background: rgba(13,27,62,0.96);
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border-block-end-color: var(--gold-border);
     }
-    .nav-mark {
-      font-family: var(--f-display); font-size: 1.4rem; font-weight: 700;
-      letter-spacing: 0.14em; text-transform: uppercase;
+
+    .nav-logo {
+      height: 40px; width: auto; flex-shrink: 0;
+      filter: brightness(0) invert(1);
     }
-    .nav-mark .g { color: var(--gold); }
+
     .nav-links {
       display: flex; align-items: center;
       gap: clamp(1.25rem, 2.5vw, 2.25rem);
       list-style: none; margin-inline: auto;
     }
     .nav-links a {
-      font-size: 0.8rem; font-weight: 400;
-      letter-spacing: 0.06em; text-transform: uppercase;
-      color: var(--muted); transition: color 0.25s;
+      font-family: var(--f-head); font-size: 0.85rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--gold); }
+
     .nav-cta {
       flex-shrink: 0;
-      padding: 0.55rem 1.4rem;
-      font-size: 0.78rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
-      background: var(--gold); color: var(--navy);
-      border-radius: 3px; transition: background 0.25s, transform 0.2s;
+      font-family: var(--f-head); font-size: 0.8rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.5rem 1.4rem;
+      background: transparent; color: var(--gold);
+      border: 1px solid var(--gold); border-radius: 2px;
+      transition: all 0.25s;
     }
-    .nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .nav-cta:hover { background: var(--gold); color: var(--navy); }
+
     .nav-burger {
       display: none; flex-direction: column; gap: 5px;
       padding: 0.5rem; margin-inline-start: auto;
     }
     .nav-burger span {
-      display: block; width: 22px; height: 1.5px; background: var(--white); border-radius: 2px;
+      display: block; width: 22px; height: 1.5px; background: var(--white); border-radius: 0;
       transition: transform 0.3s, opacity 0.3s;
     }
     .nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
     .nav-burger.open span:nth-child(2) { opacity: 0; }
     .nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
     .nav-drawer {
-      display: none;
-      position: fixed; top: var(--nav-h); inset-inline: 0; z-index: 199;
-      background: rgba(10,22,40,0.98); backdrop-filter: blur(24px);
+      display: none; position: fixed; top: var(--nav-h); inset-inline: 0; z-index: 199;
+      background: rgba(13,27,62,0.98); backdrop-filter: blur(24px);
       padding: 1.5rem clamp(1.5rem, 5vw, 4rem) 2rem;
       border-block-end: 1px solid var(--gold-border);
       flex-direction: column;
@@ -140,8 +128,9 @@
     .nav-drawer.open { display: flex; }
     .nav-drawer a {
       display: block; padding: 0.9rem 0;
-      font-size: 0.9rem; color: var(--muted);
-      border-block-end: 1px solid rgba(255,255,255,0.05);
+      font-family: var(--f-head); font-size: 1rem; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted); border-block-end: 1px solid rgba(255,255,255,0.05);
       transition: color 0.2s;
     }
     .nav-drawer a:hover { color: var(--gold); }
@@ -151,35 +140,53 @@
     ============================================================ */
     section {
       position: relative; z-index: 1;
-      padding-block: clamp(5rem, 12vw, 9rem);
-      padding-inline: clamp(1.5rem, 5vw, 4rem);
+      padding-block: clamp(5rem, 10vw, 8rem);
+      padding-inline: clamp(1.5rem, 6vw, 5rem);
       scroll-margin-top: var(--nav-h);
     }
-    .wrap { max-width: 1240px; margin-inline: auto; }
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: 0.6rem;
-      font-size: 0.65rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase;
-      color: var(--gold); margin-block-end: 1.25rem;
-    }
-    .eyebrow::before { content: ''; display: block; width: 28px; height: 1px; background: var(--gold); }
-    .section-title {
-      font-family: var(--f-display);
-      font-size: clamp(2.25rem, 4.5vw, 3.5rem);
-      font-weight: 700; line-height: 1.1;
+    .wrap { max-width: 1200px; margin-inline: auto; }
+
+    /* Section label */
+    .tag {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      font-family: var(--f-mono); font-size: 0.65rem; font-weight: 400;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold);
       margin-block-end: 1rem;
     }
-    .section-sub { font-size: 0.975rem; color: var(--muted); max-width: 600px; line-height: 1.8; }
+    .tag::before { content: '//'; font-size: 0.7rem; opacity: 0.5; }
+
+    /* Headings use Rajdhani */
+    .h1 {
+      font-family: var(--f-head); font-weight: 700;
+      font-size: clamp(4rem, 8vw, 7rem);
+      line-height: 0.95; letter-spacing: 0.02em; text-transform: uppercase;
+    }
+    .h2 {
+      font-family: var(--f-head); font-weight: 700;
+      font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+      line-height: 1.05; letter-spacing: 0.04em; text-transform: uppercase;
+      margin-block-end: 1rem;
+    }
+    .sub {
+      font-size: 0.975rem; color: var(--muted); line-height: 1.8; max-width: 600px;
+    }
+
+    /* Gold accent line */
+    .gold-line {
+      display: block; width: 48px; height: 2px; background: var(--gold);
+      margin-block: 1.5rem;
+    }
 
     /* ============================================================
        REVEAL
     ============================================================ */
-    .r { opacity: 0; transform: translateY(40px); transition: opacity 0.8s cubic-bezier(.16,1,.3,1), transform 0.8s cubic-bezier(.16,1,.3,1); }
+    .r { opacity: 0; transform: translateY(36px); transition: opacity 0.75s cubic-bezier(.16,1,.3,1), transform 0.75s cubic-bezier(.16,1,.3,1); }
     .r.in { opacity: 1; transform: none; }
-    .r.d1 { transition-delay: 0.10s; }
-    .r.d2 { transition-delay: 0.20s; }
-    .r.d3 { transition-delay: 0.30s; }
-    .r.d4 { transition-delay: 0.45s; }
-    .r.d5 { transition-delay: 0.60s; }
+    .r.d1 { transition-delay: 0.08s; }
+    .r.d2 { transition-delay: 0.16s; }
+    .r.d3 { transition-delay: 0.26s; }
+    .r.d4 { transition-delay: 0.38s; }
+    .r.d5 { transition-delay: 0.52s; }
     @media (prefers-reduced-motion: reduce) {
       .r { opacity: 1; transform: none; transition: none; }
       * { animation: none !important; transition-duration: 0.01ms !important; }
@@ -190,349 +197,559 @@
     ============================================================ */
     #hero {
       min-height: 100svh;
-      display: grid; grid-template-columns: 55% 45%;
+      display: grid;
+      grid-template-columns: 55% 45%;
       align-items: center;
-      padding-block-start: calc(var(--nav-h) + 3rem);
-      gap: 4rem; overflow: hidden;
+      padding-block-start: calc(var(--nav-h) + 4rem);
+      padding-block-end: 5rem;
+      overflow: hidden;
     }
-    .hero-left { position: relative; z-index: 2; }
-    .hero-pill {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      font-size: 0.65rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase;
-      color: var(--gold); border: 1px solid var(--gold-border);
-      border-radius: 100px; padding: 0.4rem 1rem;
-      margin-block-end: 2.5rem; animation: fadeUp 0.9s 0.1s both;
+
+    .hero-l { position: relative; z-index: 2; }
+
+    .hero-logo {
+      height: 80px; width: auto;
+      margin-block-end: 2.5rem;
+      animation: fadeUp 0.8s 0.05s both;
     }
-    .hero-pill-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity: 0.3; } }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      font-family: var(--f-mono); font-size: 0.62rem; font-weight: 400;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold);
+      margin-block-end: 1rem;
+      animation: fadeUp 0.8s 0.15s both;
+    }
+    .hero-eyebrow-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.25} }
+
     .hero-title {
-      font-family: var(--f-display);
-      font-size: clamp(5.5rem, 11vw, 10rem);
-      font-weight: 700; line-height: 0.9;
-      letter-spacing: -0.01em; text-transform: uppercase;
-      animation: fadeUp 0.9s 0.25s both;
+      font-family: var(--f-head); font-weight: 700;
+      font-size: clamp(4.5rem, 10vw, 9rem);
+      line-height: 0.88; letter-spacing: 0.03em; text-transform: uppercase;
+      animation: fadeUp 0.8s 0.28s both;
     }
     .hero-title .g { color: var(--gold); }
-    .hero-rule {
-      display: flex; align-items: flex-start; gap: 1.5rem;
-      margin-block-start: 2.5rem; animation: fadeUp 0.9s 0.4s both;
+
+    .hero-meta {
+      display: flex; align-items: flex-start; gap: 1.25rem;
+      margin-block-start: 2.25rem;
+      animation: fadeUp 0.8s 0.42s both;
     }
-    .hero-rule-line {
-      flex-shrink: 0; width: 1px; height: 120px;
-      background: linear-gradient(to bottom, var(--gold), transparent);
-      margin-block-start: 0.25rem;
-    }
+    .hero-vline { flex-shrink: 0; width: 2px; height: 100px; background: linear-gradient(to bottom, var(--gold) 60%, transparent); margin-block-start: 0.3rem; }
+
     .hero-ayah {
-      font-family: var(--f-arabic); font-size: 1.45rem; font-weight: 700;
+      font-family: var(--f-arabic); font-size: 1.5rem; font-weight: 700;
       color: var(--gold); direction: rtl; unicode-bidi: isolate;
-      margin-block-end: 0.5rem; display: block;
+      display: block; margin-block-end: 0.4rem; line-height: 1.5;
     }
     .hero-translation {
-      font-family: var(--f-display); font-style: italic; font-size: 0.975rem;
-      color: var(--muted); display: block; margin-block-end: 1.25rem;
+      font-family: var(--f-arabic); font-style: italic; font-size: 0.95rem;
+      color: var(--muted); display: block; margin-block-end: 0.9rem;
     }
-    .hero-sub { font-size: 0.925rem; color: var(--muted); line-height: 1.8; max-width: 420px; }
-    .hero-ctas {
+    .hero-sub { font-size: 0.9rem; color: var(--muted); line-height: 1.8; max-width: 400px; }
+
+    .hero-actions {
       display: flex; flex-wrap: wrap; gap: 0.875rem;
-      margin-block-start: 2.5rem; animation: fadeUp 0.9s 0.55s both;
+      margin-block-start: 2.25rem;
+      animation: fadeUp 0.8s 0.56s both;
     }
-    .hero-right {
+
+    /* RIGHT — Islamic star monument */
+    .hero-r {
       position: relative; z-index: 2;
       display: flex; align-items: center; justify-content: center;
-      animation: fadeUp 0.9s 0.35s both;
+      animation: fadeIn 1.2s 0.3s both;
     }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:none} }
 
-    /* Monument rings */
-    .monument { position: relative; width: clamp(280px, 38vw, 480px); aspect-ratio: 1; }
-    .m-ring { position: absolute; border-radius: 50%; border: 1px solid var(--gold-border); inset: 0; margin: auto; }
-    .m-ring-1 { width: 100%; height: 100%; animation: spin 60s linear infinite; border-top-color: rgba(201,168,76,0.5); }
-    .m-ring-2 { width: 82%; height: 82%; animation: spin 45s linear infinite reverse; border-right-color: rgba(201,168,76,0.4); }
-    .m-ring-3 { width: 64%; height: 64%; animation: spin 30s linear infinite; border-bottom-color: rgba(201,168,76,0.35); }
-    .m-ring-4 { width: 46%; height: 46%; animation: spin 20s linear infinite reverse; border-left-color: rgba(201,168,76,0.3); }
-    .m-center {
-      position: absolute; inset: 0; margin: auto;
-      width: 28%; height: 28%;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .m-hex {
-      width: 100%; height: 100%;
-      background: var(--navy-4);
-      clip-path: polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
-      display: flex; align-items: center; justify-content: center;
+    .star-wrap {
       position: relative;
+      width: clamp(280px, 40vw, 520px);
+      aspect-ratio: 1;
+      display: flex; align-items: center; justify-content: center;
     }
-    .m-hex::before {
-      content: ''; position: absolute; inset: 3px;
-      clip-path: polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
-      background: linear-gradient(135deg, var(--navy-3), var(--navy-4));
-    }
-    .m-hex-inner { position: relative; z-index: 1; color: var(--gold); display: flex; align-items: center; justify-content: center; }
-    .m-chip {
-      position: absolute;
-      background: var(--navy-3); border: 1px solid var(--gold-border);
-      border-radius: 6px; padding: 0.6rem 0.9rem; text-align: center;
-      backdrop-filter: blur(8px);
-    }
-    .m-chip-val { font-family: var(--f-display); font-size: 1.5rem; font-weight: 700; color: var(--gold); line-height: 1; }
-    .m-chip-lbl { font-size: 0.65rem; color: var(--muted-2); letter-spacing: 0.08em; text-transform: uppercase; margin-block-start: 0.15rem; }
-    .m-chip-1 { top: 8%; right: -8%; }
-    .m-chip-2 { bottom: 12%; left: -6%; }
-    .m-chip-3 { top: 42%; right: -12%; }
-    @keyframes spin { to { transform: rotate(360deg); } }
 
+    .star-svg {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      animation: slowSpin 120s linear infinite;
+    }
+    @keyframes slowSpin { to { transform: rotate(360deg); } }
+
+    /* Floating data chips */
+    .chip {
+      position: absolute; z-index: 3;
+      background: rgba(13,27,62,0.85);
+      border: 1px solid var(--gold-border);
+      border-radius: 2px; padding: 0.6rem 0.9rem;
+      backdrop-filter: blur(12px);
+      text-align: center;
+    }
+    .chip-v { font-family: var(--f-mono); font-size: 1.4rem; font-weight: 500; color: var(--gold); line-height: 1; }
+    .chip-l { font-family: var(--f-mono); font-size: 0.58rem; color: var(--muted-2); letter-spacing: 0.12em; text-transform: uppercase; margin-block-start: 0.2rem; }
+    .chip-1 { top: 12%; right: 2%; }
+    .chip-2 { bottom: 14%; left: 0%; }
+    .chip-3 { top: 44%; right: -4%; }
+
+    /* Scroll cue */
     .hero-scroll {
-      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
       z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
-      font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--muted-2); animation: fadeUp 0.9s 1s both;
+      font-family: var(--f-mono); font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted-2); animation: fadeUp 0.8s 1s both;
     }
-    .scroll-bar { width: 1px; height: 48px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollDrop 2s ease-in-out infinite; }
-    @keyframes scrollDrop {
-      0% { transform: scaleY(0); transform-origin: top; opacity: 1; }
-      50% { transform: scaleY(1); transform-origin: top; }
-      51% { transform: scaleY(1); transform-origin: bottom; }
-      100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
-    }
+    .scr-line { width: 1px; height: 44px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollPulse 2s ease-in-out infinite; }
+    @keyframes scrollPulse { 0%,100%{opacity:0.3;transform:scaleY(0.6)} 50%{opacity:1;transform:scaleY(1)} }
 
     /* ============================================================
        MARQUEE
     ============================================================ */
-    .marquee-strip { position: relative; z-index: 1; background: var(--gold); overflow: hidden; padding-block: 0.65rem; white-space: nowrap; }
-    .marquee-track { display: inline-flex; gap: 0; animation: marquee 28s linear infinite; }
-    .marquee-track span { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--navy); padding-inline: 2rem; }
-    .marquee-sep { color: rgba(10,22,40,0.4) !important; padding-inline: 0 !important; }
-    @keyframes marquee { to { transform: translateX(-50%); } }
+    .marquee {
+      position: relative; z-index: 1;
+      background: var(--gold); overflow: hidden; padding-block: 0.6rem;
+      white-space: nowrap;
+    }
+    .mq-track {
+      display: inline-flex; gap: 0;
+      animation: mq 30s linear infinite;
+    }
+    .mq-track span { font-family: var(--f-head); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--navy); padding-inline: 2rem; }
+    .mq-sep { color: rgba(13,27,62,0.35) !important; padding-inline: 0 !important; font-weight: 400 !important; }
+    @keyframes mq { to { transform: translateX(-50%); } }
+
+    /* ============================================================
+       SECTION DIVIDER — Islamic star ornament
+    ============================================================ */
+    .star-divider {
+      position: relative; z-index: 1;
+      display: flex; align-items: center; gap: 1.5rem;
+      padding-inline: clamp(1.5rem, 6vw, 5rem);
+      background: inherit;
+    }
+    .star-divider::before, .star-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--gold-border);
+    }
 
     /* ============================================================
        ABOUT
     ============================================================ */
-    #about { background: var(--navy-2); }
-    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(3rem, 7vw, 7rem); align-items: start; }
-    .about-accent-num {
-      font-family: var(--f-display); font-size: clamp(5rem, 9vw, 8rem); font-weight: 700; line-height: 0.85;
-      color: transparent; -webkit-text-stroke: 1px rgba(201,168,76,0.2);
-      user-select: none; pointer-events: none; margin-block-end: -1.5rem; position: relative; z-index: 0;
+    #about { background: var(--navy); }
+
+    .about-split {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: clamp(3rem, 7vw, 7rem); align-items: start;
     }
+
     .about-body p { font-size: 0.975rem; color: var(--muted); line-height: 1.85; margin-block-end: 1.25rem; }
     .about-body p:last-child { margin-block-end: 0; }
-    .about-right { position: sticky; top: calc(var(--nav-h) + 2rem); }
-    .stats-stack { display: flex; flex-direction: column; gap: 0; }
-    .stat-row { display: grid; grid-template-columns: 1fr 1fr; border-block-end: 1px solid var(--gold-border); padding-block: 2rem; }
-    .stat-row:first-child { border-block-start: 1px solid var(--gold-border); }
-    .stat-num { font-family: var(--f-display); font-size: clamp(2.75rem, 5vw, 4rem); font-weight: 700; color: var(--gold); line-height: 1; }
-    .stat-info { padding-inline-start: 1.5rem; border-inline-start: 1px solid var(--gold-border); }
-    .stat-lbl { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--white); margin-block-end: 0.25rem; }
-    .stat-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+    /* Ghost section number */
+    .ghost-num {
+      font-family: var(--f-head); font-size: clamp(6rem, 12vw, 10rem); font-weight: 700;
+      color: transparent; -webkit-text-stroke: 1px rgba(201,168,76,0.12);
+      line-height: 1; user-select: none; pointer-events: none;
+      margin-block-end: -2rem; position: relative; z-index: 0;
+      display: block;
+    }
+
+    /* Stats — IBM Plex Mono numbers */
+    .stats-block { margin-block-start: 0; }
+    .stat-item {
+      display: grid; grid-template-columns: auto 1fr;
+      gap: 0 2rem; align-items: start;
+      padding-block: 1.75rem;
+      border-block-end: 1px solid var(--gold-border);
+    }
+    .stat-item:first-child { border-block-start: 1px solid var(--gold-border); }
+    .stat-n { font-family: var(--f-mono); font-size: clamp(2.5rem, 4vw, 3.25rem); font-weight: 500; color: var(--gold); line-height: 1; }
+    .stat-d { padding-block-start: 0.3rem; }
+    .stat-label { font-family: var(--f-head); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-block-end: 0.25rem; }
+    .stat-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
 
     /* ============================================================
        FIRST UK
     ============================================================ */
-    #first { background: var(--navy); overflow: hidden; }
-    .first-header { margin-block-end: clamp(2.5rem, 5vw, 4rem); }
-    .first-cards {
+    #first { background: var(--navy-2); }
+
+    /* Edge-to-edge data cards */
+    .data-band {
       display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 1px; background: var(--gold-border);
-      border: 1px solid var(--gold-border); border-radius: 12px; overflow: hidden;
+      border: 1px solid var(--gold-border);
+      margin-block: clamp(2rem, 4vw, 3.5rem);
+      overflow: hidden;
+    }
+    .data-cell {
+      padding: 2.5rem 2rem;
+      border-inline-end: 1px solid var(--gold-border);
+      position: relative; overflow: hidden;
+      transition: background 0.3s;
+    }
+    .data-cell:last-child { border-inline-end: none; }
+    .data-cell:hover { background: rgba(201,168,76,0.04); }
+    .data-cell::before {
+      content: ''; position: absolute; top: 0; inset-inline-start: 0;
+      width: 2px; height: 0; background: var(--gold);
+      transition: height 0.4s cubic-bezier(.16,1,.3,1);
+    }
+    .data-cell:hover::before { height: 100%; }
+
+    .dc-n { font-family: var(--f-mono); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 500; color: var(--gold); line-height: 1; margin-block-end: 0.35rem; }
+    .dc-l { font-family: var(--f-head); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white); margin-block-end: 0.5rem; }
+    .dc-d { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+
+    .features-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+      background: var(--gold-border);
       margin-block-end: clamp(2rem, 4vw, 3.5rem);
     }
-    .fc { background: var(--navy-2); padding: 2.5rem 2rem; transition: background 0.3s; }
-    .fc:hover { background: var(--navy-3); }
-    .fc-num { font-family: var(--f-display); font-size: clamp(3rem, 5vw, 4.5rem); font-weight: 700; color: var(--gold); line-height: 1; margin-block-end: 0.35rem; }
-    .fc-label { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); margin-block-end: 0.5rem; }
-    .fc-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
-    .first-features { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-block-end: clamp(2rem, 4vw, 3.5rem); }
-    .ff { display: flex; align-items: flex-start; gap: 1rem; padding: 1.25rem 1.5rem; border: 1px solid var(--gold-border); border-radius: 8px; background: var(--gold-dim); transition: border-color 0.3s, background 0.3s; }
-    .ff:hover { border-color: var(--gold); background: rgba(201,168,76,0.08); }
-    .ff-diamond { flex-shrink: 0; width: 10px; height: 10px; background: var(--gold); transform: rotate(45deg); margin-block-start: 0.35rem; border-radius: 1px; }
-    .ff span { font-size: 0.9rem; color: var(--muted); }
-    .pull-quote { padding: 1.75rem 2rem; border-inline-start: 2px solid var(--gold); background: linear-gradient(90deg, rgba(201,168,76,0.06), transparent); border-radius: 0 8px 8px 0; }
-    .pull-quote p { font-family: var(--f-display); font-style: italic; font-size: clamp(1rem, 1.5vw, 1.15rem); color: var(--muted); line-height: 1.7; }
+    .feat {
+      display: flex; align-items: flex-start; gap: 1rem;
+      padding: 1.5rem 1.75rem;
+      background: var(--navy-2);
+      transition: background 0.25s;
+    }
+    .feat:hover { background: var(--navy-3); }
+    .feat-diamond { flex-shrink: 0; width: 8px; height: 8px; background: var(--gold); transform: rotate(45deg); margin-block-start: 0.45rem; border-radius: 1px; }
+    .feat span { font-size: 0.88rem; color: var(--muted); }
+
+    .pull-quote {
+      display: flex; gap: 1.5rem;
+      padding: 1.75rem 2rem;
+    }
+    .pq-line { flex-shrink: 0; width: 2px; background: var(--gold); border-radius: 2px; }
+    .pull-quote p { font-family: var(--f-arabic); font-style: italic; font-size: 1.05rem; color: var(--muted); line-height: 1.75; }
 
     /* ============================================================
        PILLARS
     ============================================================ */
-    #pillars { background: var(--navy-2); }
-    .pillars-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-block-start: clamp(2.5rem, 5vw, 4rem); }
-    .pc {
+    #pillars { background: var(--navy); }
+
+    .pillars-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--gold-border);
+      border: 1px solid var(--gold-border);
+      margin-block-start: clamp(2.5rem, 5vw, 4rem);
+      overflow: hidden;
+    }
+
+    .pillar {
       position: relative; overflow: hidden;
-      background: var(--navy-3); border: 1px solid var(--gold-border); border-radius: 12px;
-      padding: 2.5rem 2rem; transition: border-color 0.35s, transform 0.35s;
+      background: var(--navy-2);
+      padding: 3rem 2.25rem;
+      transition: background 0.35s;
     }
-    .pc::before {
+    .pillar:hover { background: var(--navy-3); }
+
+    /* Top-left corner accent */
+    .pillar::before {
       content: ''; position: absolute; top: 0; inset-inline-start: 0;
-      width: 100%; height: 3px;
-      background: linear-gradient(90deg, var(--gold), transparent);
-      transform: scaleX(0); transform-origin: left;
-      transition: transform 0.4s cubic-bezier(.16,1,.3,1);
+      width: 0; height: 0;
+      border-top: 40px solid var(--gold-border);
+      border-inline-end: 40px solid transparent;
+      transition: border-top-color 0.3s;
     }
-    .pc:hover { border-color: var(--gold); transform: translateY(-6px); }
-    .pc:hover::before { transform: scaleX(1); }
-    .pc-ghost {
-      position: absolute; top: -0.5rem; right: 1rem;
-      font-family: var(--f-display); font-size: 7rem; font-weight: 700;
+    .pillar:hover::before { border-top-color: var(--gold); }
+
+    /* Ghost ordinal */
+    .pillar-num {
+      position: absolute; bottom: 1rem; right: 1.5rem;
+      font-family: var(--f-head); font-size: 6rem; font-weight: 700;
       color: transparent; -webkit-text-stroke: 1px rgba(201,168,76,0.07);
-      line-height: 1; user-select: none; pointer-events: none;
+      line-height: 1; user-select: none;
     }
-    .pc-icon { color: var(--gold); margin-block-end: 1.5rem; }
-    .pc-title { font-family: var(--f-display); font-size: 1.75rem; font-weight: 700; margin-block-end: 0.75rem; }
-    .pc-body { font-size: 0.9rem; color: var(--muted); line-height: 1.75; margin-block-end: 1.5rem; }
-    .pc-tag {
+
+    .pillar-icon { color: var(--gold); margin-block-end: 1.75rem; }
+    .pillar-title { font-family: var(--f-head); font-size: 1.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-block-end: 0.75rem; }
+    .pillar-body { font-size: 0.88rem; color: var(--muted); line-height: 1.8; margin-block-end: 1.5rem; }
+    .pillar-tag {
       display: inline-flex; align-items: center; gap: 0.4rem;
-      font-size: 0.68rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
-      color: #4ade80; background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.2);
-      border-radius: 100px; padding: 0.3rem 0.8rem;
+      font-family: var(--f-mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold); border: 1px solid var(--gold-border); border-radius: 1px;
+      padding: 0.28rem 0.7rem;
     }
 
     /* ============================================================
        SPONSOR
     ============================================================ */
-    #sponsor { background: var(--navy); }
-    .sponsor-head { text-align: center; margin-block-end: clamp(2.5rem, 5vw, 4rem); }
-    .sponsor-head .section-sub { margin-inline: auto; }
-    .tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--gold-border); border-radius: 14px; overflow: hidden; }
-    .tier { position: relative; padding: 2.5rem 2rem; background: var(--navy-2); border-inline-end: 1px solid var(--gold-border); transition: background 0.3s; }
-    .tier:last-child { border-inline-end: none; }
-    .tier.featured { background: linear-gradient(160deg, var(--navy-3) 0%, rgba(201,168,76,0.06) 100%); border-inline: 1px solid var(--gold); margin-block: -1px; border-radius: 14px; z-index: 2; box-shadow: 0 0 60px rgba(201,168,76,0.08); }
-    .tier-badge { position: absolute; top: 0; left: 50%; transform: translate(-50%, -1px); background: var(--gold); color: var(--navy); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.3rem 1rem; border-radius: 0 0 6px 6px; white-space: nowrap; }
-    .tier-name { font-family: var(--f-display); font-size: 1.9rem; font-weight: 700; margin-block-end: 0.2rem; }
-    .tier-price { font-size: 0.78rem; color: var(--gold); font-weight: 500; letter-spacing: 0.06em; margin-block-end: 1.75rem; }
-    .tier-divider { width: 32px; height: 1px; background: var(--gold); margin-block-end: 1.75rem; }
-    .tier-list { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; margin-block-end: 2rem; }
-    .tier-list li { display: flex; align-items: flex-start; gap: 0.65rem; font-size: 0.875rem; color: var(--muted); line-height: 1.5; }
-    .ti-check { flex-shrink: 0; color: var(--gold); margin-block-start: 0.15rem; }
+    #sponsor { background: var(--navy-2); }
+
+    .sponsor-head { margin-block-end: clamp(2.5rem, 5vw, 4rem); }
+
+    .tiers {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--gold-border);
+      border: 1px solid var(--gold-border);
+      overflow: visible;
+    }
+
+    .tier {
+      position: relative; background: var(--navy-2);
+      padding: 2.75rem 2.25rem;
+      transition: background 0.3s;
+    }
+    .tier:hover { background: var(--navy-3); }
+
+    .tier.feat {
+      background: linear-gradient(160deg, var(--navy-3) 0%, rgba(201,168,76,0.05) 100%);
+      outline: 1px solid var(--gold);
+      outline-offset: 0;
+      z-index: 2;
+    }
+
+    .tier-badge {
+      position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+      background: var(--gold); color: var(--navy);
+      font-family: var(--f-mono); font-size: 0.58rem; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 0.28rem 0.9rem; white-space: nowrap;
+    }
+
+    .tier-name { font-family: var(--f-head); font-size: 2rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-block-end: 0.2rem; }
+    .tier-price { font-family: var(--f-mono); font-size: 0.75rem; color: var(--gold); letter-spacing: 0.08em; margin-block-end: 1.5rem; }
+    .tier-rule { width: 28px; height: 1px; background: var(--gold); margin-block-end: 1.5rem; }
+
+    .tier-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; margin-block-end: 2rem; }
+    .tier-list li { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.875rem; color: var(--muted); line-height: 1.5; }
+    .tc { flex-shrink: 0; color: var(--gold); margin-block-start: 0.15rem; }
 
     /* ============================================================
        BUTTONS
     ============================================================ */
     .btn {
-      display: inline-flex; align-items: center; gap: 0.45rem;
-      padding: 0.75rem 1.75rem;
-      font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
-      border-radius: 3px; border: 1px solid transparent;
-      transition: all 0.25s; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-family: var(--f-head); font-size: 0.85rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.7rem 1.75rem; border-radius: 2px; border: 1px solid transparent;
+      transition: all 0.22s; cursor: pointer;
     }
     .btn-gold { background: var(--gold); color: var(--navy); border-color: var(--gold); }
     .btn-gold:hover { background: var(--gold-light); border-color: var(--gold-light); transform: translateY(-2px); }
-    .btn-outline { background: transparent; color: var(--white); border-color: rgba(255,255,255,0.25); }
-    .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
-    .btn-ghost { background: transparent; color: var(--gold); border-color: var(--gold-border); }
-    .btn-ghost:hover { background: var(--gold-dim); border-color: var(--gold); transform: translateY(-2px); }
+    .btn-wire { background: transparent; color: var(--white); border-color: rgba(255,255,255,0.25); }
+    .btn-wire:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+    .btn-wire-gold { background: transparent; color: var(--gold); border-color: var(--gold-border); }
+    .btn-wire-gold:hover { background: var(--gold-dim); border-color: var(--gold); transform: translateY(-2px); }
     .btn-full { width: 100%; justify-content: center; }
 
     /* ============================================================
        TEAM
     ============================================================ */
-    #team { background: var(--navy-2); }
-    .team-trustees { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-block-end: 3rem; }
-    .team-card { background: var(--navy-3); border: 1px solid var(--gold-border); border-radius: 12px; padding: 2rem 1.75rem; text-align: center; transition: border-color 0.3s, transform 0.3s; }
-    .team-card:hover { border-color: var(--gold); transform: translateY(-4px); }
-    .team-card:hover .t-avatar { border-color: var(--gold); }
-    .t-avatar { width: 76px; height: 76px; border-radius: 50%; background: var(--navy); border: 2px solid var(--gold-border); display: flex; align-items: center; justify-content: center; margin-inline: auto; margin-block-end: 1.25rem; color: var(--muted-2); transition: border-color 0.3s; }
-    .t-name { font-family: var(--f-display); font-size: 1.3rem; font-weight: 600; margin-block-end: 0.3rem; }
-    .t-role { font-size: 0.72rem; color: var(--gold); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin-block-end: 0.4rem; }
-    .t-bio { font-size: 0.83rem; color: var(--muted); }
-    .mentors-title { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 0.75rem; margin-block-end: 1.5rem; }
-    .mentors-title::after { content: ''; flex: 1; height: 1px; background: var(--gold-border); }
-    .mentors-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; }
-    .mentor-card { background: var(--navy-3); border: 1px solid var(--gold-border); border-radius: 10px; padding: 1.25rem 1rem; text-align: center; transition: border-color 0.3s, transform 0.3s; }
-    .mentor-card:hover { border-color: var(--gold); transform: translateY(-3px); }
-    .mentor-card:hover .m-avatar { border-color: var(--gold); }
-    .m-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--navy); border: 2px solid var(--gold-border); display: flex; align-items: center; justify-content: center; margin-inline: auto; margin-block-end: 0.75rem; color: var(--muted-2); transition: border-color 0.3s; }
-    .m-name { font-family: var(--f-display); font-size: 0.95rem; font-weight: 600; margin-block-end: 0.2rem; }
-    .m-exp { font-size: 0.68rem; color: var(--gold); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
+    #team { background: var(--navy); }
+
+    .trustees {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--gold-border);
+      border: 1px solid var(--gold-border);
+      margin-block-end: 3rem; overflow: hidden;
+    }
+    .trustee {
+      background: var(--navy-2); padding: 2.5rem 2rem; text-align: center;
+      transition: background 0.3s;
+    }
+    .trustee:hover { background: var(--navy-3); }
+    .trustee:hover .av { border-color: var(--gold); }
+    .av {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: var(--navy); border: 1px solid var(--gold-border);
+      display: flex; align-items: center; justify-content: center;
+      margin-inline: auto; margin-block-end: 1.25rem;
+      color: var(--muted-2); transition: border-color 0.3s;
+    }
+    .t-name { font-family: var(--f-head); font-size: 1.2rem; font-weight: 600; letter-spacing: 0.05em; margin-block-end: 0.3rem; }
+    .t-role { font-family: var(--f-mono); font-size: 0.65rem; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; margin-block-end: 0.4rem; }
+    .t-bio { font-size: 0.82rem; color: var(--muted); }
+
+    .mentors-label {
+      font-family: var(--f-mono); font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold);
+      display: flex; align-items: center; gap: 1rem; margin-block-end: 1.25rem;
+    }
+    .mentors-label::after { content: ''; flex: 1; height: 1px; background: var(--gold-border); }
+
+    .mentors {
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      gap: 1px; background: var(--gold-border);
+      border: 1px solid var(--gold-border); overflow: hidden;
+    }
+    .mentor {
+      background: var(--navy-2); padding: 1.5rem 1rem; text-align: center;
+      transition: background 0.3s;
+    }
+    .mentor:hover { background: var(--navy-3); }
+    .mentor:hover .av-sm { border-color: var(--gold); }
+    .av-sm {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--navy); border: 1px solid var(--gold-border);
+      display: flex; align-items: center; justify-content: center;
+      margin-inline: auto; margin-block-end: 0.75rem;
+      color: var(--muted-2); transition: border-color 0.3s;
+    }
+    .m-name { font-family: var(--f-head); font-size: 0.9rem; font-weight: 600; margin-block-end: 0.2rem; }
+    .m-exp { font-family: var(--f-mono); font-size: 0.6rem; color: var(--gold); letter-spacing: 0.08em; text-transform: uppercase; }
 
     /* ============================================================
        GET INVOLVED
     ============================================================ */
-    #involved { background: var(--navy); }
-    .forms-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; align-items: start; margin-block-start: clamp(2.5rem, 5vw, 4rem); }
-    .form-card { background: var(--navy-2); border: 1px solid var(--gold-border); border-radius: 12px; padding: 2rem 1.75rem; transition: border-color 0.3s; }
-    .form-card:hover { border-color: rgba(201,168,76,0.4); }
-    .fc-title { font-family: var(--f-display); font-size: 1.5rem; font-weight: 700; margin-block-end: 0.7rem; }
-    .fc-body { font-size: 0.875rem; color: var(--muted); line-height: 1.75; margin-block-end: 1.5rem; padding-block-end: 1.5rem; border-block-end: 1px solid var(--gold-border); }
-    .fg { margin-block-end: 0.9rem; }
-    .fg label { display: block; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-block-end: 0.4rem; }
-    .fg input, .fg select, .fg textarea { width: 100%; padding: 0.65rem 0.9rem; background: var(--navy); border: 1px solid var(--gold-border); border-radius: 4px; color: var(--white); font-size: 0.875rem; outline: none; transition: border-color 0.25s; appearance: none; -webkit-appearance: none; }
+    #involved { background: var(--navy-2); }
+
+    .forms-row {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--gold-border);
+      border: 1px solid var(--gold-border);
+      margin-block-start: clamp(2.5rem, 5vw, 4rem);
+      overflow: hidden; align-items: start;
+    }
+
+    .form-panel {
+      background: var(--navy-2); padding: 2.25rem 2rem;
+      transition: background 0.3s;
+    }
+
+    .fp-title { font-family: var(--f-head); font-size: 1.5rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-block-end: 0.65rem; }
+    .fp-body { font-size: 0.875rem; color: var(--muted); line-height: 1.75; margin-block-end: 1.5rem; padding-block-end: 1.5rem; border-block-end: 1px solid var(--gold-border); }
+
+    .fg { margin-block-end: 0.85rem; }
+    .fg label { display: block; font-family: var(--f-mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-block-end: 0.4rem; }
+    .fg input, .fg select, .fg textarea {
+      width: 100%; padding: 0.65rem 0.9rem;
+      background: var(--navy); border: 1px solid var(--gold-border);
+      border-radius: 2px; color: var(--white); font-size: 0.875rem;
+      outline: none; transition: border-color 0.2s;
+      appearance: none; -webkit-appearance: none;
+    }
     .fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--gold); }
     .fg input::placeholder, .fg textarea::placeholder { color: var(--muted-2); }
-    .fg select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23C9A84C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.9rem center; padding-inline-end: 2.5rem; cursor: pointer; }
+    .fg select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23C9A84C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 0.9rem center;
+      padding-inline-end: 2.5rem; cursor: pointer;
+    }
     .fg select option { background: var(--navy); }
-    .fg textarea { resize: vertical; min-height: 80px; }
-    .f-submit { width: 100%; padding: 0.8rem; background: var(--gold); color: var(--navy); font-family: var(--f-body); font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; border: none; border-radius: 4px; cursor: pointer; transition: background 0.25s, transform 0.2s; margin-block-start: 0.5rem; }
-    .f-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
-    .f-success { display: none; padding: 2rem; text-align: center; }
-    .f-success.show { display: block; }
-    .f-success svg { color: var(--gold); margin-inline: auto; margin-block-end: 1rem; }
-    .f-success h3 { font-family: var(--f-display); font-size: 1.4rem; font-weight: 700; margin-block-end: 0.5rem; }
-    .f-success p { font-size: 0.875rem; color: var(--muted); }
+    .fg textarea { resize: vertical; min-height: 76px; }
+
+    .f-btn {
+      width: 100%; padding: 0.8rem;
+      font-family: var(--f-head); font-size: 0.85rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      background: var(--gold); color: var(--navy);
+      border: none; border-radius: 2px; cursor: pointer;
+      transition: background 0.22s, transform 0.18s;
+      margin-block-start: 0.5rem;
+    }
+    .f-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    .f-ok { display: none; padding: 2rem; text-align: center; }
+    .f-ok.show { display: block; }
+    .f-ok svg { color: var(--gold); margin-inline: auto; margin-block-end: 1rem; }
+    .f-ok h3 { font-family: var(--f-head); font-size: 1.35rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-block-end: 0.5rem; }
+    .f-ok p { font-size: 0.875rem; color: var(--muted); }
+
     :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
 
     /* ============================================================
        FOOTER
     ============================================================ */
-    footer { position: relative; z-index: 1; background: var(--navy-2); border-block-start: 1px solid var(--gold-border); padding: clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem) 2rem; }
-    .footer-grid { max-width: 1240px; margin-inline: auto; display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: clamp(2rem, 5vw, 5rem); margin-block-end: 3rem; }
-    .f-mark { font-family: var(--f-display); font-size: 2.25rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-block-end: 1rem; }
-    .f-mark .g { color: var(--gold); }
-    .f-ayah { font-family: var(--f-arabic); font-size: 1.15rem; font-weight: 700; color: var(--gold); direction: rtl; unicode-bidi: isolate; display: block; margin-block-end: 0.3rem; }
-    .f-trans { font-family: var(--f-display); font-style: italic; font-size: 0.85rem; color: var(--muted); display: block; margin-block-end: 1rem; }
-    .f-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.75; }
-    .f-head { font-size: 0.62rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-block-end: 1.25rem; }
-    .f-links { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
-    .f-links a { font-size: 0.875rem; color: var(--muted); transition: color 0.25s; }
-    .f-links a:hover { color: var(--gold); }
-    .f-contact-item { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.875rem; color: var(--muted); margin-block-end: 0.6rem; }
-    .f-contact-item svg { flex-shrink: 0; margin-block-start: 0.15rem; color: var(--gold); }
-    .f-contact-item a { color: var(--muted); transition: color 0.25s; }
-    .f-contact-item a:hover { color: var(--gold); }
-    .f-socials { display: flex; gap: 0.6rem; margin-block-start: 1.25rem; }
-    .f-soc { width: 34px; height: 34px; border-radius: 5px; border: 1px solid var(--gold-border); display: flex; align-items: center; justify-content: center; color: var(--muted); transition: all 0.25s; }
-    .f-soc:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
-    .footer-bar { max-width: 1240px; margin-inline: auto; padding-block-start: 1.5rem; border-block-start: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
-    .footer-bar span { font-size: 0.75rem; color: var(--muted-2); }
+    footer {
+      position: relative; z-index: 1; background: var(--navy);
+      border-block-start: 1px solid var(--gold-border);
+      padding: clamp(4rem, 7vw, 6rem) clamp(1.5rem, 6vw, 5rem) 2rem;
+    }
+
+    .footer-inner { max-width: 1200px; margin-inline: auto; }
+
+    .footer-grid {
+      display: grid; grid-template-columns: 1.5fr 1fr 1fr;
+      gap: clamp(2rem, 5vw, 5rem); margin-block-end: 3rem;
+    }
+
+    .footer-logo { height: 70px; width: auto; filter: brightness(0) invert(1); margin-block-end: 1.25rem; }
+    .footer-ayah { font-family: var(--f-arabic); font-size: 1.1rem; font-weight: 700; color: var(--gold); direction: rtl; unicode-bidi: isolate; display: block; margin-block-end: 0.3rem; }
+    .footer-trans { font-family: var(--f-arabic); font-style: italic; font-size: 0.85rem; color: var(--muted); display: block; margin-block-end: 0.9rem; }
+    .footer-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.75; }
+
+    .footer-head { font-family: var(--f-mono); font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-block-end: 1.25rem; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+    .footer-links a { font-size: 0.875rem; color: var(--muted); transition: color 0.2s; }
+    .footer-links a:hover { color: var(--gold); }
+
+    .fc-item { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.875rem; color: var(--muted); margin-block-end: 0.55rem; }
+    .fc-item svg { flex-shrink: 0; margin-block-start: 0.15rem; color: var(--gold); }
+    .fc-item a { color: var(--muted); transition: color 0.2s; }
+    .fc-item a:hover { color: var(--gold); }
+
+    .socials { display: flex; gap: 0.5rem; margin-block-start: 1.25rem; }
+    .soc {
+      width: 32px; height: 32px; border-radius: 2px;
+      border: 1px solid var(--gold-border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted); transition: all 0.22s;
+    }
+    .soc:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+    .footer-bar {
+      max-width: 1200px; margin-inline: auto;
+      padding-block-start: 1.5rem;
+      border-block-start: 1px solid rgba(255,255,255,0.06);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 0.5rem;
+    }
+    .footer-bar span { font-family: var(--f-mono); font-size: 0.68rem; color: var(--muted-2); }
 
     /* ============================================================
        RESPONSIVE
     ============================================================ */
     @media (max-width: 1024px) {
       #hero { grid-template-columns: 1fr; padding-block-end: 6rem; }
-      .hero-right, .hero-scroll { display: none; }
-      .about-grid { grid-template-columns: 1fr; }
-      .about-right { position: static; }
-      .first-cards { grid-template-columns: 1fr; gap: 1px; }
+      .hero-r, .hero-scroll { display: none; }
+      .about-split { grid-template-columns: 1fr; }
+      .data-band { grid-template-columns: 1fr; }
+      .data-cell { border-inline-end: none; border-block-end: 1px solid var(--gold-border); }
+      .data-cell:last-child { border-block-end: none; }
+      .features-grid { grid-template-columns: 1fr; }
       .pillars-grid { grid-template-columns: 1fr 1fr; }
-      .tiers { grid-template-columns: 1fr; border-radius: 12px; }
-      .tier { border-inline-end: none; border-block-end: 1px solid var(--gold-border); }
-      .tier:last-child { border-block-end: none; }
-      .tier.featured { margin-block: 0; border-radius: 0; border-inline: none; border: 1px solid var(--gold); }
-      .team-trustees { grid-template-columns: 1fr 1fr; }
-      .mentors-grid { grid-template-columns: repeat(4, 1fr); }
-      .forms-grid { grid-template-columns: 1fr; }
+      .tiers { grid-template-columns: 1fr; }
+      .tier { border-inline-end: none; }
+      .tier.feat { outline: none; border-top: 2px solid var(--gold); }
+      .trustees { grid-template-columns: 1fr 1fr; }
+      .mentors { grid-template-columns: repeat(4, 1fr); }
+      .forms-row { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr 1fr; }
     }
+
     @media (max-width: 640px) {
       .nav-links, .nav-cta { display: none; }
       .nav-burger { display: flex; }
-      .first-features { grid-template-columns: 1fr; }
       .pillars-grid { grid-template-columns: 1fr; }
-      .team-trustees { grid-template-columns: 1fr; }
-      .mentors-grid { grid-template-columns: repeat(2, 1fr); }
+      .tiers { grid-template-columns: 1fr; }
+      .trustees { grid-template-columns: 1fr; }
+      .mentors { grid-template-columns: repeat(2, 1fr); }
       .footer-grid { grid-template-columns: 1fr; }
       .footer-bar { flex-direction: column; align-items: flex-start; }
-      .stat-row { grid-template-columns: 1fr; gap: 0.5rem; }
-      .stat-info { padding-inline-start: 0; border-inline-start: none; padding-block-start: 0.5rem; }
     }
   </style>
 </head>
 <body>
 
-  <div class="geo-canvas" aria-hidden="true"></div>
-  <div class="geo-glow-tr" aria-hidden="true"></div>
-  <div class="geo-glow-bl" aria-hidden="true"></div>
+  <!-- Hex grid background SVG -->
+  <svg class="hex-bg" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <pattern id="hex" x="0" y="0" width="56" height="97" patternUnits="userSpaceOnUse">
+        <!-- pointy-top hexagon, r≈28 -->
+        <polygon points="28,0 56,14 56,42 28,56 0,42 0,14" fill="none" stroke="rgba(201,168,76,0.055)" stroke-width="0.75"/>
+        <polygon points="56,42 84,56 84,84 56,98 28,84 28,56" fill="none" stroke="rgba(201,168,76,0.055)" stroke-width="0.75"/>
+        <polygon points="0,42 28,56 28,84 0,98 -28,84 -28,56" fill="none" stroke="rgba(201,168,76,0.055)" stroke-width="0.75"/>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#hex)"/>
+  </svg>
 
+  <div class="glow-tr" aria-hidden="true"></div>
+
+  <!-- ===================== NAV ===================== -->
   <nav id="nav" role="navigation" aria-label="Main navigation">
-    <a href="#hero" class="nav-mark">BUN<span class="g">YA</span>AN</a>
+    <a href="#hero">
+      <img src="logo.png" alt="Bunyaan — Scotland's first Muslim robotics team" class="nav-logo">
+    </a>
+
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#first">FIRST UK</a></li>
@@ -541,7 +758,9 @@
       <li><a href="#team">The Team</a></li>
       <li><a href="#involved">Get Involved</a></li>
     </ul>
+
     <a href="#involved" class="nav-cta">Get Involved</a>
+
     <button class="nav-burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">
       <span></span><span></span><span></span>
     </button>
@@ -558,278 +777,566 @@
 
   <main>
 
+    <!-- ===================== HERO ===================== -->
     <section id="hero" aria-label="Hero">
-      <div class="hero-left">
-        <div class="hero-pill"><span class="hero-pill-dot" aria-hidden="true"></span>Scotland's First Muslim Robotics Team</div>
-        <h1 class="hero-title">BUN<span class="g">YA</span>AN</h1>
-        <div class="hero-rule">
-          <div class="hero-rule-line" aria-hidden="true"></div>
+
+      <div class="hero-l">
+        <img src="logo.png" alt="Bunyaan logo" class="hero-logo">
+
+        <div class="hero-eyebrow">
+          <span class="hero-eyebrow-dot" aria-hidden="true"></span>
+          Scotland's First Muslim Robotics Team
+        </div>
+
+        <h1 class="hero-title">
+          BUN<span class="g">YA</span>AN
+        </h1>
+
+        <div class="hero-meta">
+          <div class="hero-vline" aria-hidden="true"></div>
           <div>
-            <span class="hero-ayah" dir="rtl" lang="ar" aria-label="Quranic verse">كَأَنَّهُم بُنيَانٌ مَّرْصُوصٌ</span>
+            <span class="hero-ayah" dir="rtl" lang="ar" aria-label="Quranic verse: As though they are a single solid structure">كَأَنَّهُم بُنيَانٌ مَّرْصُوصٌ</span>
             <span class="hero-translation">"As though they are a single solid structure"</span>
             <p class="hero-sub">Scotland's first robotics and AI team for Muslim youth — competing in FIRST UK, building engineers, changing futures.</p>
           </div>
         </div>
-        <div class="hero-ctas">
-          <a href="#involved" class="btn btn-gold">Join the Team <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          <a href="#involved" class="btn btn-outline">Become a Mentor</a>
-          <a href="#sponsor" class="btn btn-outline">Support Us</a>
+
+        <div class="hero-actions">
+          <a href="#involved" class="btn btn-gold">
+            Join the Team
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#involved" class="btn btn-wire">Become a Mentor</a>
+          <a href="#sponsor" class="btn btn-wire">Support Us</a>
         </div>
       </div>
 
-      <div class="hero-right" aria-hidden="true">
-        <div class="monument">
-          <div class="m-ring m-ring-1"></div>
-          <div class="m-ring m-ring-2"></div>
-          <div class="m-ring m-ring-3"></div>
-          <div class="m-ring m-ring-4"></div>
-          <div class="m-center">
-            <div class="m-hex">
-              <div class="m-hex-inner">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M12 2v4M8 2h8"/><circle cx="8.5" cy="16" r="1.5"/><circle cx="15.5" cy="16" r="1.5"/><path d="M3 15h1M20 15h1"/></svg>
-              </div>
-            </div>
+      <!-- Islamic geometric star -->
+      <div class="hero-r" aria-hidden="true">
+        <div class="star-wrap">
+          <!-- Slowly rotating 12-pointed Islamic star SVG -->
+          <svg class="star-svg" viewBox="-110 -110 220 220" xmlns="http://www.w3.org/2000/svg">
+            <!-- 12-pointed star — two overlapping hexagons + interlocking lines -->
+            <g stroke="#C9A84C" fill="none">
+              <!-- Outer ring -->
+              <circle cx="0" cy="0" r="105" stroke-width="0.5" stroke-opacity="0.15"/>
+              <circle cx="0" cy="0" r="85" stroke-width="0.5" stroke-opacity="0.12"/>
+              <circle cx="0" cy="0" r="60" stroke-width="0.5" stroke-opacity="0.10"/>
+              <circle cx="0" cy="0" r="35" stroke-width="0.5" stroke-opacity="0.10"/>
+
+              <!-- 12-pointed star outline (dodecagram) -->
+              <polygon
+                points="0,-100 13.4,-50 50,-86.6 26.8,-38.7 100,-1 50,13.4 86.6,50 38.7,26.8 0,100 -13.4,50 -50,86.6 -26.8,38.7 -100,0 -50,-13.4 -86.6,-50 -38.7,-26.8"
+                stroke-width="0.75" stroke-opacity="0.4"/>
+
+              <!-- Inner 12-pointed star -->
+              <polygon
+                points="0,-62 8.3,-31 31,-53.7 16.6,-24 62,-1 31,8.3 53.7,31 24,16.6 0,62 -8.3,31 -31,53.7 -16.6,24 -62,0 -31,-8.3 -53.7,-31 -24,-16.6"
+                stroke-width="0.6" stroke-opacity="0.3"/>
+
+              <!-- Hexagon 1 (flat-top) -->
+              <polygon points="0,-95 82.3,-47.5 82.3,47.5 0,95 -82.3,47.5 -82.3,-47.5" stroke-width="0.6" stroke-opacity="0.25"/>
+
+              <!-- Hexagon 2 (rotated 30°) -->
+              <polygon points="47.5,-82.3 95,0 47.5,82.3 -47.5,82.3 -95,0 -47.5,-82.3" stroke-width="0.6" stroke-opacity="0.25"/>
+
+              <!-- Star inner geometry — connecting points -->
+              <line x1="0" y1="-100" x2="82.3" y2="47.5" stroke-width="0.4" stroke-opacity="0.15"/>
+              <line x1="82.3" y1="-47.5" x2="-82.3" y2="47.5" stroke-width="0.4" stroke-opacity="0.15"/>
+              <line x1="82.3" y1="47.5" x2="-82.3" y2="-47.5" stroke-width="0.4" stroke-opacity="0.15"/>
+              <line x1="0" y1="100" x2="-82.3" y2="-47.5" stroke-width="0.4" stroke-opacity="0.15"/>
+              <line x1="47.5" y1="-82.3" x2="-47.5" y2="82.3" stroke-width="0.4" stroke-opacity="0.15"/>
+              <line x1="95" y1="0" x2="-95" y2="0" stroke-width="0.4" stroke-opacity="0.15"/>
+
+              <!-- Diamond accents at outer points -->
+              <rect x="-4" y="-104" width="8" height="8" transform="rotate(45 0 -100)" fill="#C9A84C" fill-opacity="0.6" stroke="none"/>
+              <rect x="-4" y="-104" width="8" height="8" transform="rotate(45 0 -100) rotate(30 0 0)" fill="#C9A84C" fill-opacity="0.6" stroke="none"/>
+              <rect x="-4" y="-104" width="8" height="8" transform="rotate(45 0 -100) rotate(60 0 0)" fill="#C9A84C" fill-opacity="0.6" stroke="none"/>
+              <rect x="-4" y="-104" width="8" height="8" transform="rotate(45 0 -100) rotate(90 0 0)" fill="#C9A84C" fill-opacity="0.6" stroke="none"/>
+              <rect x="-4" y="-104" width="8" height="8" transform="rotate(45 0 -100) rotate(120 0 0)" fill="#C9A84C" fill-opacity="0.6" stroke="none"/>
+              <rect x="-4" y="-104" width="8" height="8" transform="rotate(45 0 -100) rotate(150 0 0)" fill="#C9A84C" fill-opacity="0.6" stroke="none"/>
+              <rect x="-4" y="-104" width="8" height="8" transform="rotate(45 0 -100) rotate(180 0 0)" fill="#C9A84C" fill-opacity="0.6" stroke="none"/>
+              <rect x="-4" y="-104" width="8" height="8" transform="rotate(45 0 -100) rotate(210 0 0)" fill="#C9A84C" fill-opacity="0.6" stroke="none"/>
+              <rect x="-4" y="-104" width="8" height="8" transform="rotate(45 0 -100) rotate(240 0 0)" fill="#C9A84C" fill-opacity="0.6" stroke="none"/>
+              <rect x="-4" y="-104" width="8" height="8" transform="rotate(45 0 -100) rotate(270 0 0)" fill="#C9A84C" fill-opacity="0.6" stroke="none"/>
+              <rect x="-4" y="-104" width="8" height="8" transform="rotate(45 0 -100) rotate(300 0 0)" fill="#C9A84C" fill-opacity="0.6" stroke="none"/>
+              <rect x="-4" y="-104" width="8" height="8" transform="rotate(45 0 -100) rotate(330 0 0)" fill="#C9A84C" fill-opacity="0.6" stroke="none"/>
+            </g>
+          </svg>
+
+          <!-- Floating stat chips -->
+          <div class="chip chip-1">
+            <div class="chip-v">20+</div>
+            <div class="chip-l">Students</div>
           </div>
-          <div class="m-chip m-chip-1"><div class="m-chip-val">20+</div><div class="m-chip-lbl">Students</div></div>
-          <div class="m-chip m-chip-2"><div class="m-chip-val">2026</div><div class="m-chip-lbl">Season 1</div></div>
-          <div class="m-chip m-chip-3"><div class="m-chip-val">5</div><div class="m-chip-lbl">Mentors</div></div>
+          <div class="chip chip-2">
+            <div class="chip-v">2026</div>
+            <div class="chip-l">Season 1</div>
+          </div>
+          <div class="chip chip-3">
+            <div class="chip-v">5</div>
+            <div class="chip-l">Mentors</div>
+          </div>
         </div>
       </div>
 
-      <div class="hero-scroll" aria-hidden="true"><div class="scroll-bar"></div><span>Scroll</span></div>
+      <div class="hero-scroll" aria-hidden="true">
+        <div class="scr-line"></div>
+        <span>Scroll</span>
+      </div>
+
     </section>
 
-    <div class="marquee-strip" aria-hidden="true">
-      <div class="marquee-track">
-        <span>Bunyaan</span><span class="marquee-sep"> ◆ </span><span>Scotland's First Muslim Robotics Team</span><span class="marquee-sep"> ◆ </span><span>FIRST UK Competition</span><span class="marquee-sep"> ◆ </span><span>Edinburgh</span><span class="marquee-sep"> ◆ </span><span>Building Engineers</span><span class="marquee-sep"> ◆ </span><span>Changing Futures</span><span class="marquee-sep"> ◆ </span><span>Season 1 — 2026</span><span class="marquee-sep"> ◆ </span><span lang="ar">بُنيَانٌ مَّرْصُوصٌ</span><span class="marquee-sep"> ◆ </span>
-        <span>Bunyaan</span><span class="marquee-sep"> ◆ </span><span>Scotland's First Muslim Robotics Team</span><span class="marquee-sep"> ◆ </span><span>FIRST UK Competition</span><span class="marquee-sep"> ◆ </span><span>Edinburgh</span><span class="marquee-sep"> ◆ </span><span>Building Engineers</span><span class="marquee-sep"> ◆ </span><span>Changing Futures</span><span class="marquee-sep"> ◆ </span><span>Season 1 — 2026</span><span class="marquee-sep"> ◆ </span><span lang="ar">بُنيَانٌ مَّرْصُوصٌ</span><span class="marquee-sep"> ◆ </span>
+    <!-- Gold marquee -->
+    <div class="marquee" aria-hidden="true">
+      <div class="mq-track">
+        <span>Bunyaan</span><span class="mq-sep"> ◆ </span>
+        <span>Scotland's First Muslim Robotics Team</span><span class="mq-sep"> ◆ </span>
+        <span>FIRST UK Competition</span><span class="mq-sep"> ◆ </span>
+        <span>Edinburgh</span><span class="mq-sep"> ◆ </span>
+        <span>Building Engineers</span><span class="mq-sep"> ◆ </span>
+        <span>Changing Futures</span><span class="mq-sep"> ◆ </span>
+        <span>Season 1 — 2026</span><span class="mq-sep"> ◆ </span>
+        <span lang="ar">بُنيَانٌ مَّرْصُوصٌ</span><span class="mq-sep"> ◆ </span>
+        <span>Bunyaan</span><span class="mq-sep"> ◆ </span>
+        <span>Scotland's First Muslim Robotics Team</span><span class="mq-sep"> ◆ </span>
+        <span>FIRST UK Competition</span><span class="mq-sep"> ◆ </span>
+        <span>Edinburgh</span><span class="mq-sep"> ◆ </span>
+        <span>Building Engineers</span><span class="mq-sep"> ◆ </span>
+        <span>Changing Futures</span><span class="mq-sep"> ◆ </span>
+        <span>Season 1 — 2026</span><span class="mq-sep"> ◆ </span>
+        <span lang="ar">بُنيَانٌ مَّرْصُوصٌ</span><span class="mq-sep"> ◆ </span>
       </div>
     </div>
 
-    <section id="about" aria-labelledby="about-heading">
+    <!-- ===================== ABOUT ===================== -->
+    <section id="about" aria-labelledby="about-h">
       <div class="wrap">
-        <div class="about-grid">
+        <div class="about-split">
+
           <div>
-            <div class="about-accent-num r">01</div>
-            <span class="eyebrow r d1">The Vision</span>
-            <h2 class="section-title r d2" id="about-heading">Filling a gap that<br>has always existed</h2>
+            <span class="ghost-num r">01</span>
+            <span class="tag r d1">The Vision</span>
+            <h2 class="h2 r d2" id="about-h">Filling a gap<br>that has always<br>existed</h2>
+            <span class="gold-line r d3" aria-hidden="true"></span>
             <div class="about-body r d3">
               <p>Edinburgh has a thriving Muslim community with deep enthusiasm for education and technology. Yet there has never been a dedicated, competition-grade robotics programme built specifically for its young people.</p>
               <p>Bunyaan is not a hobby club. It is a structured, competition-grade initiative giving Muslim youth access to the same quality of STEM education available in the best-funded schools in the country.</p>
               <p>We compete in FIRST UK — one of the most respected youth engineering competitions in the world — where students build real robots, write real code, and are judged on engineering rigour, teamwork, and community impact.</p>
             </div>
           </div>
-          <div class="about-right r d2">
-            <div class="stats-stack">
-              <div class="stat-row"><div class="stat-num">9–18</div><div class="stat-info"><div class="stat-lbl">Ages served</div><div class="stat-desc">Open to all Muslim youth across Edinburgh and the surrounding area.</div></div></div>
-              <div class="stat-row"><div class="stat-num">20+</div><div class="stat-info"><div class="stat-lbl">Students in Season 1</div><div class="stat-desc">Positions across engineering, programming, design, and business roles.</div></div></div>
-              <div class="stat-row"><div class="stat-num">5</div><div class="stat-info"><div class="stat-lbl">Expert mentors</div><div class="stat-desc">Professionals in Java, CAD, AI, electronics, and portfolio writing.</div></div></div>
-              <div class="stat-row"><div class="stat-num">2026</div><div class="stat-info"><div class="stat-lbl">Season 1 begins</div><div class="stat-desc">Registration opening soon. Be the first to join Scotland's pioneering team.</div></div></div>
+
+          <div class="stats-block r d2">
+            <div class="stat-item">
+              <div class="stat-n">9–18</div>
+              <div class="stat-d">
+                <div class="stat-label">Ages served</div>
+                <div class="stat-desc">Open to all Muslim youth across Edinburgh and the surrounding area.</div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-n">20+</div>
+              <div class="stat-d">
+                <div class="stat-label">Students — Season 1</div>
+                <div class="stat-desc">Positions across engineering, programming, design, and business roles.</div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-n">5</div>
+              <div class="stat-d">
+                <div class="stat-label">Expert mentors</div>
+                <div class="stat-desc">Professionals in Java, CAD, AI, electronics, and portfolio writing.</div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-n">2026</div>
+              <div class="stat-d">
+                <div class="stat-label">Season 1 begins</div>
+                <div class="stat-desc">Registration opening soon. Be the first to join Scotland's pioneering team.</div>
+              </div>
             </div>
           </div>
+
         </div>
       </div>
     </section>
 
-    <section id="first" aria-labelledby="first-heading">
+    <!-- ===================== FIRST UK ===================== -->
+    <section id="first" aria-labelledby="first-h">
       <div class="wrap">
-        <div class="first-header">
-          <div class="about-accent-num r" style="margin-block-end:-1rem">02</div>
-          <span class="eyebrow r d1">The Competition</span>
-          <h2 class="section-title r d2" id="first-heading">More Than Robots</h2>
-          <p class="section-sub r d3">FIRST UK is one of the world's most respected youth engineering competitions, active in 110+ countries. Teams design, build, and compete with fully functioning robots — but are judged on far more than performance on the field.</p>
+
+        <span class="ghost-num r">02</span>
+        <span class="tag r d1">The Competition</span>
+        <h2 class="h2 r d2" id="first-h">More Than Robots</h2>
+        <p class="sub r d3">FIRST UK is one of the world's most respected youth engineering competitions, active in 110+ countries. Teams design, build, and compete with fully functioning robots — but are judged on far more than performance on the field.</p>
+
+        <div class="data-band r d2" role="list">
+          <div class="data-cell" role="listitem">
+            <div class="dc-n">110+</div>
+            <div class="dc-l">Countries</div>
+            <div class="dc-d">Participating in FIRST globally — one of the largest youth engineering networks on Earth.</div>
+          </div>
+          <div class="data-cell" role="listitem">
+            <div class="dc-n">5</div>
+            <div class="dc-l">Dimensions</div>
+            <div class="dc-d">Teams judged across engineering design, programming, outreach, business, and more.</div>
+          </div>
+          <div class="data-cell" role="listitem">
+            <div class="dc-n">6 mo.</div>
+            <div class="dc-l">Build Season</div>
+            <div class="dc-d">From kickoff to national championship — an intensive, industry-grade cycle.</div>
+          </div>
         </div>
-        <div class="first-cards r d2" role="list">
-          <div class="fc" role="listitem"><div class="fc-num">110+</div><div class="fc-label">Countries</div><div class="fc-desc">Participating in FIRST globally — one of the largest youth engineering networks on Earth.</div></div>
-          <div class="fc" role="listitem"><div class="fc-num">5</div><div class="fc-label">Dimensions</div><div class="fc-desc">Teams are judged across engineering design, programming, outreach, business, and more.</div></div>
-          <div class="fc" role="listitem"><div class="fc-num">6 mo.</div><div class="fc-label">Build season</div><div class="fc-desc">From kickoff to national championship — an intensive, industry-grade development cycle.</div></div>
+
+        <div class="features-grid r d3">
+          <div class="feat"><div class="feat-diamond" aria-hidden="true"></div><span>Engineering design &amp; documentation</span></div>
+          <div class="feat"><div class="feat-diamond" aria-hidden="true"></div><span>Programming &amp; autonomous capability</span></div>
+          <div class="feat"><div class="feat-diamond" aria-hidden="true"></div><span>Community outreach &amp; impact</span></div>
+          <div class="feat"><div class="feat-diamond" aria-hidden="true"></div><span>Business planning &amp; presentation</span></div>
         </div>
-        <div class="first-features r d3">
-          <div class="ff"><div class="ff-diamond" aria-hidden="true"></div><span>Engineering design &amp; documentation</span></div>
-          <div class="ff"><div class="ff-diamond" aria-hidden="true"></div><span>Programming &amp; autonomous capability</span></div>
-          <div class="ff"><div class="ff-diamond" aria-hidden="true"></div><span>Community outreach &amp; impact</span></div>
-          <div class="ff"><div class="ff-diamond" aria-hidden="true"></div><span>Business planning &amp; presentation</span></div>
-        </div>
-        <blockquote class="pull-quote r d4"><p>Gracious Professionalism® — FIRST's founding ethos. Teams are expected to help their opponents. Fierce competition and kindness are not opposites.</p></blockquote>
+
+        <blockquote class="pull-quote r d4">
+          <div class="pq-line" aria-hidden="true"></div>
+          <p>Gracious Professionalism® — FIRST's founding ethos. Teams are expected to help their opponents. Fierce competition and kindness are not opposites.</p>
+        </blockquote>
+
       </div>
     </section>
 
-    <section id="pillars" aria-labelledby="pillars-heading">
+    <!-- ===================== PILLARS ===================== -->
+    <section id="pillars" aria-labelledby="pillars-h">
       <div class="wrap">
-        <div class="about-accent-num r">03</div>
-        <span class="eyebrow r d1">Why We Will Succeed</span>
-        <h2 class="section-title r d2" id="pillars-heading">Three Pillars.<br>Already in Place.</h2>
-        <p class="section-sub r d3">Before a single team has been registered, three critical foundations are already secured.</p>
-        <div class="pillars-grid">
-          <article class="pc r d1">
-            <div class="pc-ghost" aria-hidden="true">01</div>
-            <div class="pc-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-            <h3 class="pc-title">Space</h3>
-            <p class="pc-body">A permanent 8.5m × 6.75m robotics lab in Broomhouse Mosque, Edinburgh. Equipment stays built between sessions. Secured free of charge.</p>
-            <span class="pc-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Secured</span>
-          </article>
-          <article class="pc r d2">
-            <div class="pc-ghost" aria-hidden="true">02</div>
-            <div class="pc-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
-            <h3 class="pc-title">Mentors</h3>
-            <p class="pc-body">Professionals across Computer Science, AI, Robotics, and Engineering. Can teach Java, CAD, electronics, and autonomous programming. Most rookie teams struggle to find even one.</p>
-            <span class="pc-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Confirmed</span>
-          </article>
-          <article class="pc r d3">
-            <div class="pc-ghost" aria-hidden="true">03</div>
-            <div class="pc-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></div>
-            <h3 class="pc-title">Partnership</h3>
-            <p class="pc-body">Strategic alliance with Fitya — experienced teams within the FIRST UK ecosystem. Bunyaan operates independently with its own identity, funding, and direction.</p>
-            <span class="pc-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Established</span>
-          </article>
-        </div>
-      </div>
-    </section>
 
-    <section id="sponsor" aria-labelledby="sponsor-heading">
-      <div class="wrap">
-        <div class="sponsor-head">
-          <div class="about-accent-num r" style="text-align:center">04</div>
-          <span class="eyebrow r d1" style="justify-content:center">Support Bunyaan</span>
-          <h2 class="section-title r d2" id="sponsor-heading">Choose Your Brick</h2>
-          <p class="section-sub r d3">Every level of support makes a direct, tangible difference to the young people we serve.</p>
-        </div>
-        <div class="tiers r d2" role="list">
-          <article class="tier" role="listitem">
-            <div class="tier-name">Builder</div><div class="tier-price">From £500</div><div class="tier-divider" aria-hidden="true"></div>
-            <ul class="tier-list"><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Logo on team banner at all competitions</li><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Named on website and social media</li><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Certificate of sponsorship</li><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Invitation to visit the lab</li><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Invitation to season launch event</li></ul>
-            <a href="#involved" class="btn btn-ghost btn-full" data-sponsor-level="Builder — from £500">Become a Builder <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          </article>
-          <article class="tier featured" role="listitem">
-            <div class="tier-badge">Most Popular</div>
-            <div class="tier-name">Engineer</div><div class="tier-price">From £2,500</div><div class="tier-divider" aria-hidden="true"></div>
-            <ul class="tier-list"><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Everything in Builder, plus:</li><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Logo on hoodies worn by all 25 members</li><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Logo on the robot</li><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Named in Engineering Portfolio submitted to judges</li><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Personal intro to team at a regional competition</li></ul>
-            <a href="#involved" class="btn btn-gold btn-full" data-sponsor-level="Engineer — from £2,500">Become an Engineer <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          </article>
-          <article class="tier" role="listitem">
-            <div class="tier-name">Architect</div><div class="tier-price">From £5,000</div><div class="tier-divider" aria-hidden="true"></div>
-            <ul class="tier-list"><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Everything in Engineer, plus:</li><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Primary logo placement on robot and banner</li><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Named as Founding Sponsor in all materials</li><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Handwritten thank-you card signed by the whole team</li></ul>
-            <a href="#involved" class="btn btn-ghost btn-full" data-sponsor-level="Architect — from £5,000">Become an Architect <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          </article>
-        </div>
-      </div>
-    </section>
+        <span class="ghost-num r">03</span>
+        <span class="tag r d1">Why We Will Succeed</span>
+        <h2 class="h2 r d2" id="pillars-h">Three Pillars.<br>Already in Place.</h2>
+        <p class="sub r d3">Before a single team has been registered, three critical foundations are already secured.</p>
 
-    <section id="team" aria-labelledby="team-heading">
-      <div class="wrap">
-        <div class="about-accent-num r">05</div>
-        <span class="eyebrow r d1">The People</span>
-        <h2 class="section-title r d2" id="team-heading">The People Behind<br>the Structure</h2>
-        <p class="section-sub r d3" style="margin-block-end:clamp(2.5rem,5vw,4rem)">Every brick needs someone to place it.</p>
-        <div class="team-trustees r d1" role="list">
-          <article class="team-card" role="listitem"><div class="t-avatar" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="t-name">[Name]</div><div class="t-role">Trustee — Founder</div><div class="t-bio">[Background / Title]</div></article>
-          <article class="team-card" role="listitem"><div class="t-avatar" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="t-name">[Name]</div><div class="t-role">Trustee — Technical</div><div class="t-bio">[Background / Title]</div></article>
-          <article class="team-card" role="listitem"><div class="t-avatar" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="t-name">[Name]</div><div class="t-role">Trustee — Community</div><div class="t-bio">[Background / Title]</div></article>
-        </div>
-        <div class="mentors-title r">Mentors &amp; Volunteers</div>
-        <div class="mentors-grid r d1" role="list">
-          <article class="mentor-card" role="listitem"><div class="m-avatar" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">Java / Android</div></article>
-          <article class="mentor-card" role="listitem"><div class="m-avatar" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">CAD / Mechanical</div></article>
-          <article class="mentor-card" role="listitem"><div class="m-avatar" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">AI / Computer Vision</div></article>
-          <article class="mentor-card" role="listitem"><div class="m-avatar" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">Electronics</div></article>
-          <article class="mentor-card" role="listitem"><div class="m-avatar" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">Portfolio &amp; Business</div></article>
-          <article class="mentor-card" role="listitem"><div class="m-avatar" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">[TBC]</div></article>
-          <article class="mentor-card" role="listitem"><div class="m-avatar" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">[TBC]</div></article>
-          <article class="mentor-card" role="listitem"><div class="m-avatar" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">[TBC]</div></article>
-          <article class="mentor-card" role="listitem"><div class="m-avatar" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">[TBC]</div></article>
-          <article class="mentor-card" role="listitem"><div class="m-avatar" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">[TBC]</div></article>
+        <div class="pillars-grid r d2" role="list">
+
+          <article class="pillar" role="listitem">
+            <div class="pillar-num" aria-hidden="true">01</div>
+            <div class="pillar-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <h3 class="pillar-title">Space</h3>
+            <p class="pillar-body">A permanent 8.5m × 6.75m robotics lab in Broomhouse Mosque, Edinburgh. Equipment stays built between sessions. Secured free of charge.</p>
+            <span class="pillar-tag">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+              Secured
+            </span>
+          </article>
+
+          <article class="pillar" role="listitem">
+            <div class="pillar-num" aria-hidden="true">02</div>
+            <div class="pillar-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+              </svg>
+            </div>
+            <h3 class="pillar-title">Mentors</h3>
+            <p class="pillar-body">Professionals across Computer Science, AI, Robotics, and Engineering. Can teach Java, CAD, electronics, and autonomous programming. Most rookie teams struggle to find even one.</p>
+            <span class="pillar-tag">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+              Confirmed
+            </span>
+          </article>
+
+          <article class="pillar" role="listitem">
+            <div class="pillar-num" aria-hidden="true">03</div>
+            <div class="pillar-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/>
+                <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>
+              </svg>
+            </div>
+            <h3 class="pillar-title">Partnership</h3>
+            <p class="pillar-body">Strategic alliance with Fitya — experienced teams within the FIRST UK ecosystem. Bunyaan operates independently with its own identity, funding, and direction.</p>
+            <span class="pillar-tag">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+              Established
+            </span>
+          </article>
+
         </div>
       </div>
     </section>
 
-    <section id="involved" aria-labelledby="involved-heading">
+    <!-- ===================== SPONSOR ===================== -->
+    <section id="sponsor" aria-labelledby="sponsor-h">
       <div class="wrap">
-        <div class="about-accent-num r">06</div>
-        <span class="eyebrow r d1">Join Bunyaan</span>
-        <h2 class="section-title r d2" id="involved-heading">There Is a Brick Here<br>With Your Name On It</h2>
-        <p class="section-sub r d3">Whether you are a young person ready to build, a professional ready to mentor, or an organisation ready to invest — we have a place for you.</p>
-        <div class="forms-grid">
-          <div class="form-card r d1">
-            <h3 class="fc-title">Join the Team</h3>
-            <p class="fc-body">Are you aged 9–18 and based in Edinburgh? Or are you a parent interested in registering your child? Tell us about yourself and we will be in touch when registration opens.</p>
+
+        <span class="ghost-num r">04</span>
+        <span class="tag r d1">Support Bunyaan</span>
+        <h2 class="h2 r d2" id="sponsor-h">Choose Your Brick</h2>
+        <p class="sub r d3" style="margin-block-end:0">Every level of support makes a direct, tangible difference to the young people we serve.</p>
+
+        <div style="margin-block-start: clamp(2.5rem,5vw,4rem)">
+          <div class="tiers r d2" role="list">
+
+            <article class="tier" role="listitem">
+              <div class="tier-name">Builder</div>
+              <div class="tier-price">from £500</div>
+              <div class="tier-rule" aria-hidden="true"></div>
+              <ul class="tier-list" aria-label="Builder benefits">
+                <li><svg class="tc" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Logo on team banner at all competitions</li>
+                <li><svg class="tc" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Named on website and social media</li>
+                <li><svg class="tc" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Certificate of sponsorship</li>
+                <li><svg class="tc" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Invitation to visit the lab</li>
+                <li><svg class="tc" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Invitation to season launch event</li>
+              </ul>
+              <a href="#involved" class="btn btn-wire-gold btn-full" data-sponsor-level="Builder — from £500">Become a Builder →</a>
+            </article>
+
+            <article class="tier feat" role="listitem">
+              <div class="tier-badge">Most Popular</div>
+              <div class="tier-name">Engineer</div>
+              <div class="tier-price">from £2,500</div>
+              <div class="tier-rule" aria-hidden="true"></div>
+              <ul class="tier-list" aria-label="Engineer benefits">
+                <li><svg class="tc" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Everything in Builder, plus:</li>
+                <li><svg class="tc" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Logo on hoodies worn by all 25 members</li>
+                <li><svg class="tc" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Logo on the robot</li>
+                <li><svg class="tc" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Named in Engineering Portfolio submitted to judges</li>
+                <li><svg class="tc" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Personal intro to team at a regional competition</li>
+              </ul>
+              <a href="#involved" class="btn btn-gold btn-full" data-sponsor-level="Engineer — from £2,500">Become an Engineer →</a>
+            </article>
+
+            <article class="tier" role="listitem">
+              <div class="tier-name">Architect</div>
+              <div class="tier-price">from £5,000</div>
+              <div class="tier-rule" aria-hidden="true"></div>
+              <ul class="tier-list" aria-label="Architect benefits">
+                <li><svg class="tc" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Everything in Engineer, plus:</li>
+                <li><svg class="tc" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Primary logo placement on robot and banner</li>
+                <li><svg class="tc" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Named as Founding Sponsor in all materials</li>
+                <li><svg class="tc" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Handwritten thank-you card signed by the whole team</li>
+              </ul>
+              <a href="#involved" class="btn btn-wire-gold btn-full" data-sponsor-level="Architect — from £5,000">Become an Architect →</a>
+            </article>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================== TEAM ===================== -->
+    <section id="team" aria-labelledby="team-h">
+      <div class="wrap">
+
+        <span class="ghost-num r">05</span>
+        <span class="tag r d1">The People</span>
+        <h2 class="h2 r d2" id="team-h">The People Behind<br>the Structure</h2>
+        <p class="sub r d3" style="margin-block-end:clamp(2.5rem,5vw,4rem)">Every brick needs someone to place it.</p>
+
+        <div class="trustees r d1" role="list" aria-label="Trustees">
+          <article class="trustee" role="listitem">
+            <div class="av" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+            <div class="t-name">[Name]</div>
+            <div class="t-role">Trustee — Founder</div>
+            <div class="t-bio">[Background / Title]</div>
+          </article>
+          <article class="trustee" role="listitem">
+            <div class="av" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+            <div class="t-name">[Name]</div>
+            <div class="t-role">Trustee — Technical</div>
+            <div class="t-bio">[Background / Title]</div>
+          </article>
+          <article class="trustee" role="listitem">
+            <div class="av" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+            <div class="t-name">[Name]</div>
+            <div class="t-role">Trustee — Community</div>
+            <div class="t-bio">[Background / Title]</div>
+          </article>
+        </div>
+
+        <div class="mentors-label r">Mentors &amp; Volunteers</div>
+
+        <div class="mentors r d1" role="list" aria-label="Mentors">
+          <article class="mentor" role="listitem"><div class="av-sm" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">Java / Android</div></article>
+          <article class="mentor" role="listitem"><div class="av-sm" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">CAD / Mechanical</div></article>
+          <article class="mentor" role="listitem"><div class="av-sm" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">AI / Computer Vision</div></article>
+          <article class="mentor" role="listitem"><div class="av-sm" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">Electronics</div></article>
+          <article class="mentor" role="listitem"><div class="av-sm" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">Portfolio &amp; Business</div></article>
+          <article class="mentor" role="listitem"><div class="av-sm" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">[TBC]</div></article>
+          <article class="mentor" role="listitem"><div class="av-sm" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">[TBC]</div></article>
+          <article class="mentor" role="listitem"><div class="av-sm" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">[TBC]</div></article>
+          <article class="mentor" role="listitem"><div class="av-sm" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">[TBC]</div></article>
+          <article class="mentor" role="listitem"><div class="av-sm" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">[TBC]</div></article>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================== GET INVOLVED ===================== -->
+    <section id="involved" aria-labelledby="involved-h">
+      <div class="wrap">
+
+        <span class="ghost-num r">06</span>
+        <span class="tag r d1">Join Bunyaan</span>
+        <h2 class="h2 r d2" id="involved-h">There Is a Brick Here<br>With Your Name On It</h2>
+        <p class="sub r d3">Whether you are a young person ready to build, a professional ready to mentor, or an organisation ready to invest — we have a place for you.</p>
+
+        <div class="forms-row r d2">
+
+          <div class="form-panel">
+            <h3 class="fp-title">Join the Team</h3>
+            <p class="fp-body">Are you aged 9–18 and based in Edinburgh? Or are you a parent interested in registering your child? Tell us about yourself and we will be in touch when registration opens.</p>
             <form name="join-team" method="POST" data-netlify="true" netlify>
               <input type="hidden" name="form-name" value="join-team">
               <div class="fg"><label for="jn">Full name</label><input type="text" id="jn" name="name" placeholder="Your full name" required autocomplete="name"></div>
               <div class="fg"><label for="je">Email address</label><input type="email" id="je" name="email" placeholder="you@example.com" required autocomplete="email"></div>
               <div class="fg"><label for="ja">Child's age</label><input type="number" id="ja" name="age" min="9" max="18" placeholder="9–18"></div>
-              <div class="fg"><label for="js">How did you hear about us?</label><select id="js" name="source"><option value="">Select…</option><option>Mosque</option><option>School</option><option>Friend</option><option>Social Media</option><option>Other</option></select></div>
+              <div class="fg">
+                <label for="js">How did you hear about us?</label>
+                <select id="js" name="source">
+                  <option value="">Select…</option>
+                  <option>Mosque</option><option>School</option><option>Friend</option><option>Social Media</option><option>Other</option>
+                </select>
+              </div>
               <div class="fg"><label for="jq">Any questions? <span style="color:var(--muted-2);font-weight:300">(optional)</span></label><textarea id="jq" name="questions" placeholder="Write here…"></textarea></div>
-              <button type="submit" class="f-submit">Register Interest</button>
+              <button type="submit" class="f-btn">Register Interest</button>
             </form>
-            <div class="f-success" id="ok-join" aria-live="polite"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg><h3>You're registered!</h3><p>Thank you. We'll be in touch when Season 1 registration opens.</p></div>
+            <div class="f-ok" id="ok-join" aria-live="polite">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+              <h3>Registered!</h3>
+              <p>Thank you. We'll be in touch when Season 1 registration opens.</p>
+            </div>
           </div>
-          <div class="form-card r d2">
-            <h3 class="fc-title">Become a Mentor</h3>
-            <p class="fc-body">We are looking for volunteers with expertise in Java, CAD, electronics, AI, or business. No prior FIRST experience required — we will train you.</p>
+
+          <div class="form-panel">
+            <h3 class="fp-title">Become a Mentor</h3>
+            <p class="fp-body">We are looking for volunteers with expertise in Java, CAD, electronics, AI, or business. No prior FIRST experience required — we will train you.</p>
             <form name="mentor" method="POST" data-netlify="true" netlify>
               <input type="hidden" name="form-name" value="mentor">
               <div class="fg"><label for="mn">Full name</label><input type="text" id="mn" name="name" placeholder="Your full name" required autocomplete="name"></div>
               <div class="fg"><label for="me">Email address</label><input type="email" id="me" name="email" placeholder="you@example.com" required autocomplete="email"></div>
               <div class="fg"><label for="mb">Professional background</label><input type="text" id="mb" name="background" placeholder="e.g. Software Engineer at Acme"></div>
-              <div class="fg"><label for="mx">Area of expertise</label><select id="mx" name="expertise"><option value="">Select…</option><option>Java / Android Studio</option><option>CAD / Mechanical Engineering</option><option>AI / Computer Vision</option><option>Electronics</option><option>Portfolio Writing</option><option>Business Coaching</option><option>Other</option></select></div>
-              <div class="fg"><label for="mv">Availability</label><select id="mv" name="availability"><option value="">Select…</option><option>Weekday evenings</option><option>Saturdays</option><option>Both</option><option>Flexible</option></select></div>
+              <div class="fg">
+                <label for="mx">Area of expertise</label>
+                <select id="mx" name="expertise">
+                  <option value="">Select…</option>
+                  <option>Java / Android Studio</option><option>CAD / Mechanical Engineering</option>
+                  <option>AI / Computer Vision</option><option>Electronics</option>
+                  <option>Portfolio Writing</option><option>Business Coaching</option><option>Other</option>
+                </select>
+              </div>
+              <div class="fg">
+                <label for="mv">Availability</label>
+                <select id="mv" name="availability">
+                  <option value="">Select…</option>
+                  <option>Weekday evenings</option><option>Saturdays</option><option>Both</option><option>Flexible</option>
+                </select>
+              </div>
               <div class="fg"><label for="mq">Any questions? <span style="color:var(--muted-2);font-weight:300">(optional)</span></label><textarea id="mq" name="questions" placeholder="Write here…"></textarea></div>
-              <button type="submit" class="f-submit">Apply as Mentor</button>
+              <button type="submit" class="f-btn">Apply as Mentor</button>
             </form>
-            <div class="f-success" id="ok-mentor" aria-live="polite"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg><h3>Application received!</h3><p>Thank you for volunteering. We'll be in touch shortly.</p></div>
+            <div class="f-ok" id="ok-mentor" aria-live="polite">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+              <h3>Application Received!</h3>
+              <p>Thank you for volunteering. We'll be in touch shortly.</p>
+            </div>
           </div>
-          <div class="form-card r d3">
-            <h3 class="fc-title">Support Us</h3>
-            <p class="fc-body">Your contribution funds equipment, robot kits, competition entry, and team clothing. Every pound goes directly to the young people we serve.</p>
+
+          <div class="form-panel">
+            <h3 class="fp-title">Support Us</h3>
+            <p class="fp-body">Your contribution funds equipment, robot kits, competition entry, and team clothing. Every pound goes directly to the young people we serve.</p>
             <form name="sponsor" method="POST" data-netlify="true" netlify>
               <input type="hidden" name="form-name" value="sponsor">
               <div class="fg"><label for="sn">Organisation / Name</label><input type="text" id="sn" name="name" placeholder="Your organisation or name" required autocomplete="organization"></div>
               <div class="fg"><label for="se">Email address</label><input type="email" id="se" name="email" placeholder="you@example.com" required autocomplete="email"></div>
-              <div class="fg"><label for="sl">Sponsorship level</label><select id="sl" name="level"><option value="">Select…</option><option value="Builder — from £500">Builder — from £500</option><option value="Engineer — from £2,500">Engineer — from £2,500</option><option value="Architect — from £5,000">Architect — from £5,000</option><option value="Other amount">Other amount</option></select></div>
+              <div class="fg">
+                <label for="sl">Sponsorship level</label>
+                <select id="sl" name="level">
+                  <option value="">Select…</option>
+                  <option value="Builder — from £500">Builder — from £500</option>
+                  <option value="Engineer — from £2,500">Engineer — from £2,500</option>
+                  <option value="Architect — from £5,000">Architect — from £5,000</option>
+                  <option value="Other amount">Other amount</option>
+                </select>
+              </div>
               <div class="fg"><label for="sm">Message <span style="color:var(--muted-2);font-weight:300">(optional)</span></label><textarea id="sm" name="message" placeholder="Tell us more…"></textarea></div>
-              <button type="submit" class="f-submit">Get in Touch</button>
+              <button type="submit" class="f-btn">Get in Touch</button>
             </form>
-            <div class="f-success" id="ok-sponsor" aria-live="polite"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg><h3>Message sent!</h3><p>Thank you. We'll be in touch within 48 hours.</p></div>
+            <div class="f-ok" id="ok-sponsor" aria-live="polite">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+              <h3>Message Sent!</h3>
+              <p>Thank you. We'll be in touch within 48 hours.</p>
+            </div>
           </div>
+
         </div>
       </div>
     </section>
 
   </main>
 
+  <!-- ===================== FOOTER ===================== -->
   <footer role="contentinfo">
-    <div class="footer-grid">
-      <div>
-        <div class="f-mark">BUN<span class="g">YA</span>AN</div>
-        <span class="f-ayah" dir="rtl" lang="ar" aria-label="Quranic verse in Arabic">كَأَنَّهُم بُنيَانٌ مَّرْصُوصٌ</span>
-        <span class="f-trans">"As though they are a single solid structure"</span>
-        <p class="f-desc">Scotland's first Muslim community robotics and AI team. Competing in FIRST UK. Based in Edinburgh.</p>
-      </div>
-      <div>
-        <div class="f-head">Quick Links</div>
-        <ul class="f-links"><li><a href="#about">About Bunyaan</a></li><li><a href="#first">What is FIRST UK</a></li><li><a href="#pillars">Our Pillars</a></li><li><a href="#team">Meet the Team</a></li><li><a href="#sponsor">Support Us</a></li><li><a href="#involved">Get Involved</a></li></ul>
-      </div>
-      <div>
-        <div class="f-head">Contact</div>
-        <div class="f-contact-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:hello@bunyaan.org">hello@bunyaan.org</a></div>
-        <div class="f-contact-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Edinburgh, Scotland</span></div>
-        <div class="f-contact-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg><a href="https://firstuk.org" target="_blank" rel="noopener noreferrer">firstuk.org</a></div>
-        <div class="f-socials" aria-label="Social media">
-          <a href="#" class="f-soc" aria-label="Instagram"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
-          <a href="#" class="f-soc" aria-label="X (Twitter)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4l16 16M4 20L20 4"/></svg></a>
-          <a href="#" class="f-soc" aria-label="LinkedIn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+    <div class="footer-inner">
+      <div class="footer-grid">
+
+        <div>
+          <img src="logo.png" alt="Bunyaan" class="footer-logo">
+          <span class="footer-ayah" dir="rtl" lang="ar" aria-label="Quranic verse in Arabic">كَأَنَّهُم بُنيَانٌ مَّرْصُوصٌ</span>
+          <span class="footer-trans">"As though they are a single solid structure"</span>
+          <p class="footer-desc">Scotland's first Muslim community robotics and AI team. Competing in FIRST UK. Based in Edinburgh.</p>
         </div>
+
+        <div>
+          <div class="footer-head">Quick Links</div>
+          <ul class="footer-links">
+            <li><a href="#about">About Bunyaan</a></li>
+            <li><a href="#first">What is FIRST UK</a></li>
+            <li><a href="#pillars">Our Pillars</a></li>
+            <li><a href="#team">Meet the Team</a></li>
+            <li><a href="#sponsor">Support Us</a></li>
+            <li><a href="#involved">Get Involved</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-head">Contact</div>
+          <div class="fc-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <a href="mailto:hello@bunyaan.org">hello@bunyaan.org</a>
+          </div>
+          <div class="fc-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>Edinburgh, Scotland</span>
+          </div>
+          <div class="fc-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+            <a href="https://firstuk.org" target="_blank" rel="noopener noreferrer">firstuk.org</a>
+          </div>
+          <div class="socials" aria-label="Social media">
+            <a href="#" class="soc" aria-label="Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+            <a href="#" class="soc" aria-label="X (Twitter)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4l16 16M4 20L20 4"/></svg></a>
+            <a href="#" class="soc" aria-label="LinkedIn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+          </div>
+        </div>
+
       </div>
-    </div>
-    <div class="footer-bar">
-      <span>&copy; 2026 Bunyaan. Registered Scottish Charity (pending). Built with purpose in Edinburgh.</span>
-      <span>Scotland's first Muslim robotics team.</span>
+
+      <div class="footer-bar">
+        <span>&copy; 2026 Bunyaan. Registered Scottish Charity (pending). Built with purpose in Edinburgh.</span>
+        <span>Scotland's first Muslim robotics team.</span>
+      </div>
     </div>
   </footer>
 
   <script>
+    // NAV SCROLL
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 50), { passive: true });
+
+    // BURGER
     const burger = document.getElementById('burger');
     const drawer = document.getElementById('drawer');
     burger.addEventListener('click', () => {
@@ -839,40 +1346,53 @@
       burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
     });
     drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-      drawer.classList.remove('open'); burger.classList.remove('open'); burger.setAttribute('aria-expanded', false);
+      drawer.classList.remove('open');
+      burger.classList.remove('open');
+      burger.setAttribute('aria-expanded', false);
     }));
+
+    // SCROLL REVEAL
     if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       const io = new IntersectionObserver(entries => {
         entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
       document.querySelectorAll('.r').forEach(el => io.observe(el));
     } else {
       document.querySelectorAll('.r').forEach(el => el.classList.add('in'));
     }
+
+    // SMOOTH SCROLL
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', e => {
-        const id = a.getAttribute('href'); if (id === '#') return;
-        const t = document.querySelector(id); if (!t) return;
+        const id = a.getAttribute('href');
+        if (id === '#') return;
+        const t = document.querySelector(id);
+        if (!t) return;
         e.preventDefault();
-        window.scrollTo({ top: t.getBoundingClientRect().top + scrollY - 72, behavior: 'smooth' });
+        window.scrollTo({ top: t.getBoundingClientRect().top + scrollY - 70, behavior: 'smooth' });
       });
     });
+
+    // SPONSOR PRE-SELECT
     document.querySelectorAll('[data-sponsor-level]').forEach(el => {
       el.addEventListener('click', e => {
         e.preventDefault();
         const sl = document.getElementById('sl');
         if (sl) [...sl.options].forEach((o, i) => { if (o.value === el.dataset.sponsorLevel) sl.selectedIndex = i; });
         const t = document.getElementById('involved');
-        if (t) window.scrollTo({ top: t.getBoundingClientRect().top + scrollY - 72, behavior: 'smooth' });
+        if (t) window.scrollTo({ top: t.getBoundingClientRect().top + scrollY - 70, behavior: 'smooth' });
       });
     });
+
+    // FORMS
     [['join-team','ok-join'],['mentor','ok-mentor'],['sponsor','ok-sponsor']].forEach(([name, okId]) => {
       const form = document.querySelector(`form[name="${name}"]`);
       if (!form) return;
       form.addEventListener('submit', e => {
         e.preventDefault();
         fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(new FormData(form)).toString() })
-          .catch(() => {}).finally(() => { form.style.display = 'none'; document.getElementById(okId).classList.add('show'); });
+          .catch(() => {})
+          .finally(() => { form.style.display = 'none'; document.getElementById(okId).classList.add('show'); });
       });
     });
   </script>
