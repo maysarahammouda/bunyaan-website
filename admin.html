@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bunyaan Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    /* ── Tokens ──────────────────────────────────────────────────────────── */
+    :root {
+      --navy:        #0A1628;
+      --navy-2:      #0F1E36;
+      --navy-3:      #162847;
+      --navy-4:      #1E3560;
+      --gold:        #C9A84C;
+      --gold-light:  #E8C96B;
+      --gold-dim:    rgba(201,168,76,0.10);
+      --gold-border: rgba(201,168,76,0.20);
+      --white:       #FFFFFF;
+      --muted:       rgba(255,255,255,0.5);
+      --muted-2:     rgba(255,255,255,0.28);
+      --border:      rgba(255,255,255,0.06);
+      --green:       #4ade80;
+      --green-bg:    rgba(74,222,128,0.08);
+      --green-bd:    rgba(74,222,128,0.18);
+      --red:         #f87171;
+      --red-bg:      rgba(248,113,113,0.07);
+      --red-bd:      rgba(248,113,113,0.18);
+      --sidebar-w:   240px;
+      --topbar-h:    60px;
+      --f-display:   'Cormorant Garamond', Georgia, serif;
+      --f-body:      'DM Sans', system-ui, sans-serif;
+    }
+
+    /* ── Reset ───────────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    [hidden] { display: none !important; }
+    html { font-size: 15px; }
+    body { font-family: var(--f-body); background: var(--navy); color: var(--white); min-height: 100vh; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; font-family: var(--f-body); border: none; background: none; color: inherit; }
+    table { border-collapse: collapse; }
+    :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+    .g { color: var(--gold); }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       LOGIN PAGE
+    ═══════════════════════════════════════════════════════════════════════ */
+    #login-page {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 2rem;
+      position: relative;
+      background:
+        radial-gradient(ellipse 900px 700px at 80% -10%, rgba(201,168,76,0.07) 0%, transparent 60%),
+        var(--navy);
+    }
+    .login-bg-grid {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(201,168,76,0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,0.045) 1px, transparent 1px);
+      background-size: 56px 56px;
+    }
+    .login-card {
+      position: relative; z-index: 1;
+      background: var(--navy-2); border: 1px solid var(--gold-border);
+      border-radius: 16px; padding: 3rem 2.75rem;
+      width: 100%; max-width: 420px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(201,168,76,0.05);
+    }
+    .login-wordmark {
+      font-family: var(--f-display); font-size: 2.25rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      text-align: center; margin-block-end: 0.3rem;
+    }
+    .login-label {
+      text-align: center; font-size: 0.62rem; font-weight: 500;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--muted); margin-block-end: 2.25rem;
+    }
+    .login-divider {
+      width: 40px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin-inline: auto; margin-block-end: 2.25rem;
+    }
+    .login-form { display: flex; flex-direction: column; gap: 1rem; }
+    .lf-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .lf-label {
+      font-size: 0.67rem; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .lf-input {
+      width: 100%; padding: 0.75rem 1rem;
+      background: var(--navy); border: 1px solid var(--gold-border);
+      border-radius: 6px; color: var(--white); font-family: var(--f-body);
+      font-size: 0.875rem; outline: none; transition: border-color 0.2s;
+    }
+    .lf-input:focus { border-color: var(--gold); }
+    .lf-input::placeholder { color: var(--muted-2); }
+    .login-err {
+      font-size: 0.8rem; color: var(--red);
+      background: var(--red-bg); border: 1px solid var(--red-bd);
+      border-radius: 6px; padding: 0.65rem 1rem; text-align: center;
+    }
+    .login-btn {
+      width: 100%; padding: 0.85rem;
+      background: var(--gold); color: var(--navy);
+      border-radius: 6px; font-family: var(--f-body);
+      font-size: 0.82rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; transition: background 0.2s, transform 0.15s;
+      margin-block-start: 0.25rem;
+    }
+    .login-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .login-btn:active { transform: translateY(0); }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       APP SHELL
+    ═══════════════════════════════════════════════════════════════════════ */
+    #app { display: flex; min-height: 100vh; }
+
+    /* ── Sidebar ──────────────────────────────────────────────────────────── */
+    #sidebar {
+      width: var(--sidebar-w); flex-shrink: 0;
+      background: var(--navy-2); border-inline-end: 1px solid var(--gold-border);
+      display: flex; flex-direction: column;
+      position: fixed; inset-block: 0; inset-inline-start: 0;
+      z-index: 200; transition: transform 0.3s cubic-bezier(.16,1,.3,1);
+    }
+    .sidebar-brand {
+      padding: 1.5rem 1.5rem 1.25rem;
+      border-block-end: 1px solid var(--gold-border);
+    }
+    .sidebar-wordmark {
+      font-family: var(--f-display); font-size: 1.4rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase; line-height: 1;
+      margin-block-end: 0.2rem;
+    }
+    .sidebar-role {
+      font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .sidebar-nav { flex: 1; padding: 1rem 0.75rem; display: flex; flex-direction: column; gap: 2px; overflow-y: auto; }
+    .sidebar-section-label {
+      font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--muted-2); padding: 0.75rem 0.75rem 0.4rem;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.65rem 0.875rem; border-radius: 8px;
+      font-size: 0.82rem; font-weight: 400; color: var(--muted);
+      transition: background 0.15s, color 0.15s; cursor: pointer;
+      border: none; width: 100%; text-align: start;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.04); color: var(--white); }
+    .nav-item.active { background: var(--gold-dim); color: var(--gold); }
+    .nav-item.active svg { color: var(--gold); }
+    .nav-item svg { flex-shrink: 0; color: var(--muted-2); transition: color 0.15s; }
+    .nav-item:hover svg { color: var(--muted); }
+    .nav-badge {
+      margin-inline-start: auto; min-width: 1.4rem; height: 1.4rem;
+      border-radius: 100px; background: var(--gold-dim);
+      border: 1px solid var(--gold-border);
+      font-size: 0.6rem; font-weight: 600; color: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      padding-inline: 0.3rem;
+    }
+
+    .sidebar-footer {
+      padding: 1rem 1.25rem 1.5rem;
+      border-block-start: 1px solid var(--gold-border);
+    }
+    .sidebar-logout {
+      display: flex; align-items: center; gap: 0.75rem;
+      width: 100%; padding: 0.65rem 0.875rem; border-radius: 8px;
+      font-size: 0.82rem; color: var(--muted); transition: all 0.15s;
+    }
+    .sidebar-logout:hover { background: var(--red-bg); color: var(--red); }
+    .sidebar-logout svg { flex-shrink: 0; }
+
+    /* ── Main content wrapper ─────────────────────────────────────────────── */
+    .main-wrap {
+      flex: 1; display: flex; flex-direction: column;
+      margin-inline-start: var(--sidebar-w);
+      min-width: 0;
+    }
+
+    /* ── Topbar ───────────────────────────────────────────────────────────── */
+    .topbar {
+      height: var(--topbar-h); flex-shrink: 0;
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,22,40,0.95); backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-block-end: 1px solid var(--gold-border);
+      display: flex; align-items: center;
+      padding-inline: 2rem; gap: 1rem;
+    }
+    .topbar-mobile-btn {
+      display: none; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 6px;
+      color: var(--muted); transition: all 0.2s; flex-shrink: 0;
+    }
+    .topbar-mobile-btn:hover { background: var(--border); color: var(--white); }
+    .topbar-breadcrumb {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.78rem; color: var(--muted);
+    }
+    .topbar-breadcrumb .current {
+      font-weight: 500; color: var(--white);
+    }
+    .topbar-right { display: flex; align-items: center; gap: 1rem; margin-inline-start: auto; }
+    .live-badge {
+      display: flex; align-items: center; gap: 0.4rem;
+      font-size: 0.62rem; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--green);
+      background: var(--green-bg); border: 1px solid var(--green-bd);
+      border-radius: 100px; padding: 0.3rem 0.75rem;
+    }
+    .live-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--green); animation: pulse-dot 2s infinite;
+    }
+    @keyframes pulse-dot { 0%,100% { opacity:1; } 50% { opacity:0.25; } }
+    .config-badge {
+      display: flex; align-items: center; gap: 0.4rem;
+      font-size: 0.62rem; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; color: #fbbf24;
+      background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.2);
+      border-radius: 100px; padding: 0.3rem 0.75rem;
+    }
+
+    /* ── Page content ─────────────────────────────────────────────────────── */
+    .page-content {
+      flex: 1; padding: 2.5rem 2rem;
+      overflow-y: auto;
+    }
+    .page-header {
+      margin-block-end: 2rem;
+    }
+    .page-title {
+      font-family: var(--f-display); font-size: clamp(1.75rem, 3vw, 2.25rem);
+      font-weight: 700; line-height: 1.1; margin-block-end: 0.3rem;
+    }
+    .page-subtitle { font-size: 0.825rem; color: var(--muted); }
+
+    /* ── Stat cards (overview) ────────────────────────────────────────────── */
+    .stat-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem; margin-block-end: 2.5rem;
+    }
+    .stat-card {
+      background: var(--navy-2); border: 1px solid var(--gold-border);
+      border-radius: 12px; padding: 1.75rem 1.5rem;
+      cursor: pointer; transition: border-color 0.25s, transform 0.25s;
+      display: flex; flex-direction: column; gap: 0.5rem;
+      position: relative; overflow: hidden;
+    }
+    .stat-card::before {
+      content: ''; position: absolute; inset-block-start: 0; inset-inline: 0;
+      height: 2px; background: linear-gradient(90deg, var(--gold), transparent);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .stat-card:hover { border-color: rgba(201,168,76,0.45); transform: translateY(-2px); }
+    .stat-card:hover::before { opacity: 1; }
+    .stat-card-label {
+      font-size: 0.67rem; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .stat-card-num {
+      font-family: var(--f-display); font-size: 3rem; font-weight: 700;
+      color: var(--gold); line-height: 1;
+    }
+    .stat-card-sub { font-size: 0.75rem; color: var(--muted-2); }
+    .stat-card-cta {
+      font-size: 0.67rem; font-weight: 500; letter-spacing: 0.06em;
+      color: var(--gold); margin-block-start: 0.5rem;
+      display: flex; align-items: center; gap: 0.3rem;
+    }
+
+    /* ── Table section ────────────────────────────────────────────────────── */
+    .table-section-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-block-end: 1.25rem; flex-wrap: wrap; gap: 1rem;
+    }
+    .table-section-title {
+      font-family: var(--f-display); font-size: 1.2rem; font-weight: 700;
+    }
+    .table-meta { font-size: 0.75rem; color: var(--muted); margin-block-start: 0.15rem; }
+    .export-btn {
+      display: flex; align-items: center; gap: 0.45rem;
+      padding: 0.55rem 1.25rem;
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--navy); background: var(--gold); border-radius: 6px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .export-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .export-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; pointer-events: none; }
+
+    .table-wrap { width: 100%; overflow-x: auto; border-radius: 10px; border: 1px solid var(--gold-border); }
+    .data-table { width: 100%; border-collapse: collapse; min-width: 600px; }
+    .data-table thead tr {
+      background: var(--navy-3);
+      border-block-end: 1px solid var(--gold-border);
+    }
+    .data-table th {
+      padding: 0.85rem 1rem; text-align: start;
+      font-size: 0.62rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--gold); white-space: nowrap;
+    }
+    .data-table tbody tr { border-block-end: 1px solid var(--border); transition: background 0.15s; }
+    .data-table tbody tr:last-child { border-block-end: none; }
+    .data-table tbody tr:hover td { background: rgba(201,168,76,0.04); }
+    .data-table td {
+      padding: 0.875rem 1rem; font-size: 0.825rem; color: var(--muted);
+      max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .data-table td:first-child { color: var(--white); font-size: 0.75rem; white-space: nowrap; }
+    .data-table td.name-col { color: var(--white); font-weight: 500; }
+    .td-empty {
+      text-align: center; padding: 3.5rem !important; color: var(--muted-2) !important;
+      font-size: 0.85rem !important;
+    }
+
+    /* Recent activity table (overview) */
+    .form-chip {
+      display: inline-flex; align-items: center;
+      padding: 0.2rem 0.6rem; border-radius: 100px;
+      font-size: 0.6rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .chip-join    { background: rgba(99,179,237,0.12); color: #63b3ed; border: 1px solid rgba(99,179,237,0.2); }
+    .chip-mentor  { background: rgba(154,215,160,0.12); color: #9ad7a0; border: 1px solid rgba(154,215,160,0.2); }
+    .chip-sponsor { background: var(--gold-dim); color: var(--gold); border: 1px solid var(--gold-border); }
+
+    /* ── Config warning banner ────────────────────────────────────────────── */
+    .config-banner {
+      background: rgba(251,191,36,0.06); border: 1px solid rgba(251,191,36,0.2);
+      border-radius: 10px; padding: 1.25rem 1.5rem;
+      margin-block-end: 2rem; font-size: 0.825rem; color: var(--muted); line-height: 1.75;
+    }
+    .config-banner strong { color: #fbbf24; }
+    .config-banner code {
+      font-family: monospace; font-size: 0.78rem;
+      background: rgba(255,255,255,0.07); border-radius: 3px;
+      padding: 0.1rem 0.4rem;
+    }
+
+    /* ── Error state ──────────────────────────────────────────────────────── */
+    .err-row td {
+      text-align: center; padding: 2.5rem !important;
+      color: var(--red) !important; font-size: 0.825rem !important;
+      white-space: normal !important;
+    }
+
+    /* ── Team Management ─────────────────────────────────────────────────── */
+    .team-mgmt-section { margin-block-end: 2.5rem; }
+    .team-mgmt-head { display: flex; align-items: center; justify-content: space-between; margin-block-end: 1rem; padding-block-end: 0.875rem; border-block-end: 1px solid var(--gold-border); }
+    .team-mgmt-head h3 { font-family: var(--f-display); font-size: 1.15rem; font-weight: 700; }
+    .add-member-btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.45rem 0.875rem; border-radius: 6px; background: var(--gold-dim); border: 1px solid var(--gold-border); color: var(--gold); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; transition: background 0.2s, border-color 0.2s; }
+    .add-member-btn:hover { background: rgba(201,168,76,0.2); border-color: var(--gold); }
+    .member-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; }
+    .mac { background: var(--navy-3); border: 1px solid var(--gold-border); border-radius: 10px; padding: 1.125rem 0.875rem; text-align: center; position: relative; }
+    .mac-av { width: 56px; height: 56px; border-radius: 50%; background: var(--navy); border: 2px solid var(--gold-border); margin-inline: auto; margin-block-end: 0.75rem; overflow: hidden; display: flex; align-items: center; justify-content: center; color: var(--muted-2); }
+    .mac-av img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+    .mac-name { font-size: 0.82rem; font-weight: 500; color: var(--white); margin-block-end: 0.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mac-role { font-size: 0.62rem; color: var(--gold); letter-spacing: 0.07em; text-transform: uppercase; }
+    .mac-btns { position: absolute; inset-block-start: 0.4rem; inset-inline-end: 0.4rem; display: flex; gap: 0.2rem; opacity: 0; transition: opacity 0.15s; }
+    .mac:hover .mac-btns { opacity: 1; }
+    .mac-btn { width: 24px; height: 24px; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+    .mac-edit { background: var(--gold-dim); border: 1px solid var(--gold-border); color: var(--gold); }
+    .mac-del  { background: var(--red-bg);  border: 1px solid var(--red-bd);  color: var(--red); }
+    .mac-edit:hover { background: rgba(201,168,76,0.25); }
+    .mac-del:hover  { background: rgba(248,113,113,0.15); }
+    .team-empty { color: var(--muted-2); font-size: 0.8rem; padding: 1.25rem; text-align: center; border: 1px dashed rgba(255,255,255,0.08); border-radius: 8px; }
+
+    .mfp { background: var(--navy-2); border: 1px solid var(--gold-border); border-radius: 12px; padding: 2rem; margin-block-end: 2.5rem; }
+    .mfp-head { display: flex; align-items: center; justify-content: space-between; margin-block-end: 1.75rem; }
+    .mfp-heading { font-family: var(--f-display); font-size: 1.3rem; font-weight: 700; }
+    .mfp-x { width: 30px; height: 30px; border-radius: 6px; background: var(--border); color: var(--muted); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; transition: all 0.15s; }
+    .mfp-x:hover { background: var(--red-bg); color: var(--red); }
+    .mf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .mf-grp { display: flex; flex-direction: column; gap: 0.35rem; margin-block-end: 1rem; }
+    .mf-lbl { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .mf-inp { width: 100%; padding: 0.65rem 0.875rem; background: var(--navy); border: 1px solid var(--gold-border); border-radius: 6px; color: var(--white); font-family: var(--f-body); font-size: 0.85rem; outline: none; transition: border-color 0.2s; resize: vertical; }
+    .mf-inp:focus { border-color: var(--gold); }
+    .mf-inp::placeholder { color: var(--muted-2); }
+    .photo-zone { border: 2px dashed var(--gold-border); border-radius: 10px; padding: 1.75rem 1rem; text-align: center; cursor: pointer; position: relative; transition: border-color 0.25s, background 0.25s; }
+    .photo-zone:hover, .photo-zone.dragover { border-color: var(--gold); background: var(--gold-dim); }
+    .photo-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+    .photo-zone-preview { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; object-position: center top; margin-inline: auto; display: block; margin-block-end: 0.5rem; border: 2px solid var(--gold); }
+    .photo-zone-icon { color: var(--muted-2); margin-inline: auto; margin-block-end: 0.5rem; display: block; }
+    .photo-zone-hint { font-size: 0.77rem; color: var(--muted); }
+    .photo-zone-hint strong { color: var(--gold); }
+    .upload-bar { height: 3px; background: rgba(255,255,255,0.06); border-radius: 100px; margin-block-start: 0.75rem; overflow: hidden; }
+    .upload-bar-fill { height: 100%; background: var(--gold); border-radius: 100px; width: 0%; transition: width 0.2s; }
+    .upload-msg { font-size: 0.72rem; color: var(--muted); margin-block-start: 0.35rem; min-height: 1rem; }
+    .mfp-actions { display: flex; gap: 0.75rem; justify-content: flex-end; padding-block-start: 1.5rem; border-block-start: 1px solid var(--border); margin-block-start: 0.5rem; }
+    .btn-outline-sm { padding: 0.6rem 1.25rem; border-radius: 6px; background: none; border: 1px solid var(--border); color: var(--muted); font-size: 0.78rem; font-weight: 500; transition: all 0.15s; }
+    .btn-outline-sm:hover { border-color: var(--muted); color: var(--white); }
+    .btn-gold-sm { padding: 0.6rem 1.5rem; border-radius: 6px; background: var(--gold); color: var(--navy); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; transition: background 0.2s; }
+    .btn-gold-sm:hover { background: var(--gold-light); }
+    .btn-gold-sm:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    /* ── Status badges ───────────────────────────────────────────────────── */
+    .status-badge { display: inline-block; padding: 0.2rem 0.55rem; border-radius: 20px; font-size: 0.68rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
+    .s-new       { background: rgba(99,179,237,0.12); color: #63b3ed; border: 1px solid rgba(99,179,237,0.25); }
+    .s-contacted { background: rgba(246,173,85,0.12);  color: #f6ad55; border: 1px solid rgba(246,173,85,0.25); }
+    .s-confirmed { background: var(--green-bg);          color: var(--green); border: 1px solid var(--green-bd); }
+    .s-declined  { background: var(--red-bg);            color: var(--red);   border: 1px solid var(--red-bd); }
+    .row-edit-btn { padding: 0.25rem 0.65rem; border-radius: 5px; font-size: 0.7rem; font-weight: 500; background: var(--gold-dim); border: 1px solid var(--gold-border); color: var(--gold); cursor: pointer; white-space: nowrap; transition: background 0.15s; }
+    .row-edit-btn:hover { background: rgba(201,168,76,0.2); }
+    .notes-col { max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted); font-size: 0.8rem; }
+
+    /* ── Edit panel ──────────────────────────────────────────────────────── */
+    #edit-panel {
+      position: fixed; inset-block: 0; inset-inline-end: 0;
+      width: min(420px, 100vw); z-index: 300;
+      background: var(--navy-2); border-inline-start: 1px solid var(--gold-border);
+      box-shadow: -20px 0 60px rgba(0,0,0,0.4);
+      display: flex; flex-direction: column;
+      transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    #edit-panel.open { transform: translateX(0); }
+    .ep-head { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.5rem; border-block-end: 1px solid var(--border); flex-shrink: 0; }
+    .ep-title { font-family: var(--f-display); font-size: 1.2rem; font-weight: 700; }
+    .ep-close { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 6px; background: rgba(255,255,255,0.05); color: var(--muted); font-size: 1rem; transition: all 0.15s; }
+    .ep-close:hover { background: rgba(255,255,255,0.1); color: var(--white); }
+    .ep-body { flex: 1; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; }
+    .ep-person { display: flex; flex-direction: column; gap: 0.2rem; }
+    .ep-name { font-weight: 600; font-size: 1rem; }
+    .ep-email { font-size: 0.82rem; color: var(--gold); }
+    .ep-whatsapp { font-size: 0.82rem; color: var(--muted); }
+    .ep-details-box { background: var(--navy-3); border-radius: 8px; padding: 1rem 1.1rem; font-size: 0.82rem; color: var(--muted); line-height: 1.75; white-space: pre-wrap; border: 1px solid var(--border); }
+    .ep-field { display: flex; flex-direction: column; gap: 0.4rem; }
+    .ep-lbl { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-2); }
+    .ep-select { width: 100%; padding: 0.6rem 0.85rem; background: var(--navy); border: 1px solid var(--gold-border); border-radius: 6px; color: var(--white); font-family: var(--f-body); font-size: 0.85rem; outline: none; cursor: pointer; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23C9A84C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.85rem center; padding-inline-end: 2.5rem; }
+    .ep-select:focus { border-color: var(--gold); }
+    .ep-select option { background: var(--navy); }
+    .ep-textarea { width: 100%; padding: 0.6rem 0.85rem; background: var(--navy); border: 1px solid var(--gold-border); border-radius: 6px; color: var(--white); font-family: var(--f-body); font-size: 0.85rem; outline: none; resize: vertical; min-height: 90px; line-height: 1.55; }
+    .ep-textarea:focus { border-color: var(--gold); }
+    .ep-textarea::placeholder { color: var(--muted-2); }
+    .ep-foot { padding: 1.25rem 1.5rem; border-block-start: 1px solid var(--border); display: flex; gap: 0.75rem; justify-content: flex-end; flex-shrink: 0; }
+    .ep-msg { font-size: 0.78rem; color: var(--green); min-height: 1.2rem; align-self: center; margin-inline-end: auto; }
+
+    /* ── Mobile overlay ───────────────────────────────────────────────────── */
+    #sidebar-overlay {
+      display: none; position: fixed; inset: 0; z-index: 199;
+      background: rgba(0,0,0,0.5); backdrop-filter: blur(2px);
+    }
+
+    /* ── Responsive ───────────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      #sidebar { transform: translateX(-100%); }
+      #sidebar.open { transform: translateX(0); }
+      #sidebar-overlay.open { display: block; }
+      .main-wrap { margin-inline-start: 0; }
+      .topbar-mobile-btn { display: flex; }
+      .stat-grid { grid-template-columns: 1fr 1fr; }
+      .page-content { padding: 1.5rem 1.25rem; }
+    }
+    @media (max-width: 560px) {
+      .stat-grid { grid-template-columns: 1fr; }
+      .login-card { padding: 2.5rem 1.75rem; }
+      .topbar { padding-inline: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ LOGIN PAGE ═══════════════════════════════════════════════════════ -->
+  <div id="login-page">
+    <div class="login-bg-grid" aria-hidden="true"></div>
+    <div class="login-card">
+      <div class="login-wordmark" aria-label="Bunyaan">BUN<span class="g">YA</span>AN</div>
+      <div class="login-label">Admin Portal</div>
+      <div class="login-divider" aria-hidden="true"></div>
+      <form id="login-form" class="login-form" novalidate>
+        <div class="lf-group">
+          <label for="inp-user" class="lf-label">Username</label>
+          <input type="text" id="inp-user" class="lf-input" placeholder="Enter username"
+            autocomplete="username" spellcheck="false" required>
+        </div>
+        <div class="lf-group">
+          <label for="inp-pwd" class="lf-label">Password</label>
+          <input type="password" id="inp-pwd" class="lf-input" placeholder="Enter password"
+            autocomplete="current-password" required>
+        </div>
+        <p id="login-err" class="login-err" hidden aria-live="polite">Incorrect username or password.</p>
+        <button type="submit" class="login-btn">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ═══ APP ══════════════════════════════════════════════════════════════ -->
+  <div id="app" hidden>
+
+    <div id="sidebar-overlay" aria-hidden="true"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" role="navigation" aria-label="Admin navigation">
+      <div class="sidebar-brand">
+        <div class="sidebar-wordmark" aria-label="Bunyaan">BUN<span class="g">YA</span>AN</div>
+        <div class="sidebar-role">Admin Portal</div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-section-label">Dashboard</div>
+
+        <button class="nav-item active" data-view="overview">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Overview
+        </button>
+
+        <div class="sidebar-section-label" style="margin-block-start:0.5rem">Submissions</div>
+
+        <button class="nav-item" data-view="join">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          Join the Team
+          <span class="nav-badge" id="sb-join">0</span>
+        </button>
+
+        <button class="nav-item" data-view="mentor">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          Mentors
+          <span class="nav-badge" id="sb-mentor">0</span>
+        </button>
+
+        <button class="nav-item" data-view="sponsor">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          Support Us
+          <span class="nav-badge" id="sb-sponsor">0</span>
+        </button>
+
+        <div class="sidebar-section-label" style="margin-block-start:0.5rem">Website</div>
+
+        <button class="nav-item" data-view="team">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          Team
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="logout-btn" class="sidebar-logout">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Log out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main area -->
+    <div class="main-wrap">
+
+      <!-- Topbar -->
+      <header class="topbar">
+        <button class="topbar-mobile-btn" id="mobile-menu-btn" aria-label="Open navigation">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <div class="topbar-breadcrumb">
+          <span>Bunyaan</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+          <span class="current" id="topbar-title">Overview</span>
+        </div>
+        <div class="topbar-right">
+          <div id="live-badge" class="live-badge">
+            <span class="live-dot" aria-hidden="true"></span>
+            Live
+          </div>
+          <div id="config-badge" class="config-badge" hidden>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            Not configured
+          </div>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <div class="page-content">
+
+        <!-- Config warning -->
+        <div id="config-banner" class="config-banner" hidden>
+          <strong>Firebase not configured.</strong> Open both <code>index.html</code> and
+          <code>admin.html</code>, find the <code>firebaseConfig</code> block in each file,
+          and replace every <code>YOUR_...</code> placeholder with your Firebase project
+          credentials (Firebase Console &gt; Project Settings &gt; Your apps &gt; Web app).
+        </div>
+
+        <!-- ── Overview ───────────────────────────────────────────────────── -->
+        <div id="view-overview" class="view">
+          <div class="page-header">
+            <h1 class="page-title">Overview</h1>
+            <p class="page-subtitle" id="ov-subtitle">Loading submissions...</p>
+          </div>
+          <div class="stat-grid">
+            <div class="stat-card" id="stat-join" role="button" tabindex="0" aria-label="View Join the Team submissions">
+              <div class="stat-card-label">Join the Team</div>
+              <div class="stat-card-num" id="ov-join">0</div>
+              <div class="stat-card-sub">submissions</div>
+              <div class="stat-card-cta">View all <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+            </div>
+            <div class="stat-card" id="stat-mentor" role="button" tabindex="0" aria-label="View Mentor submissions">
+              <div class="stat-card-label">Mentors</div>
+              <div class="stat-card-num" id="ov-mentor">0</div>
+              <div class="stat-card-sub">submissions</div>
+              <div class="stat-card-cta">View all <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+            </div>
+            <div class="stat-card" id="stat-sponsor" role="button" tabindex="0" aria-label="View Support Us submissions">
+              <div class="stat-card-label">Support Us</div>
+              <div class="stat-card-num" id="ov-sponsor">0</div>
+              <div class="stat-card-sub">submissions</div>
+              <div class="stat-card-cta">View all <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+            </div>
+          </div>
+
+          <div class="table-section-head">
+            <div>
+              <div class="table-section-title">Recent Activity</div>
+              <div class="table-meta">Latest submissions across all forms</div>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr>
+                <th>Time</th><th>Form</th><th>Name</th><th>Email</th><th>Details</th>
+              </tr></thead>
+              <tbody id="recent-tbody">
+                <tr><td colspan="5" class="td-empty">No submissions yet.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ── Join the Team ──────────────────────────────────────────────── -->
+        <div id="view-join" class="view" hidden>
+          <div class="page-header">
+            <h1 class="page-title">Join the Team</h1>
+            <p class="page-subtitle" id="meta-join">Loading...</p>
+          </div>
+          <div class="table-section-head">
+            <div></div>
+            <button id="export-join" class="export-btn" disabled>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export CSV
+            </button>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr>
+                <th>Submitted</th><th>Name</th><th>Email</th><th>WhatsApp</th><th>Age</th><th>Source</th><th>Status</th><th>Notes</th><th></th>
+              </tr></thead>
+              <tbody id="tbody-join"><tr><td colspan="9" class="td-empty">Loading...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ── Mentors ────────────────────────────────────────────────────── -->
+        <div id="view-mentor" class="view" hidden>
+          <div class="page-header">
+            <h1 class="page-title">Mentors</h1>
+            <p class="page-subtitle" id="meta-mentor">Loading...</p>
+          </div>
+          <div class="table-section-head">
+            <div></div>
+            <button id="export-mentor" class="export-btn" disabled>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export CSV
+            </button>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr>
+                <th>Submitted</th><th>Name</th><th>Email</th><th>WhatsApp</th><th>Expertise</th><th>Availability</th><th>Status</th><th>Notes</th><th></th>
+              </tr></thead>
+              <tbody id="tbody-mentor"><tr><td colspan="9" class="td-empty">Loading...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ── Support Us ─────────────────────────────────────────────────── -->
+        <div id="view-sponsor" class="view" hidden>
+          <div class="page-header">
+            <h1 class="page-title">Support Us</h1>
+            <p class="page-subtitle" id="meta-sponsor">Loading...</p>
+          </div>
+          <div class="table-section-head">
+            <div></div>
+            <button id="export-sponsor" class="export-btn" disabled>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export CSV
+            </button>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr>
+                <th>Submitted</th><th>Name</th><th>Email</th><th>WhatsApp</th><th>Sponsorship Level</th><th>Status</th><th>Notes</th><th></th>
+              </tr></thead>
+              <tbody id="tbody-sponsor"><tr><td colspan="8" class="td-empty">Loading...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ── Team Management ───────────────────────────────────────────── -->
+        <div id="view-team" class="view" hidden>
+          <div class="page-header">
+            <h1 class="page-title">Team Management</h1>
+            <p class="page-subtitle">Add, edit, and remove members shown on the public website.</p>
+          </div>
+
+          <!-- Add / Edit form panel -->
+          <div id="mfp" class="mfp" hidden>
+            <div class="mfp-head">
+              <h3 class="mfp-heading" id="mfp-heading">Add Member</h3>
+              <button class="mfp-x" id="mfp-close" aria-label="Close form">✕</button>
+            </div>
+            <form id="member-form" novalidate>
+              <input type="hidden" id="mf-doc-id">
+              <div class="mf-row">
+                <div class="mf-grp">
+                  <label class="mf-lbl" for="mf-name">Name *</label>
+                  <input type="text" id="mf-name" class="mf-inp" placeholder="Full name" required>
+                </div>
+                <div class="mf-grp">
+                  <label class="mf-lbl" for="mf-cat">Category *</label>
+                  <select id="mf-cat" class="mf-inp">
+                    <option value="trustee">Trustee</option>
+                    <option value="mentor">Mentor / Volunteer</option>
+                    <option value="advisor">Advisor</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mf-row">
+                <div class="mf-grp">
+                  <label class="mf-lbl" for="mf-role">Role / Expertise</label>
+                  <input type="text" id="mf-role" class="mf-inp" placeholder="e.g. Founder, AI / Computer Vision">
+                </div>
+                <div class="mf-grp">
+                  <label class="mf-lbl" for="mf-order">Display Order</label>
+                  <input type="number" id="mf-order" class="mf-inp" min="0" value="0">
+                </div>
+              </div>
+              <div class="mf-grp">
+                <label class="mf-lbl" for="mf-bio">Bio / Description</label>
+                <textarea id="mf-bio" class="mf-inp" rows="2" placeholder="Short bio or affiliation…"></textarea>
+              </div>
+              <div class="mf-grp">
+                <label class="mf-lbl">Photo</label>
+                <input type="file" id="mf-photo" accept="image/*" style="display:none" aria-label="Upload photo">
+                <div class="photo-zone" id="photo-zone" style="cursor:default">
+                  <img id="photo-prev" class="photo-zone-preview" src="" alt="" hidden>
+                  <div id="photo-zone-empty">
+                    <svg class="photo-zone-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <div class="photo-zone-hint" style="margin-block-end:0.75rem">Drop a photo here, or</div>
+                  </div>
+                  <button type="button" id="photo-pick-btn" style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.45rem 1rem;border-radius:6px;background:var(--gold-dim);border:1px solid var(--gold-border);color:var(--gold);font-size:0.75rem;font-weight:500;cursor:pointer;transition:background 0.2s">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    Choose Photo
+                  </button>
+                </div>
+                <p class="upload-msg" id="upload-msg"></p>
+              </div>
+              <div class="mfp-actions">
+                <button type="button" id="mfp-cancel" class="btn-outline-sm">Cancel</button>
+                <button type="submit" id="mfp-save" class="btn-gold-sm">Save Member</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Trustees -->
+          <div class="team-mgmt-section">
+            <div class="team-mgmt-head">
+              <h3>Trustees</h3>
+              <button class="add-member-btn" data-cat="trustee">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Add Trustee
+              </button>
+            </div>
+            <div id="ml-trustee" class="member-grid"><div class="team-empty">No trustees added yet.</div></div>
+          </div>
+
+          <!-- Mentors -->
+          <div class="team-mgmt-section">
+            <div class="team-mgmt-head">
+              <h3>Mentors &amp; Volunteers</h3>
+              <button class="add-member-btn" data-cat="mentor">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Add Mentor
+              </button>
+            </div>
+            <div id="ml-mentor" class="member-grid"><div class="team-empty">No mentors added yet.</div></div>
+          </div>
+
+          <!-- Advisors -->
+          <div class="team-mgmt-section">
+            <div class="team-mgmt-head">
+              <h3>Advisors</h3>
+              <button class="add-member-btn" data-cat="advisor">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Add Advisor
+              </button>
+            </div>
+            <div id="ml-advisor" class="member-grid"><div class="team-empty">No advisors added yet.</div></div>
+          </div>
+        </div>
+
+      </div><!-- /page-content -->
+    </div><!-- /main-wrap -->
+
+    <!-- Edit panel (slides in from right) -->
+    <div id="edit-panel" role="dialog" aria-modal="true" aria-labelledby="ep-title-text">
+      <div class="ep-head">
+        <span class="ep-title" id="ep-title-text">Edit Submission</span>
+        <button class="ep-close" id="ep-close-btn" aria-label="Close">✕</button>
+      </div>
+      <div class="ep-body">
+        <div class="ep-person">
+          <div class="ep-name" id="ep-name"></div>
+          <div class="ep-email" id="ep-email"></div>
+          <div class="ep-whatsapp" id="ep-whatsapp"></div>
+        </div>
+        <div class="ep-details-box" id="ep-details"></div>
+        <div class="ep-field">
+          <label class="ep-lbl" for="ep-status">Status</label>
+          <select class="ep-select" id="ep-status">
+            <option value="new">New</option>
+            <option value="contacted">Contacted</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="declined">Declined</option>
+          </select>
+        </div>
+        <div class="ep-field">
+          <label class="ep-lbl" for="ep-notes">Notes</label>
+          <textarea class="ep-textarea" id="ep-notes" placeholder="Add internal notes…"></textarea>
+        </div>
+      </div>
+      <div class="ep-foot">
+        <span class="ep-msg" id="ep-msg" aria-live="polite"></span>
+        <button class="btn-outline-sm" id="ep-cancel-btn">Cancel</button>
+        <button class="btn-gold-sm" id="ep-save-btn">Save</button>
+      </div>
+    </div>
+
+  </div><!-- /app -->
+
+  <script type="module">
+    import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+    import { getFirestore, collection, query, orderBy, onSnapshot, addDoc, setDoc, deleteDoc, doc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+    // ── Credentials (change these) ────────────────────────────────────────────
+    const ADMIN_USERNAME = 'admin';
+    const ADMIN_PASSWORD = 'Bunyaan2026';
+
+    // ── Firebase config (replace YOUR_... values) ─────────────────────────────
+    const firebaseConfig = {
+      apiKey:            "AIzaSyAfbLECWwc8w0Xkby7hAYFzT_jFw67l6hQ",
+      authDomain:        "bunyaan-26ed6.firebaseapp.com",
+      projectId:         "bunyaan-26ed6",
+      storageBucket:     "bunyaan-26ed6.firebasestorage.app",
+      messagingSenderId: "902272445369",
+      appId:             "1:902272445369:web:da198c14adbd2ee95de468"
+    };
+
+    // ── Collection definitions ────────────────────────────────────────────────
+    const CONFIGS = {
+      join: {
+        coll: 'join_submissions',
+        label: 'Join the Team',
+        chipClass: 'chip-join',
+        tableFields: [
+          { key: 'name',      label: 'Name' },
+          { key: 'email',     label: 'Email' },
+          { key: 'whatsapp',  label: 'WhatsApp' },
+          { key: 'age',       label: 'Age' },
+          { key: 'source',    label: 'Source' },
+        ],
+        detailFields: [
+          { key: 'age',       label: 'Age' },
+          { key: 'source',    label: 'Source' },
+          { key: 'questions', label: 'Questions' },
+        ],
+        csvHeaders: ['Submitted', 'Name', 'Email', 'WhatsApp', 'Age', 'Source', 'Questions', 'Status', 'Notes'],
+        csvKeys:    ['createdAt', 'name', 'email', 'whatsapp', 'age', 'source', 'questions', 'status', 'notes'],
+      },
+      mentor: {
+        coll: 'mentor_submissions',
+        label: 'Mentors',
+        chipClass: 'chip-mentor',
+        tableFields: [
+          { key: 'name',         label: 'Name' },
+          { key: 'email',        label: 'Email' },
+          { key: 'whatsapp',     label: 'WhatsApp' },
+          { key: 'expertise',    label: 'Expertise' },
+          { key: 'availability', label: 'Availability' },
+        ],
+        detailFields: [
+          { key: 'background',   label: 'Background' },
+          { key: 'expertise',    label: 'Expertise' },
+          { key: 'availability', label: 'Availability' },
+          { key: 'questions',    label: 'Questions' },
+        ],
+        csvHeaders: ['Submitted', 'Name', 'Email', 'WhatsApp', 'Background', 'Expertise', 'Availability', 'Questions', 'Status', 'Notes'],
+        csvKeys:    ['createdAt', 'name', 'email', 'whatsapp', 'background', 'expertise', 'availability', 'questions', 'status', 'notes'],
+      },
+      sponsor: {
+        coll: 'sponsor_submissions',
+        label: 'Support Us',
+        chipClass: 'chip-sponsor',
+        tableFields: [
+          { key: 'name',    label: 'Name' },
+          { key: 'email',   label: 'Email' },
+          { key: 'whatsapp', label: 'WhatsApp' },
+          { key: 'level',   label: 'Sponsorship Level' },
+        ],
+        detailFields: [
+          { key: 'level',   label: 'Sponsorship Level' },
+          { key: 'message', label: 'Message' },
+        ],
+        csvHeaders: ['Submitted', 'Name', 'Email', 'WhatsApp', 'Sponsorship Level', 'Message', 'Status', 'Notes'],
+        csvKeys:    ['createdAt', 'name', 'email', 'whatsapp', 'level', 'message', 'status', 'notes'],
+      },
+    };
+
+    // ── State ─────────────────────────────────────────────────────────────────
+    const snapData   = { join: [], mentor: [], sponsor: [] };
+    let   activeView = 'overview';
+    let   initialized = false;
+    let   db, appInstance;
+
+    // ── Elements ──────────────────────────────────────────────────────────────
+    const loginPage  = document.getElementById('login-page');
+    const appEl      = document.getElementById('app');
+    const sidebar    = document.getElementById('sidebar');
+    const overlay    = document.getElementById('sidebar-overlay');
+
+    // ── Session persistence ───────────────────────────────────────────────────
+    if (sessionStorage.getItem('b_adm') === '1') bootApp();
+
+    // ── Login ─────────────────────────────────────────────────────────────────
+    document.getElementById('login-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const user = document.getElementById('inp-user').value.trim();
+      const pwd  = document.getElementById('inp-pwd').value;
+      const err  = document.getElementById('login-err');
+      if (user === ADMIN_USERNAME && pwd === ADMIN_PASSWORD) {
+        sessionStorage.setItem('b_adm', '1');
+        err.hidden = true;
+        bootApp();
+      } else {
+        err.hidden = false;
+        document.getElementById('inp-pwd').value = '';
+        document.getElementById('inp-pwd').focus();
+      }
+    });
+
+    // ── Logout ────────────────────────────────────────────────────────────────
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      sessionStorage.removeItem('b_adm');
+      appEl.hidden = true;
+      loginPage.hidden = false;
+      initialized = false;
+      document.getElementById('inp-user').value = '';
+      document.getElementById('inp-pwd').value = '';
+    });
+
+    // ── Mobile sidebar ────────────────────────────────────────────────────────
+    document.getElementById('mobile-menu-btn').addEventListener('click', openSidebar);
+    overlay.addEventListener('click', closeSidebar);
+    function openSidebar()  { sidebar.classList.add('open'); overlay.classList.add('open'); }
+    function closeSidebar() { sidebar.classList.remove('open'); overlay.classList.remove('open'); }
+
+    // ── Navigation ────────────────────────────────────────────────────────────
+    document.querySelectorAll('.nav-item[data-view]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        switchView(btn.dataset.view);
+        closeSidebar();
+      });
+    });
+
+    // Stat cards on overview also navigate
+    ['join','mentor','sponsor'].forEach(key => {
+      document.getElementById('stat-' + key).addEventListener('click',  () => switchView(key));
+      document.getElementById('stat-' + key).addEventListener('keydown', e => { if (e.key === 'Enter') switchView(key); });
+    });
+
+    function switchView(view) {
+      activeView = view;
+      document.querySelectorAll('.view').forEach(el => el.hidden = true);
+      document.getElementById('view-' + view).hidden = false;
+      document.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('active', b.dataset.view === view));
+      const titles = { overview: 'Overview', join: 'Join the Team', mentor: 'Mentors', sponsor: 'Support Us', team: 'Team Management' };
+      document.getElementById('topbar-title').textContent = titles[view] || view;
+    }
+
+    // ── Boot ──────────────────────────────────────────────────────────────────
+    function bootApp() {
+      loginPage.hidden = true;
+      appEl.hidden = false;
+      if (!initialized) { initialized = true; initFirebase(); }
+    }
+
+    // ── Firebase ──────────────────────────────────────────────────────────────
+    function initFirebase() {
+      if (firebaseConfig.apiKey === 'YOUR_API_KEY') {
+        document.getElementById('config-banner').hidden = false;
+        document.getElementById('config-badge').hidden  = false;
+        document.getElementById('live-badge').hidden    = true;
+        ['join','mentor','sponsor'].forEach(key => {
+          document.getElementById('tbody-' + key).innerHTML =
+            '<tr class="err-row"><td colspan="10">Firebase not configured yet. See the banner above.</td></tr>';
+          document.getElementById('meta-' + key).textContent = '';
+        });
+        document.getElementById('recent-tbody').innerHTML =
+          '<tr><td colspan="5" class="td-empty">Firebase not configured yet.</td></tr>';
+        document.getElementById('ov-subtitle').textContent = 'Not connected';
+        return;
+      }
+
+      appInstance = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+      db  = getFirestore(appInstance);
+
+      initTeam();
+
+      Object.entries(CONFIGS).forEach(([key, cfg]) => {
+        const q = query(collection(db, cfg.coll), orderBy('createdAt', 'desc'));
+        onSnapshot(q, snap => {
+          snapData[key] = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          updateBadges();
+          renderTable(key);
+          renderOverview();
+        }, err => {
+          const msg = err.code === 'permission-denied'
+            ? 'Permission denied. Update Firestore security rules to allow reads.'
+            : 'Error: ' + err.message;
+          document.getElementById('tbody-' + key).innerHTML =
+            '<tr class="err-row"><td colspan="10">' + escHtml(msg) + '</td></tr>';
+        });
+
+        document.getElementById('export-' + key).addEventListener('click', () => exportCSV(key));
+      });
+    }
+
+    // ── Update sidebar badges ─────────────────────────────────────────────────
+    function updateBadges() {
+      ['join','mentor','sponsor'].forEach(key => {
+        const n = snapData[key].length;
+        document.getElementById('sb-' + key).textContent = n;
+        document.getElementById('ov-' + key).textContent = n;
+      });
+      const total = snapData.join.length + snapData.mentor.length + snapData.sponsor.length;
+      const noun  = total === 1 ? 'submission' : 'submissions';
+      document.getElementById('ov-subtitle').textContent = total + ' total ' + noun + ' (real-time)';
+    }
+
+    // ── Render individual table ───────────────────────────────────────────────
+    const STATUS_CLASSES = { new: 's-new', contacted: 's-contacted', confirmed: 's-confirmed', declined: 's-declined' };
+    const STATUS_LABELS  = { new: 'New', contacted: 'Contacted', confirmed: 'Confirmed', declined: 'Declined' };
+
+    function renderTable(key) {
+      const cfg    = CONFIGS[key];
+      const docs   = snapData[key];
+      const tbody  = document.getElementById('tbody-' + key);
+      const meta   = document.getElementById('meta-' + key);
+      const expBtn = document.getElementById('export-' + key);
+
+      expBtn.disabled = docs.length === 0;
+      const noun = docs.length === 1 ? 'submission' : 'submissions';
+      meta.textContent = docs.length + ' ' + noun + ' (live)';
+
+      if (docs.length === 0) {
+        const cols = cfg.tableFields.length + 4;
+        tbody.innerHTML = '<tr><td colspan="' + cols + '" class="td-empty">No submissions yet. They will appear here in real time.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = '';
+      docs.forEach(d => {
+        const tr = document.createElement('tr');
+        const ts = d.createdAt ? fmtDate(d.createdAt.toDate()) : 'Pending';
+        const status = d.status || 'new';
+        const sc = STATUS_CLASSES[status] || 's-new';
+        const sl = STATUS_LABELS[status]  || 'New';
+        let html = '<td>' + escHtml(ts) + '</td>';
+        cfg.tableFields.forEach(({ key: fk }, i) => {
+          const val = d[fk] || '';
+          const cls = i === 0 ? ' class="name-col"' : '';
+          html += '<td' + cls + ' title="' + escHtml(val) + '">' + escHtml(String(val)) + '</td>';
+        });
+        html += '<td><span class="status-badge ' + sc + '">' + sl + '</span></td>';
+        html += '<td class="notes-col" title="' + escHtml(d.notes || '') + '">' + escHtml(d.notes || '') + '</td>';
+        html += '<td><button class="row-edit-btn" data-key="' + key + '" data-id="' + escHtml(d.id) + '">Edit</button></td>';
+        tr.innerHTML = html;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // ── Render overview recent activity ───────────────────────────────────────
+    function renderOverview() {
+      const all = [];
+      ['join','mentor','sponsor'].forEach(key => {
+        snapData[key].forEach(doc => all.push({ key, doc }));
+      });
+      all.sort((a, b) => {
+        const ta = a.doc.createdAt ? a.doc.createdAt.seconds : 0;
+        const tb = b.doc.createdAt ? b.doc.createdAt.seconds : 0;
+        return tb - ta;
+      });
+      const recent = all.slice(0, 15);
+      const tbody  = document.getElementById('recent-tbody');
+
+      if (recent.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="td-empty">No submissions yet.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = '';
+      recent.forEach(({ key, doc }) => {
+        const cfg = CONFIGS[key];
+        const tr  = document.createElement('tr');
+        const ts  = doc.createdAt ? fmtDate(doc.createdAt.toDate()) : 'Pending';
+        const detail = (cfg.detailFields || cfg.tableFields).slice(0, 3).map(f => doc[f.key] || '').filter(Boolean).join(', ');
+        tr.innerHTML =
+          '<td>' + escHtml(ts) + '</td>' +
+          '<td><span class="form-chip ' + cfg.chipClass + '">' + escHtml(cfg.label) + '</span></td>' +
+          '<td class="name-col" title="' + escHtml(doc.name || '') + '">' + escHtml(doc.name || '') + '</td>' +
+          '<td title="' + escHtml(doc.email || '') + '">' + escHtml(doc.email || '') + '</td>' +
+          '<td title="' + escHtml(detail) + '">' + escHtml(detail) + '</td>';
+        tbody.appendChild(tr);
+      });
+    }
+
+    // ── CSV Export ────────────────────────────────────────────────────────────
+    function exportCSV(key) {
+      const cfg  = CONFIGS[key];
+      const docs = snapData[key];
+      if (docs.length === 0) return;
+
+      const rows = docs.map(doc => {
+        const ts = doc.createdAt ? doc.createdAt.toDate().toISOString() : '';
+        return cfg.csvKeys.map(k => k === 'createdAt' ? ts : (doc[k] || ''));
+      });
+
+      const csv = [cfg.csvHeaders, ...rows]
+        .map(r => r.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(','))
+        .join('\n');
+
+      const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+      const url  = URL.createObjectURL(blob);
+      const a    = Object.assign(document.createElement('a'), {
+        href: url,
+        download: 'bunyaan-' + key + '-' + new Date().toISOString().split('T')[0] + '.csv'
+      });
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    // ── Edit panel ────────────────────────────────────────────────────────────
+    let editKey = null;
+    let editId  = null;
+
+    document.getElementById('ep-close-btn').addEventListener('click',  closeEditPanel);
+    document.getElementById('ep-cancel-btn').addEventListener('click', closeEditPanel);
+    document.getElementById('ep-save-btn').addEventListener('click',   saveEditPanel);
+
+    // Event delegation for all Edit buttons in tables
+    document.getElementById('app').addEventListener('click', e => {
+      const btn = e.target.closest('.row-edit-btn');
+      if (btn) openEditPanel(btn.dataset.key, btn.dataset.id);
+    });
+
+    function openEditPanel(key, docId) {
+      const cfg = CONFIGS[key];
+      const d   = snapData[key].find(x => x.id === docId);
+      if (!d) return;
+      editKey = key;
+      editId  = docId;
+      document.getElementById('ep-name').textContent     = d.name  || '';
+      document.getElementById('ep-email').textContent    = d.email || '';
+      document.getElementById('ep-whatsapp').textContent = d.whatsapp ? 'WhatsApp: ' + d.whatsapp : '';
+      const details = (cfg.detailFields || []).map(f => f.label + ': ' + (d[f.key] || 'N/A')).join('\n');
+      document.getElementById('ep-details').textContent  = details;
+      document.getElementById('ep-status').value         = d.status || 'new';
+      document.getElementById('ep-notes').value          = d.notes  || '';
+      document.getElementById('ep-msg').textContent      = '';
+      document.getElementById('edit-panel').classList.add('open');
+    }
+
+    function closeEditPanel() {
+      document.getElementById('edit-panel').classList.remove('open');
+      editKey = null;
+      editId  = null;
+    }
+
+    async function saveEditPanel() {
+      if (!editKey || !editId) return;
+      const saveBtn = document.getElementById('ep-save-btn');
+      const msgEl   = document.getElementById('ep-msg');
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Saving…';
+      try {
+        await setDoc(
+          doc(db, CONFIGS[editKey].coll, editId),
+          {
+            status:    document.getElementById('ep-status').value,
+            notes:     document.getElementById('ep-notes').value.trim(),
+            updatedAt: serverTimestamp(),
+          },
+          { merge: true }
+        );
+        msgEl.textContent = 'Saved.';
+        setTimeout(() => { msgEl.textContent = ''; }, 2000);
+      } catch (err) {
+        msgEl.style.color = 'var(--red)';
+        msgEl.textContent = 'Error: ' + err.message;
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save';
+      }
+    }
+
+    // ── Helpers ───────────────────────────────────────────────────────────────
+    function fmtDate(d) {
+      return d.toLocaleString('en-GB', {
+        day: 'numeric', month: 'short', year: 'numeric',
+        hour: '2-digit', minute: '2-digit'
+      });
+    }
+    function escHtml(s) {
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // TEAM MANAGEMENT
+    // ═══════════════════════════════════════════════════════════════════════
+    let teamDocs      = {};
+    let editDocId     = null;
+    let pendingPhotoURL = null;
+
+    function initTeam() {
+      // Real-time listener
+      onSnapshot(
+        query(collection(db, 'team_members'), orderBy('order')),
+        snap => {
+          teamDocs = {};
+          snap.docs.forEach(d => { teamDocs[d.id] = { id: d.id, ...d.data() }; });
+          renderAllMembers();
+        },
+        err => console.warn('Team read error:', err.message)
+      );
+
+      // Add buttons
+      document.querySelectorAll('.add-member-btn[data-cat]').forEach(btn => {
+        btn.addEventListener('click', () => openMemberForm(null, btn.dataset.cat));
+      });
+
+      // Form controls
+      document.getElementById('mfp-close').addEventListener('click',  closeMemberForm);
+      document.getElementById('mfp-cancel').addEventListener('click', closeMemberForm);
+      document.getElementById('mf-photo').addEventListener('change', e => {
+        if (e.target.files[0]) handlePhotoFile(e.target.files[0]);
+      });
+      document.getElementById('photo-pick-btn').addEventListener('click', () => {
+        document.getElementById('mf-photo').click();
+      });
+      document.getElementById('member-form').addEventListener('submit', onMemberFormSubmit);
+
+      // Drag-drop on photo zone
+      const zone = document.getElementById('photo-zone');
+      zone.addEventListener('dragover',  e => { e.preventDefault(); zone.classList.add('dragover'); });
+      zone.addEventListener('dragleave', ()  => zone.classList.remove('dragover'));
+      zone.addEventListener('drop', e => {
+        e.preventDefault(); zone.classList.remove('dragover');
+        const f = e.dataTransfer.files[0];
+        if (f) handlePhotoFile(f);
+      });
+
+      // Edit / delete delegation
+      ['trustee','mentor','advisor'].forEach(cat => {
+        document.getElementById('ml-' + cat).addEventListener('click', e => {
+          const eb = e.target.closest('.mac-edit');
+          const db2 = e.target.closest('.mac-del');
+          if (eb)  openMemberForm(eb.dataset.id, null);
+          if (db2) deleteMember(db2.dataset.id);
+        });
+      });
+    }
+
+    function renderAllMembers() {
+      const cats = { trustee: [], mentor: [], advisor: [] };
+      Object.values(teamDocs).forEach(m => {
+        if (cats[m.category]) cats[m.category].push(m);
+      });
+      ['trustee','mentor','advisor'].forEach(cat => {
+        cats[cat].sort((a,b) => (a.order||0) - (b.order||0));
+        const el = document.getElementById('ml-' + cat);
+        if (!el) return;
+        if (!cats[cat].length) {
+          const labels = { trustee:'trustees', mentor:'mentors', advisor:'advisors' };
+          el.innerHTML = `<div class="team-empty">No ${labels[cat]} added yet.</div>`;
+          return;
+        }
+        el.innerHTML = cats[cat].map(m => `
+          <div class="mac">
+            <div class="mac-btns">
+              <button class="mac-btn mac-edit" data-id="${escHtml(m.id)}" title="Edit" aria-label="Edit ${escHtml(m.name||'')}">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+              <button class="mac-btn mac-del" data-id="${escHtml(m.id)}" title="Delete" aria-label="Delete ${escHtml(m.name||'')}">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+              </button>
+            </div>
+            <div class="mac-av">${m.photoURL
+              ? `<img src="${escHtml(m.photoURL)}" alt="${escHtml(m.name||'')}">`
+              : `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`
+            }</div>
+            <div class="mac-name" title="${escHtml(m.name||'')}">${escHtml(m.name||'')}</div>
+            <div class="mac-role">${escHtml(m.role||m.category||'')}</div>
+          </div>
+        `).join('');
+      });
+    }
+
+    function openMemberForm(docId, defaultCat) {
+      editDocId       = docId || null;
+      pendingPhotoURL = null;
+      document.getElementById('member-form').reset();
+      document.getElementById('photo-prev').hidden        = true;
+      document.getElementById('photo-zone-empty').hidden  = false;
+      document.getElementById('upload-msg').textContent   = '';
+      document.getElementById('upload-msg').style.color   = '';
+
+      if (docId && teamDocs[docId]) {
+        const m = teamDocs[docId];
+        document.getElementById('mfp-heading').textContent = 'Edit Member';
+        document.getElementById('mf-doc-id').value  = docId;
+        document.getElementById('mf-name').value    = m.name     || '';
+        document.getElementById('mf-cat').value     = m.category || 'trustee';
+        document.getElementById('mf-role').value    = m.role     || '';
+        document.getElementById('mf-order').value   = m.order    || 0;
+        document.getElementById('mf-bio').value     = m.bio      || '';
+        if (m.photoURL) {
+          pendingPhotoURL = m.photoURL;
+          document.getElementById('photo-prev').src     = m.photoURL;
+          document.getElementById('photo-prev').hidden  = false;
+          document.getElementById('photo-zone-empty').hidden = true;
+        }
+      } else {
+        document.getElementById('mfp-heading').textContent = 'Add Member';
+        document.getElementById('mf-doc-id').value  = '';
+        document.getElementById('mf-order').value   = 0;
+        if (defaultCat) document.getElementById('mf-cat').value = defaultCat;
+      }
+
+      document.getElementById('mfp').hidden = false;
+      document.getElementById('mfp').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      setTimeout(() => document.getElementById('mf-name').focus(), 100);
+    }
+
+    function closeMemberForm() {
+      document.getElementById('mfp').hidden = true;
+      editDocId       = null;
+      pendingPhotoURL = null;
+    }
+
+    function handlePhotoFile(file) {
+      if (!file.type.startsWith('image/')) return;
+      const msg     = document.getElementById('upload-msg');
+      const saveBtn = document.getElementById('mfp-save');
+      msg.textContent  = 'Processing…';
+      msg.style.color  = '';
+      saveBtn.disabled = true;
+      pendingPhotoURL  = null;
+
+      const reader = new FileReader();
+      reader.onload = ev => {
+        const img = new Image();
+        img.onload = () => {
+          const MAX = 300;
+          let w = img.width, h = img.height;
+          if (w > h) { if (w > MAX) { h = Math.round(h * MAX / w); w = MAX; } }
+          else        { if (h > MAX) { w = Math.round(w * MAX / h); h = MAX; } }
+          const canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          const dataURL = canvas.toDataURL('image/jpeg', 0.82);
+          document.getElementById('photo-prev').src           = dataURL;
+          document.getElementById('photo-prev').hidden        = false;
+          document.getElementById('photo-zone-empty').hidden  = true;
+          pendingPhotoURL  = dataURL;
+          msg.textContent  = 'Photo ready.';
+          msg.style.color  = 'var(--green)';
+          saveBtn.disabled = false;
+        };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    async function onMemberFormSubmit(e) {
+      e.preventDefault();
+      const saveBtn = document.getElementById('mfp-save');
+      const name    = document.getElementById('mf-name').value.trim();
+      if (!name) { document.getElementById('mf-name').focus(); return; }
+
+      saveBtn.disabled    = true;
+      saveBtn.textContent = 'Saving…';
+
+      const data = {
+        name:      name,
+        category:  document.getElementById('mf-cat').value,
+        role:      document.getElementById('mf-role').value.trim(),
+        order:     parseInt(document.getElementById('mf-order').value) || 0,
+        bio:       document.getElementById('mf-bio').value.trim(),
+        photoURL:  pendingPhotoURL || '',
+        updatedAt: serverTimestamp(),
+      };
+
+      try {
+        const docId = document.getElementById('mf-doc-id').value;
+        if (docId) {
+          await setDoc(doc(db, 'team_members', docId), data, { merge: true });
+        } else {
+          data.createdAt = serverTimestamp();
+          await addDoc(collection(db, 'team_members'), data);
+        }
+        closeMemberForm();
+      } catch (err) {
+        const msg      = document.getElementById('upload-msg');
+        msg.textContent = 'Save failed: ' + err.message;
+        msg.style.color = 'var(--red)';
+      } finally {
+        saveBtn.disabled    = false;
+        saveBtn.textContent = 'Save Member';
+      }
+    }
+
+    async function deleteMember(docId) {
+      if (!confirm('Delete this team member? This cannot be undone.')) return;
+      try {
+        await deleteDoc(doc(db, 'team_members', docId));
+      } catch (err) {
+        alert('Delete failed: ' + err.message);
+      }
+    }
+  </script>
+</body>
+</html>

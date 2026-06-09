@@ -3,8 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Bunyaan — Scotland's first Muslim community robotics and AI team for young people, competing in the FIRST UK competition. Based in Edinburgh.">
-  <title>Bunyaan — Scotland's First Muslim Robotics Team</title>
+  <meta name="description" content="Bunyaan: Scotland's first Muslim community robotics and AI team for young people, competing in the FIRST UK competition. Based in Edinburgh.">
+  <title>Bunyaan: Scotland's First Muslim Robotics Team</title>
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <!-- Open Graph -->
+  <meta property="og:type"         content="website">
+  <meta property="og:url"          content="https://www.bunyaan.org.uk/">
+  <meta property="og:title"        content="Bunyaan: Scotland's First Muslim Robotics Team">
+  <meta property="og:description"  content="Scotland's first Muslim community robotics and AI team for young people, competing in FIRST UK. Based in Edinburgh.">
+  <meta property="og:image"        content="https://www.bunyaan.org.uk/og-image.png">
+  <meta property="og:image:width"  content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name"    content="Bunyaan">
+  <!-- Twitter/X card -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Bunyaan: Scotland's First Muslim Robotics Team">
+  <meta name="twitter:description" content="Scotland's first Muslim community robotics and AI team for young people, competing in FIRST UK. Based in Edinburgh.">
+  <meta name="twitter:image"       content="https://www.bunyaan.org.uk/og-image.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
@@ -51,16 +69,16 @@
       content: '';
       position: absolute; inset: 0;
       background-image:
-        linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+        linear-gradient(rgba(201,168,76,0.065) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,0.065) 1px, transparent 1px);
       background-size: 60px 60px;
     }
     .geo-canvas::after {
       content: '';
       position: absolute; inset: 0;
       background-image:
-        repeating-linear-gradient(45deg, rgba(201,168,76,0.025) 0, rgba(201,168,76,0.025) 1px, transparent 0, transparent 50%),
-        repeating-linear-gradient(135deg, rgba(201,168,76,0.025) 0, rgba(201,168,76,0.025) 1px, transparent 0, transparent 50%);
+        repeating-linear-gradient(45deg, rgba(201,168,76,0.04) 0, rgba(201,168,76,0.04) 1px, transparent 0, transparent 50%),
+        repeating-linear-gradient(135deg, rgba(201,168,76,0.04) 0, rgba(201,168,76,0.04) 1px, transparent 0, transparent 50%);
       background-size: 42px 42px;
     }
     .geo-glow-tr {
@@ -94,6 +112,7 @@
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border-block-end-color: var(--gold-border);
     }
+    .nav-logo { height: 46px; width: auto; display: block; }
     .nav-mark {
       font-family: var(--f-display); font-size: 1.4rem; font-weight: 700;
       letter-spacing: 0.14em; text-transform: uppercase;
@@ -155,7 +174,7 @@
       padding-inline: clamp(1.5rem, 5vw, 4rem);
       scroll-margin-top: var(--nav-h);
     }
-    .wrap { max-width: 1240px; margin-inline: auto; }
+    .wrap { max-width: 1240px; margin-inline: auto; position: relative; z-index: 1; }
     .eyebrow {
       display: inline-flex; align-items: center; gap: 0.6rem;
       font-size: 0.65rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase;
@@ -190,99 +209,70 @@
     ============================================================ */
     #hero {
       min-height: 100svh;
-      display: grid; grid-template-columns: 55% 45%;
-      align-items: center;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
       padding-block-start: calc(var(--nav-h) + 3rem);
-      gap: 4rem; overflow: hidden;
+      padding-block-end: 4rem;
+      text-align: center; overflow: hidden;
     }
-    .hero-left { position: relative; z-index: 2; }
+    .hero-inner {
+      display: flex; flex-direction: column; align-items: center;
+      max-width: 780px; width: 100%; position: relative; z-index: 2;
+    }
     .hero-pill {
       display: inline-flex; align-items: center; gap: 0.5rem;
       font-size: 0.65rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase;
       color: var(--gold); border: 1px solid var(--gold-border);
       border-radius: 100px; padding: 0.4rem 1rem;
-      margin-block-end: 2.5rem; animation: fadeUp 0.9s 0.1s both;
+      margin-block-end: 2rem; animation: fadeUp 0.9s 0.1s both;
     }
     .hero-pill-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity: 0.3; } }
+    .hero-logo-wrap { margin-block-end: 1.25rem; animation: fadeUp 0.9s 0.2s both; }
+    .hero-logo {
+      width: clamp(280px, 52vw, 480px); height: auto;
+      filter: drop-shadow(0 0 60px rgba(201,168,76,0.22));
+    }
     .hero-title {
       font-family: var(--f-display);
-      font-size: clamp(5.5rem, 11vw, 10rem);
-      font-weight: 700; line-height: 0.9;
-      letter-spacing: -0.01em; text-transform: uppercase;
-      animation: fadeUp 0.9s 0.25s both;
+      font-size: clamp(1.5rem, 2.8vw, 2.2rem);
+      font-weight: 700; line-height: 1; letter-spacing: 0.26em; text-transform: uppercase;
+      animation: fadeUp 0.9s 0.3s both;
     }
     .hero-title .g { color: var(--gold); }
-    .hero-rule {
-      display: flex; align-items: flex-start; gap: 1.5rem;
-      margin-block-start: 2.5rem; animation: fadeUp 0.9s 0.4s both;
-    }
-    .hero-rule-line {
-      flex-shrink: 0; width: 1px; height: 120px;
-      background: linear-gradient(to bottom, var(--gold), transparent);
-      margin-block-start: 0.25rem;
+    .hero-divider {
+      width: 60px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin-block: 1.5rem; animation: fadeUp 0.9s 0.36s both;
     }
     .hero-ayah {
-      font-family: var(--f-arabic); font-size: 1.45rem; font-weight: 700;
+      font-family: var(--f-arabic); font-size: 1.55rem; font-weight: 700;
       color: var(--gold); direction: rtl; unicode-bidi: isolate;
-      margin-block-end: 0.5rem; display: block;
+      margin-block-end: 0.4rem; display: block;
+      animation: fadeUp 0.9s 0.42s both;
     }
     .hero-translation {
       font-family: var(--f-display); font-style: italic; font-size: 0.975rem;
-      color: var(--muted); display: block; margin-block-end: 1.25rem;
+      color: var(--muted); display: block; margin-block-end: 2.5rem;
+      animation: fadeUp 0.9s 0.48s both;
     }
-    .hero-sub { font-size: 0.925rem; color: var(--muted); line-height: 1.8; max-width: 420px; }
+    .hero-headline {
+      font-family: var(--f-display); font-weight: 700;
+      font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.15;
+      margin-block-end: 0.9rem; animation: fadeUp 0.9s 0.54s both;
+    }
+    .hero-sub {
+      font-size: 0.95rem; color: var(--muted); line-height: 1.85; max-width: 500px;
+      animation: fadeUp 0.9s 0.6s both;
+    }
     .hero-ctas {
-      display: flex; flex-wrap: wrap; gap: 0.875rem;
-      margin-block-start: 2.5rem; animation: fadeUp 0.9s 0.55s both;
-    }
-    .hero-right {
-      position: relative; z-index: 2;
-      display: flex; align-items: center; justify-content: center;
-      animation: fadeUp 0.9s 0.35s both;
+      display: flex; flex-wrap: wrap; gap: 0.875rem; justify-content: center;
+      margin-block-start: 2.25rem; animation: fadeUp 0.9s 0.66s both;
     }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
 
-    /* Monument rings */
-    .monument { position: relative; width: clamp(280px, 38vw, 480px); aspect-ratio: 1; }
-    .m-ring { position: absolute; border-radius: 50%; border: 1px solid var(--gold-border); inset: 0; margin: auto; }
-    .m-ring-1 { width: 100%; height: 100%; animation: spin 60s linear infinite; border-top-color: rgba(201,168,76,0.5); }
-    .m-ring-2 { width: 82%; height: 82%; animation: spin 45s linear infinite reverse; border-right-color: rgba(201,168,76,0.4); }
-    .m-ring-3 { width: 64%; height: 64%; animation: spin 30s linear infinite; border-bottom-color: rgba(201,168,76,0.35); }
-    .m-ring-4 { width: 46%; height: 46%; animation: spin 20s linear infinite reverse; border-left-color: rgba(201,168,76,0.3); }
-    .m-center {
-      position: absolute; inset: 0; margin: auto;
-      width: 28%; height: 28%;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .m-hex {
-      width: 100%; height: 100%;
-      background: var(--navy-4);
-      clip-path: polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
-      display: flex; align-items: center; justify-content: center;
-      position: relative;
-    }
-    .m-hex::before {
-      content: ''; position: absolute; inset: 3px;
-      clip-path: polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
-      background: linear-gradient(135deg, var(--navy-3), var(--navy-4));
-    }
-    .m-hex-inner { position: relative; z-index: 1; color: var(--gold); display: flex; align-items: center; justify-content: center; }
-    .m-chip {
-      position: absolute;
-      background: var(--navy-3); border: 1px solid var(--gold-border);
-      border-radius: 6px; padding: 0.6rem 0.9rem; text-align: center;
-      backdrop-filter: blur(8px);
-    }
-    .m-chip-val { font-family: var(--f-display); font-size: 1.5rem; font-weight: 700; color: var(--gold); line-height: 1; }
-    .m-chip-lbl { font-size: 0.65rem; color: var(--muted-2); letter-spacing: 0.08em; text-transform: uppercase; margin-block-start: 0.15rem; }
-    .m-chip-1 { top: 8%; right: -8%; }
-    .m-chip-2 { bottom: 12%; left: -6%; }
-    .m-chip-3 { top: 42%; right: -12%; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
     .hero-scroll {
-      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      position: relative; margin-block-start: 3.5rem;
       z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
       font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
       color: var(--muted-2); animation: fadeUp 0.9s 1s both;
@@ -299,7 +289,7 @@
        MARQUEE
     ============================================================ */
     .marquee-strip { position: relative; z-index: 1; background: var(--gold); overflow: hidden; padding-block: 0.65rem; white-space: nowrap; }
-    .marquee-track { display: inline-flex; gap: 0; animation: marquee 28s linear infinite; }
+    .marquee-track { display: inline-flex; gap: 0; animation: marquee 75s linear infinite; }
     .marquee-track span { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--navy); padding-inline: 2rem; }
     .marquee-sep { color: rgba(10,22,40,0.4) !important; padding-inline: 0 !important; }
     @keyframes marquee { to { transform: translateX(-50%); } }
@@ -391,7 +381,8 @@
     .sponsor-head { text-align: center; margin-block-end: clamp(2.5rem, 5vw, 4rem); }
     .sponsor-head .section-sub { margin-inline: auto; }
     .tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--gold-border); border-radius: 14px; overflow: hidden; }
-    .tier { position: relative; padding: 2.5rem 2rem; background: var(--navy-2); border-inline-end: 1px solid var(--gold-border); transition: background 0.3s; }
+    .tier { position: relative; padding: 2.5rem 2rem; background: var(--navy-2); border-inline-end: 1px solid var(--gold-border); transition: background 0.3s; display: flex; flex-direction: column; }
+    .tier .btn-full { margin-block-start: auto; }
     .tier:last-child { border-inline-end: none; }
     .tier.featured { background: linear-gradient(160deg, var(--navy-3) 0%, rgba(201,168,76,0.06) 100%); border-inline: 1px solid var(--gold); margin-block: -1px; border-radius: 14px; z-index: 2; box-shadow: 0 0 60px rgba(201,168,76,0.08); }
     .tier-badge { position: absolute; top: 0; left: 50%; transform: translate(-50%, -1px); background: var(--gold); color: var(--navy); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.3rem 1rem; border-radius: 0 0 6px 6px; white-space: nowrap; }
@@ -424,23 +415,17 @@
        TEAM
     ============================================================ */
     #team { background: var(--navy-2); }
-    .team-trustees { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-block-end: 3rem; }
-    .team-card { background: var(--navy-3); border: 1px solid var(--gold-border); border-radius: 12px; padding: 2rem 1.75rem; text-align: center; transition: border-color 0.3s, transform 0.3s; }
-    .team-card:hover { border-color: var(--gold); transform: translateY(-4px); }
-    .team-card:hover .t-avatar { border-color: var(--gold); }
-    .t-avatar { width: 76px; height: 76px; border-radius: 50%; background: var(--navy); border: 2px solid var(--gold-border); display: flex; align-items: center; justify-content: center; margin-inline: auto; margin-block-end: 1.25rem; color: var(--muted-2); transition: border-color 0.3s; }
-    .t-name { font-family: var(--f-display); font-size: 1.3rem; font-weight: 600; margin-block-end: 0.3rem; }
-    .t-role { font-size: 0.72rem; color: var(--gold); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin-block-end: 0.4rem; }
-    .t-bio { font-size: 0.83rem; color: var(--muted); }
     .mentors-title { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 0.75rem; margin-block-end: 1.5rem; }
     .mentors-title::after { content: ''; flex: 1; height: 1px; background: var(--gold-border); }
-    .mentors-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; }
+    .mentors-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-block-end: 2.5rem; }
     .mentor-card { background: var(--navy-3); border: 1px solid var(--gold-border); border-radius: 10px; padding: 1.25rem 1rem; text-align: center; transition: border-color 0.3s, transform 0.3s; }
     .mentor-card:hover { border-color: var(--gold); transform: translateY(-3px); }
     .mentor-card:hover .m-avatar { border-color: var(--gold); }
-    .m-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--navy); border: 2px solid var(--gold-border); display: flex; align-items: center; justify-content: center; margin-inline: auto; margin-block-end: 0.75rem; color: var(--muted-2); transition: border-color 0.3s; }
+    .m-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--navy); border: 2px solid var(--gold-border); display: flex; align-items: center; justify-content: center; margin-inline: auto; margin-block-end: 0.75rem; color: var(--muted-2); transition: border-color 0.3s; overflow: hidden; }
+    .m-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
     .m-name { font-family: var(--f-display); font-size: 0.95rem; font-weight: 600; margin-block-end: 0.2rem; }
     .m-exp { font-size: 0.68rem; color: var(--gold); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
+    .m-bio { font-size: 0.65rem; color: var(--muted); margin-block-start: 0.35rem; line-height: 1.5; }
 
     /* ============================================================
        GET INVOLVED
@@ -459,6 +444,11 @@
     .fg select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23C9A84C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.9rem center; padding-inline-end: 2.5rem; cursor: pointer; }
     .fg select option { background: var(--navy); }
     .fg textarea { resize: vertical; min-height: 80px; }
+    .opt { color: var(--muted-2); font-weight: 300; font-size: 0.92em; text-transform: none; letter-spacing: 0; }
+    .fg-check { margin-block-end: 1rem; }
+    .check-label { display: flex; align-items: flex-start; gap: 0.6rem; cursor: pointer; }
+    .check-label input[type="checkbox"] { width: 16px; height: 16px; min-width: 16px; margin-block-start: 0.15rem; accent-color: var(--gold); cursor: pointer; }
+    .check-label span { font-size: 0.78rem; color: var(--muted); line-height: 1.55; }
     .f-submit { width: 100%; padding: 0.8rem; background: var(--gold); color: var(--navy); font-family: var(--f-body); font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; border: none; border-radius: 4px; cursor: pointer; transition: background 0.25s, transform 0.2s; margin-block-start: 0.5rem; }
     .f-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
     .f-success { display: none; padding: 2rem; text-align: center; }
@@ -467,6 +457,7 @@
     .f-success h3 { font-family: var(--f-display); font-size: 1.4rem; font-weight: 700; margin-block-end: 0.5rem; }
     .f-success p { font-size: 0.875rem; color: var(--muted); }
     :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
     /* ============================================================
        FOOTER
@@ -493,11 +484,209 @@
     .footer-bar span { font-size: 0.75rem; color: var(--muted-2); }
 
     /* ============================================================
+       SECTION DECORATIVE LAYERS
+    ============================================================ */
+
+    /* Clip ghost text / glows to section bounds (not on #about — has sticky child) */
+    #first, #pillars, #sponsor, #team, #journey, #involved { overflow: hidden; }
+
+    /* Ghost text + glow shared defaults */
+    section::before, section::after { pointer-events: none; }
+
+    /* ABOUT — warm gold bloom top-right + diagonal hatch + VISION ghost */
+    #about::before {
+      content: ''; position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 700px 600px at 108% -8%, rgba(201,168,76,0.11) 0%, transparent 65%),
+        repeating-linear-gradient(-55deg, transparent 0, transparent 80px, rgba(201,168,76,0.022) 80px, rgba(201,168,76,0.022) 81px);
+    }
+    #about::after {
+      content: 'VISION';
+      position: absolute; right: -0.5rem; bottom: 0; z-index: 0;
+      font-family: var(--f-display); font-weight: 700;
+      font-size: clamp(8rem, 16vw, 14rem); line-height: 0.85;
+      color: transparent; -webkit-text-stroke: 1px rgba(201,168,76,0.1);
+      text-transform: uppercase; letter-spacing: -0.02em;
+    }
+
+    /* FIRST UK — bloom bottom-left + COMPETE ghost top-right */
+    #first::before {
+      content: ''; position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 700px 600px at -8% 108%, rgba(201,168,76,0.1) 0%, transparent 65%),
+        repeating-linear-gradient(55deg, transparent 0, transparent 80px, rgba(201,168,76,0.018) 80px, rgba(201,168,76,0.018) 81px);
+    }
+    #first::after {
+      content: 'COMPETE';
+      position: absolute; right: -0.5rem; top: 2rem; z-index: 0;
+      font-family: var(--f-display); font-weight: 700;
+      font-size: clamp(6rem, 11vw, 10rem); line-height: 0.85;
+      color: transparent; -webkit-text-stroke: 1px rgba(201,168,76,0.09);
+      text-transform: uppercase;
+    }
+
+    /* PILLARS — bloom top-right + BUILD ghost bottom-left */
+    #pillars::before {
+      content: ''; position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 600px 550px at 110% -5%, rgba(201,168,76,0.11) 0%, transparent 65%),
+        repeating-linear-gradient(-55deg, transparent 0, transparent 80px, rgba(201,168,76,0.022) 80px, rgba(201,168,76,0.022) 81px);
+    }
+    #pillars::after {
+      content: 'BUILD';
+      position: absolute; left: -0.5rem; bottom: 0; z-index: 0;
+      font-family: var(--f-display); font-weight: 700;
+      font-size: clamp(9rem, 18vw, 16rem); line-height: 0.85;
+      color: transparent; -webkit-text-stroke: 1px rgba(201,168,76,0.1);
+      text-transform: uppercase;
+    }
+
+    /* SPONSOR — wide bloom top-right + INVEST ghost bottom-left */
+    #sponsor::before {
+      content: ''; position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 900px 700px at 110% -5%, rgba(201,168,76,0.09) 0%, transparent 60%),
+        repeating-linear-gradient(55deg, transparent 0, transparent 80px, rgba(201,168,76,0.018) 80px, rgba(201,168,76,0.018) 81px);
+    }
+    #sponsor::after {
+      content: 'INVEST';
+      position: absolute; left: -0.5rem; bottom: 0; z-index: 0;
+      font-family: var(--f-display); font-weight: 700;
+      font-size: clamp(8rem, 15vw, 13rem); line-height: 0.85;
+      color: transparent; -webkit-text-stroke: 1px rgba(201,168,76,0.09);
+      text-transform: uppercase;
+    }
+
+    /* TEAM — bloom bottom-right + PEOPLE ghost top-left */
+    #team::before {
+      content: ''; position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 600px 550px at 110% 110%, rgba(201,168,76,0.1) 0%, transparent 65%),
+        repeating-linear-gradient(-55deg, transparent 0, transparent 80px, rgba(201,168,76,0.022) 80px, rgba(201,168,76,0.022) 81px);
+    }
+    #team::after {
+      content: 'PEOPLE';
+      position: absolute; left: -0.5rem; top: 2rem; z-index: 0;
+      font-family: var(--f-display); font-weight: 700;
+      font-size: clamp(7rem, 13vw, 11rem); line-height: 0.85;
+      color: transparent; -webkit-text-stroke: 1px rgba(201,168,76,0.09);
+      text-transform: uppercase;
+    }
+
+    /* INVOLVED — bloom top-left + JOIN ghost bottom-right */
+    #involved::before {
+      content: ''; position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 700px 600px at -8% -8%, rgba(201,168,76,0.1) 0%, transparent 65%),
+        repeating-linear-gradient(55deg, transparent 0, transparent 80px, rgba(201,168,76,0.018) 80px, rgba(201,168,76,0.018) 81px);
+    }
+    #involved::after {
+      content: 'JOIN';
+      position: absolute; right: -0.5rem; bottom: 0; z-index: 0;
+      font-family: var(--f-display); font-weight: 700;
+      font-size: clamp(10rem, 20vw, 18rem); line-height: 0.85;
+      color: transparent; -webkit-text-stroke: 1px rgba(201,168,76,0.1);
+      text-transform: uppercase;
+    }
+
+    /* Floating gold particles */
+    .particle {
+      position: absolute; border-radius: 50%;
+      pointer-events: none; z-index: 0;
+      background: rgba(201,168,76,0.55);
+      animation: p-float linear infinite;
+    }
+    @keyframes p-float {
+      0%   { opacity: 0; transform: translateY(0) scale(1); }
+      15%  { opacity: 0.5; }
+      85%  { opacity: 0.5; }
+      100% { opacity: 0; transform: translateY(-90px) scale(0.3); }
+    }
+
+    /* ============================================================
+       JOURNEY / TIMELINE
+    ============================================================ */
+    #journey { background: var(--navy-2); }
+    .timeline {
+      display: flex; flex-direction: column;
+      max-width: 760px;
+      margin-block-start: clamp(2.5rem, 5vw, 4rem);
+    }
+    .tl-item { display: flex; gap: 1.5rem; }
+    .tl-marker {
+      display: flex; flex-direction: column; align-items: center;
+      flex-shrink: 0; width: 1rem; padding-block-start: 0.2rem;
+    }
+    .tl-dot {
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--navy-2); border: 2px solid var(--gold-border);
+      flex-shrink: 0; transition: background 0.3s, border-color 0.3s;
+      position: relative; z-index: 1;
+    }
+    .tl-item.complete .tl-dot { background: var(--gold); border-color: var(--gold); }
+    .tl-item:hover .tl-dot { border-color: var(--gold); }
+    .tl-line {
+      flex: 1; width: 1px; min-height: 2rem;
+      background: linear-gradient(to bottom, rgba(201,168,76,0.45), rgba(201,168,76,0.1));
+      margin-block: 0.35rem;
+    }
+    .tl-item:last-child .tl-line { background: linear-gradient(to bottom, rgba(201,168,76,0.2), transparent); }
+    .tl-content { padding-block-end: 2.5rem; flex: 1; }
+    .tl-item:last-child .tl-content { padding-block-end: 0; }
+    .tl-date {
+      font-size: 0.68rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gold); margin-block-end: 0.35rem;
+    }
+    .tl-title {
+      font-family: var(--f-display); font-size: clamp(1.1rem, 2vw, 1.3rem);
+      font-weight: 600; line-height: 1.3; color: var(--white);
+    }
+    .tl-badge-complete {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.6rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+      color: #4ade80; background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.18);
+      border-radius: 100px; padding: 0.25rem 0.8rem; margin-block-start: 0.6rem;
+    }
+
+    /* JOURNEY decorative layers */
+    #journey::before {
+      content: ''; position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 700px 600px at -8% 108%, rgba(201,168,76,0.1) 0%, transparent 65%),
+        repeating-linear-gradient(55deg, transparent 0, transparent 80px, rgba(201,168,76,0.018) 80px, rgba(201,168,76,0.018) 81px);
+    }
+    #journey::after {
+      content: 'AHEAD';
+      position: absolute; right: -0.5rem; top: 2rem; z-index: 0;
+      font-family: var(--f-display); font-weight: 700;
+      font-size: clamp(7rem, 14vw, 12rem); line-height: 0.85;
+      color: transparent; -webkit-text-stroke: 1px rgba(201,168,76,0.09);
+      text-transform: uppercase;
+    }
+
+    /* Coming Soon placeholder states */
+    .cs-name { color: var(--muted-2); font-style: italic; font-size: 0.9em; letter-spacing: 0.02em; }
+    .cs-bio  { color: var(--muted-2); font-style: italic; font-size: 0.8rem; }
+    .cs-exp  { color: var(--muted-2); font-style: italic; }
+    .m-avatar.pending { opacity: 0.35; border-style: dashed; }
+
+    /* Marquee Arabic and italic-translation overrides */
+    .marquee-ar {
+      font-family: var(--f-arabic) !important;
+      letter-spacing: 0 !important; text-transform: none !important;
+      font-size: 0.85rem !important; font-weight: 700 !important;
+    }
+    .marquee-trans {
+      letter-spacing: 0.04em !important; text-transform: none !important;
+      font-style: italic;
+    }
+
+    /* ============================================================
        RESPONSIVE
     ============================================================ */
     @media (max-width: 1024px) {
-      #hero { grid-template-columns: 1fr; padding-block-end: 6rem; }
-      .hero-right, .hero-scroll { display: none; }
+      #hero { padding-block-start: calc(var(--nav-h) + 2rem); }
+      .hero-scroll { display: none; }
       .about-grid { grid-template-columns: 1fr; }
       .about-right { position: static; }
       .first-cards { grid-template-columns: 1fr; gap: 1px; }
@@ -506,22 +695,117 @@
       .tier { border-inline-end: none; border-block-end: 1px solid var(--gold-border); }
       .tier:last-child { border-block-end: none; }
       .tier.featured { margin-block: 0; border-radius: 0; border-inline: none; border: 1px solid var(--gold); }
-      .team-trustees { grid-template-columns: 1fr 1fr; }
-      .mentors-grid { grid-template-columns: repeat(4, 1fr); }
+      .mentors-grid { grid-template-columns: repeat(2, 1fr); }
       .forms-grid { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 640px) {
+      /* Nav */
       .nav-links, .nav-cta { display: none; }
       .nav-burger { display: flex; }
+
+      /* Hero */
+      .hero-logo { width: min(76vw, 300px); }
+      .hero-pill { font-size: 0.57rem; letter-spacing: 0.13em; padding: 0.35rem 0.75rem; }
+      .hero-headline { font-size: clamp(1.7rem, 6.5vw, 2.5rem); }
+      .hero-headline br, .hero-sub br { display: none; }
+
+      /* Reduce section vertical padding */
+      section { padding-block: clamp(3rem, 9vw, 5rem); }
+
+      /* Ghost accent numbers */
+      .about-accent-num { font-size: clamp(3.5rem, 14vw, 6rem); }
+
+      /* Prevent ghost words overflowing on mobile */
+      #about { overflow: hidden; }
+      #about::after, #first::after, #pillars::after,
+      #sponsor::after, #team::after, #journey::after, #involved::after { font-size: clamp(3rem, 13vw, 6rem); }
+      .tl-item { gap: 1rem; }
+      .tl-title { font-size: 1rem; }
+
+      /* Grids */
       .first-features { grid-template-columns: 1fr; }
       .pillars-grid { grid-template-columns: 1fr; }
-      .team-trustees { grid-template-columns: 1fr; }
-      .mentors-grid { grid-template-columns: repeat(2, 1fr); }
+      .mentors-grid { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr; }
       .footer-bar { flex-direction: column; align-items: flex-start; }
+
+      /* Card padding */
+      .team-card { padding: 1.5rem 1.25rem; }
+      .mentor-card { padding: 1rem 0.75rem; }
+      .form-card { padding: 1.5rem 1.25rem; }
+      .pc { padding: 2rem 1.5rem; }
+
+      /* Stats */
       .stat-row { grid-template-columns: 1fr; gap: 0.5rem; }
       .stat-info { padding-inline-start: 0; border-inline-start: none; padding-block-start: 0.5rem; }
+
+      /* Marquee */
+      .marquee-track span { padding-inline: 1rem; }
+
+      /* Sponsor tiers */
+      .tier { padding: 2rem 1.5rem; }
+    }
+    /* ============================================================
+       AESTHETIC ENHANCEMENTS
+    ============================================================ */
+
+    /* Hero Islamic geometric star */
+    .hero-geo {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: clamp(520px, 92vw, 900px); height: auto;
+      opacity: 0.055; pointer-events: none; z-index: 0;
+      animation: geo-spin 240s linear infinite;
+      color: var(--gold);
+    }
+    @keyframes geo-spin {
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    /* Section headings: subtle gold glow */
+    .section-title { text-shadow: 0 0 100px rgba(201,168,76,0.18); }
+
+    /* Pillar top bar: always faintly visible, not just on hover */
+    .pc::before { transform: scaleX(1); opacity: 0.22; transition: opacity 0.35s; }
+    .pc:hover::before { opacity: 1; }
+
+    /* Team: larger avatars, editorial 4-column grid */
+    .m-avatar { width: 72px; height: 72px; border-width: 2px; }
+    .m-name { font-size: 1rem; }
+    .m-bio { font-size: 0.72rem; line-height: 1.6; }
+    .mentors-grid { grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+    .mentor-card { padding: 1.75rem 1.25rem 1.5rem; }
+
+    /* Gold CTA glow */
+    .btn-gold { box-shadow: 0 4px 24px rgba(201,168,76,0.18); }
+    .btn-gold:hover { box-shadow: 0 8px 32px rgba(201,168,76,0.28); }
+
+    /* Featured sponsor: shimmer sweep */
+    @keyframes gold-shimmer {
+      0%,100% { background-position: -200% center; }
+      50% { background-position: 200% center; }
+    }
+    .tier.featured::after {
+      content: ''; position: absolute; inset: 0; z-index: 0;
+      border-radius: 14px; pointer-events: none;
+      background: linear-gradient(105deg, transparent 30%, rgba(201,168,76,0.07) 50%, transparent 70%);
+      background-size: 300% 100%;
+      animation: gold-shimmer 5s ease-in-out infinite;
+    }
+
+    /* Section boundary accents */
+    #first, #sponsor, #involved {
+      border-block-start: 1px solid rgba(201,168,76,0.13);
+    }
+
+    /* Responsive overrides for 4-col team grid */
+    @media (max-width: 1024px) {
+      .mentors-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .mentors-grid { grid-template-columns: repeat(2, 1fr); }
+      .m-avatar { width: 56px; height: 56px; }
     }
   </style>
 </head>
@@ -532,13 +816,14 @@
   <div class="geo-glow-bl" aria-hidden="true"></div>
 
   <nav id="nav" role="navigation" aria-label="Main navigation">
-    <a href="#hero" class="nav-mark">BUN<span class="g">YA</span>AN</a>
+    <a href="#hero" class="nav-mark" aria-label="Bunyaan — home"><img src="/logo-nav.png" alt="Bunyaan" class="nav-logo"></a>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#first">FIRST UK</a></li>
       <li><a href="#pillars">Our Pillars</a></li>
       <li><a href="#sponsor">Support Us</a></li>
       <li><a href="#team">The Team</a></li>
+      <li><a href="#journey">Our Journey</a></li>
       <li><a href="#involved">Get Involved</a></li>
     </ul>
     <a href="#involved" class="nav-cta">Get Involved</a>
@@ -553,56 +838,60 @@
     <a href="#pillars">Our Pillars</a>
     <a href="#sponsor">Support Us</a>
     <a href="#team">The Team</a>
+    <a href="#journey">Our Journey</a>
     <a href="#involved">Get Involved</a>
   </div>
 
   <main>
 
     <section id="hero" aria-label="Hero">
-      <div class="hero-left">
+      <svg class="hero-geo" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="300" cy="300" r="272" stroke="currentColor" stroke-width="0.75"/>
+        <circle cx="300" cy="300" r="216" stroke="currentColor" stroke-width="0.5"/>
+        <circle cx="300" cy="300" r="160" stroke="currentColor" stroke-width="0.5"/>
+        <circle cx="300" cy="300" r="104" stroke="currentColor" stroke-width="0.5"/>
+        <polygon points="300,40 341,200 484,116 400,259 560,300 400,341 484,484 341,400 300,560 259,400 116,484 200,341 40,300 200,259 116,116 259,200" stroke="currentColor" stroke-width="1.25"/>
+        <line x1="300" y1="28" x2="300" y2="572" stroke="currentColor" stroke-width="0.3"/>
+        <line x1="28" y1="300" x2="572" y2="300" stroke="currentColor" stroke-width="0.3"/>
+        <line x1="109" y1="109" x2="491" y2="491" stroke="currentColor" stroke-width="0.3"/>
+        <line x1="491" y1="109" x2="109" y2="491" stroke="currentColor" stroke-width="0.3"/>
+        <line x1="196" y1="49" x2="404" y2="551" stroke="currentColor" stroke-width="0.2"/>
+        <line x1="49" y1="196" x2="551" y2="404" stroke="currentColor" stroke-width="0.2"/>
+        <line x1="551" y1="196" x2="49" y2="404" stroke="currentColor" stroke-width="0.2"/>
+        <line x1="404" y1="49" x2="196" y2="551" stroke="currentColor" stroke-width="0.2"/>
+      </svg>
+      <div class="hero-inner">
+
         <div class="hero-pill"><span class="hero-pill-dot" aria-hidden="true"></span>Scotland's First Muslim Robotics Team</div>
-        <h1 class="hero-title">BUN<span class="g">YA</span>AN</h1>
-        <div class="hero-rule">
-          <div class="hero-rule-line" aria-hidden="true"></div>
-          <div>
-            <span class="hero-ayah" dir="rtl" lang="ar" aria-label="Quranic verse">كَأَنَّهُم بُنيَانٌ مَّرْصُوصٌ</span>
-            <span class="hero-translation">"As though they are a single solid structure"</span>
-            <p class="hero-sub">Scotland's first robotics and AI team for Muslim youth — competing in FIRST UK, building engineers, changing futures.</p>
-          </div>
+
+        <h1 class="sr-only">Bunyaan: Scotland's First Muslim Robotics Team</h1>
+
+        <div class="hero-logo-wrap">
+          <img src="logo-white.png" alt="Bunyaan: students and robots standing together as one united team" class="hero-logo">
         </div>
+
+        <div class="hero-divider" aria-hidden="true"></div>
+
+        <span class="hero-ayah" dir="rtl" lang="ar" aria-label="Quranic verse: As though they are a single solid structure">كَأَنَّهُم بُنيَانٌ مَّرْصُوصٌ</span>
+        <span class="hero-translation">"As though they are a single solid structure"</span>
+
+        <p class="hero-headline">Every great structure begins<br>with a single brick.</p>
+        <p class="hero-sub">There is a brick here with your name on it,<br>whether you join, mentor, or support.</p>
+
         <div class="hero-ctas">
           <a href="#involved" class="btn btn-gold">Join the Team <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
           <a href="#involved" class="btn btn-outline">Become a Mentor</a>
           <a href="#sponsor" class="btn btn-outline">Support Us</a>
         </div>
-      </div>
 
-      <div class="hero-right" aria-hidden="true">
-        <div class="monument">
-          <div class="m-ring m-ring-1"></div>
-          <div class="m-ring m-ring-2"></div>
-          <div class="m-ring m-ring-3"></div>
-          <div class="m-ring m-ring-4"></div>
-          <div class="m-center">
-            <div class="m-hex">
-              <div class="m-hex-inner">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M12 2v4M8 2h8"/><circle cx="8.5" cy="16" r="1.5"/><circle cx="15.5" cy="16" r="1.5"/><path d="M3 15h1M20 15h1"/></svg>
-              </div>
-            </div>
-          </div>
-          <div class="m-chip m-chip-1"><div class="m-chip-val">20+</div><div class="m-chip-lbl">Students</div></div>
-          <div class="m-chip m-chip-2"><div class="m-chip-val">2026</div><div class="m-chip-lbl">Season 1</div></div>
-          <div class="m-chip m-chip-3"><div class="m-chip-val">5</div><div class="m-chip-lbl">Mentors</div></div>
-        </div>
       </div>
-
       <div class="hero-scroll" aria-hidden="true"><div class="scroll-bar"></div><span>Scroll</span></div>
     </section>
 
     <div class="marquee-strip" aria-hidden="true">
       <div class="marquee-track">
-        <span>Bunyaan</span><span class="marquee-sep"> ◆ </span><span>Scotland's First Muslim Robotics Team</span><span class="marquee-sep"> ◆ </span><span>FIRST UK Competition</span><span class="marquee-sep"> ◆ </span><span>Edinburgh</span><span class="marquee-sep"> ◆ </span><span>Building Engineers</span><span class="marquee-sep"> ◆ </span><span>Changing Futures</span><span class="marquee-sep"> ◆ </span><span>Season 1 — 2026</span><span class="marquee-sep"> ◆ </span><span lang="ar">بُنيَانٌ مَّرْصُوصٌ</span><span class="marquee-sep"> ◆ </span>
-        <span>Bunyaan</span><span class="marquee-sep"> ◆ </span><span>Scotland's First Muslim Robotics Team</span><span class="marquee-sep"> ◆ </span><span>FIRST UK Competition</span><span class="marquee-sep"> ◆ </span><span>Edinburgh</span><span class="marquee-sep"> ◆ </span><span>Building Engineers</span><span class="marquee-sep"> ◆ </span><span>Changing Futures</span><span class="marquee-sep"> ◆ </span><span>Season 1 — 2026</span><span class="marquee-sep"> ◆ </span><span lang="ar">بُنيَانٌ مَّرْصُوصٌ</span><span class="marquee-sep"> ◆ </span>
+        <span>Building Scotland's next generation of engineers</span><span class="marquee-sep"> ◆ </span><span>Real robots. Real code. Real competition.</span><span class="marquee-sep"> ◆ </span><span>Not a hobby club. A competition-grade programme.</span><span class="marquee-sep"> ◆ </span><span>STEM skills that last a lifetime</span><span class="marquee-sep"> ◆ </span><span>94% of FIRST graduates choose STEM careers</span><span class="marquee-sep"> ◆ </span><span>109,000+ students competed in FTC globally in 2024-25</span><span class="marquee-sep"> ◆ </span><span>650,000+ students participate in FIRST programmes worldwide</span><span class="marquee-sep"> ◆ </span><span class="marquee-ar" lang="ar" dir="rtl">طَلَبُ الْعِلْمِ فَرِيضَةٌ عَلَى كُلِّ مُسْلِمٍ</span><span class="marquee-sep"> · </span><span class="marquee-trans">Seeking knowledge is an obligation upon every Muslim</span><span class="marquee-sep"> ◆ </span><span class="marquee-ar" lang="ar" dir="rtl">وَمَن سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ</span><span class="marquee-sep"> · </span><span class="marquee-trans">Whoever takes a path seeking knowledge, Allah makes easy for him a path to Paradise</span><span class="marquee-sep"> ◆ </span><span class="marquee-ar" lang="ar" dir="rtl">الْعُلَمَاءُ وَرَثَةُ الْأَنْبِيَاءِ</span><span class="marquee-sep"> · </span><span class="marquee-trans">The learned are the heirs of the prophets</span><span class="marquee-sep"> ◆ </span>
+        <span>Building Scotland's next generation of engineers</span><span class="marquee-sep"> ◆ </span><span>Real robots. Real code. Real competition.</span><span class="marquee-sep"> ◆ </span><span>Not a hobby club. A competition-grade programme.</span><span class="marquee-sep"> ◆ </span><span>STEM skills that last a lifetime</span><span class="marquee-sep"> ◆ </span><span>94% of FIRST graduates choose STEM careers</span><span class="marquee-sep"> ◆ </span><span>109,000+ students competed in FTC globally in 2024-25</span><span class="marquee-sep"> ◆ </span><span>650,000+ students participate in FIRST programmes worldwide</span><span class="marquee-sep"> ◆ </span><span class="marquee-ar" lang="ar" dir="rtl">طَلَبُ الْعِلْمِ فَرِيضَةٌ عَلَى كُلِّ مُسْلِمٍ</span><span class="marquee-sep"> · </span><span class="marquee-trans">Seeking knowledge is an obligation upon every Muslim</span><span class="marquee-sep"> ◆ </span><span class="marquee-ar" lang="ar" dir="rtl">وَمَن سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ</span><span class="marquee-sep"> · </span><span class="marquee-trans">Whoever takes a path seeking knowledge, Allah makes easy for him a path to Paradise</span><span class="marquee-sep"> ◆ </span><span class="marquee-ar" lang="ar" dir="rtl">الْعُلَمَاءُ وَرَثَةُ الْأَنْبِيَاءِ</span><span class="marquee-sep"> · </span><span class="marquee-trans">The learned are the heirs of the prophets</span><span class="marquee-sep"> ◆ </span>
       </div>
     </div>
 
@@ -616,7 +905,7 @@
             <div class="about-body r d3">
               <p>Edinburgh has a thriving Muslim community with deep enthusiasm for education and technology. Yet there has never been a dedicated, competition-grade robotics programme built specifically for its young people.</p>
               <p>Bunyaan is not a hobby club. It is a structured, competition-grade initiative giving Muslim youth access to the same quality of STEM education available in the best-funded schools in the country.</p>
-              <p>We compete in FIRST UK — one of the most respected youth engineering competitions in the world — where students build real robots, write real code, and are judged on engineering rigour, teamwork, and community impact.</p>
+              <p>We compete in FIRST UK, one of the most respected youth engineering competitions in the world, where students build real robots, write real code, and are judged on engineering rigour, teamwork, and community impact.</p>
             </div>
           </div>
           <div class="about-right r d2">
@@ -637,12 +926,12 @@
           <div class="about-accent-num r" style="margin-block-end:-1rem">02</div>
           <span class="eyebrow r d1">The Competition</span>
           <h2 class="section-title r d2" id="first-heading">More Than Robots</h2>
-          <p class="section-sub r d3">FIRST UK is one of the world's most respected youth engineering competitions, active in 110+ countries. Teams design, build, and compete with fully functioning robots — but are judged on far more than performance on the field.</p>
+          <p class="section-sub r d3">FIRST UK is one of the world's most respected youth engineering competitions, active in 110+ countries. Teams design, build, and compete with fully functioning robots, but are judged on far more than performance on the field.</p>
         </div>
         <div class="first-cards r d2" role="list">
-          <div class="fc" role="listitem"><div class="fc-num">110+</div><div class="fc-label">Countries</div><div class="fc-desc">Participating in FIRST globally — one of the largest youth engineering networks on Earth.</div></div>
+          <div class="fc" role="listitem"><div class="fc-num">110+</div><div class="fc-label">Countries</div><div class="fc-desc">Participating in FIRST globally. One of the largest youth engineering networks on Earth.</div></div>
           <div class="fc" role="listitem"><div class="fc-num">5</div><div class="fc-label">Dimensions</div><div class="fc-desc">Teams are judged across engineering design, programming, outreach, business, and more.</div></div>
-          <div class="fc" role="listitem"><div class="fc-num">6 mo.</div><div class="fc-label">Build season</div><div class="fc-desc">From kickoff to national championship — an intensive, industry-grade development cycle.</div></div>
+          <div class="fc" role="listitem"><div class="fc-num">6 mo.</div><div class="fc-label">Build season</div><div class="fc-desc">From kickoff to national championship: an intensive, industry-grade development cycle.</div></div>
         </div>
         <div class="first-features r d3">
           <div class="ff"><div class="ff-diamond" aria-hidden="true"></div><span>Engineering design &amp; documentation</span></div>
@@ -650,7 +939,7 @@
           <div class="ff"><div class="ff-diamond" aria-hidden="true"></div><span>Community outreach &amp; impact</span></div>
           <div class="ff"><div class="ff-diamond" aria-hidden="true"></div><span>Business planning &amp; presentation</span></div>
         </div>
-        <blockquote class="pull-quote r d4"><p>Gracious Professionalism® — FIRST's founding ethos. Teams are expected to help their opponents. Fierce competition and kindness are not opposites.</p></blockquote>
+        <blockquote class="pull-quote r d4"><p>Gracious Professionalism® is FIRST's founding ethos. Teams are expected to help their opponents. Fierce competition and kindness are not opposites.</p></blockquote>
       </div>
     </section>
 
@@ -665,8 +954,8 @@
             <div class="pc-ghost" aria-hidden="true">01</div>
             <div class="pc-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
             <h3 class="pc-title">Space</h3>
-            <p class="pc-body">A permanent 8.5m × 6.75m robotics lab in Broomhouse Mosque, Edinburgh. Equipment stays built between sessions. Secured free of charge.</p>
-            <span class="pc-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Secured</span>
+            <p class="pc-body">A dedicated robotics lab in Edinburgh, large enough that equipment stays built between sessions. We are currently finalising the permanent location.</p>
+            <span class="pc-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>In Progress</span>
           </article>
           <article class="pc r d2">
             <div class="pc-ghost" aria-hidden="true">02</div>
@@ -679,8 +968,8 @@
             <div class="pc-ghost" aria-hidden="true">03</div>
             <div class="pc-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></div>
             <h3 class="pc-title">Partnership</h3>
-            <p class="pc-body">Strategic alliance with Fitya — experienced teams within the FIRST UK ecosystem. Bunyaan operates independently with its own identity, funding, and direction.</p>
-            <span class="pc-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Established</span>
+            <p class="pc-body">Connected to experienced FIRST UK teams who are supporting Bunyaan's setup. Bunyaan is fully independent, its own identity, funding, and direction. FIRST calls this Coopertition.</p>
+            <span class="pc-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Active</span>
           </article>
         </div>
       </div>
@@ -698,18 +987,18 @@
           <article class="tier" role="listitem">
             <div class="tier-name">Builder</div><div class="tier-price">From £500</div><div class="tier-divider" aria-hidden="true"></div>
             <ul class="tier-list"><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Logo on team banner at all competitions</li><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Named on website and social media</li><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Certificate of sponsorship</li><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Invitation to visit the lab</li><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Invitation to season launch event</li></ul>
-            <a href="#involved" class="btn btn-ghost btn-full" data-sponsor-level="Builder — from £500">Become a Builder <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          </article>
-          <article class="tier featured" role="listitem">
-            <div class="tier-badge">Most Popular</div>
-            <div class="tier-name">Engineer</div><div class="tier-price">From £2,500</div><div class="tier-divider" aria-hidden="true"></div>
-            <ul class="tier-list"><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Everything in Builder, plus:</li><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Logo on hoodies worn by all 25 members</li><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Logo on the robot</li><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Named in Engineering Portfolio submitted to judges</li><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Personal intro to team at a regional competition</li></ul>
-            <a href="#involved" class="btn btn-gold btn-full" data-sponsor-level="Engineer — from £2,500">Become an Engineer <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+            <a href="#involved" class="btn btn-ghost btn-full" data-sponsor-level="Builder: from £500">Become a Builder <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
           </article>
           <article class="tier" role="listitem">
+            <div class="tier-name">Engineer</div><div class="tier-price">From £2,500</div><div class="tier-divider" aria-hidden="true"></div>
+            <ul class="tier-list"><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Everything in Builder, plus:</li><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Logo on hoodies worn by all 25 members</li><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Logo on the robot</li><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Named in Engineering Portfolio submitted to judges</li><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Personal intro to team at a regional competition</li></ul>
+            <a href="#involved" class="btn btn-ghost btn-full" data-sponsor-level="Engineer: from £2,500">Become an Engineer <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </article>
+          <article class="tier featured" role="listitem">
+            <div class="tier-badge">Founding Partner</div>
             <div class="tier-name">Architect</div><div class="tier-price">From £5,000</div><div class="tier-divider" aria-hidden="true"></div>
             <ul class="tier-list"><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Everything in Engineer, plus:</li><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Primary logo placement on robot and banner</li><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Named as Founding Sponsor in all materials</li><li><svg class="ti-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Handwritten thank-you card signed by the whole team</li></ul>
-            <a href="#involved" class="btn btn-ghost btn-full" data-sponsor-level="Architect — from £5,000">Become an Architect <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+            <a href="#involved" class="btn btn-gold btn-full" data-sponsor-level="Architect: from £5,000">Become an Architect <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
           </article>
         </div>
       </div>
@@ -721,75 +1010,143 @@
         <span class="eyebrow r d1">The People</span>
         <h2 class="section-title r d2" id="team-heading">The People Behind<br>the Structure</h2>
         <p class="section-sub r d3" style="margin-block-end:clamp(2.5rem,5vw,4rem)">Every brick needs someone to place it.</p>
-        <div class="team-trustees r d1" role="list">
-          <article class="team-card" role="listitem"><div class="t-avatar" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="t-name">[Name]</div><div class="t-role">Trustee — Founder</div><div class="t-bio">[Background / Title]</div></article>
-          <article class="team-card" role="listitem"><div class="t-avatar" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="t-name">[Name]</div><div class="t-role">Trustee — Technical</div><div class="t-bio">[Background / Title]</div></article>
-          <article class="team-card" role="listitem"><div class="t-avatar" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="t-name">[Name]</div><div class="t-role">Trustee — Community</div><div class="t-bio">[Background / Title]</div></article>
-        </div>
-        <div class="mentors-title r">Mentors &amp; Volunteers</div>
-        <div class="mentors-grid r d1" role="list">
-          <article class="mentor-card" role="listitem"><div class="m-avatar" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">Java / Android</div></article>
-          <article class="mentor-card" role="listitem"><div class="m-avatar" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">CAD / Mechanical</div></article>
-          <article class="mentor-card" role="listitem"><div class="m-avatar" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">AI / Computer Vision</div></article>
-          <article class="mentor-card" role="listitem"><div class="m-avatar" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">Electronics</div></article>
-          <article class="mentor-card" role="listitem"><div class="m-avatar" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">Portfolio &amp; Business</div></article>
-          <article class="mentor-card" role="listitem"><div class="m-avatar" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">[TBC]</div></article>
-          <article class="mentor-card" role="listitem"><div class="m-avatar" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">[TBC]</div></article>
-          <article class="mentor-card" role="listitem"><div class="m-avatar" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">[TBC]</div></article>
-          <article class="mentor-card" role="listitem"><div class="m-avatar" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">[TBC]</div></article>
-          <article class="mentor-card" role="listitem"><div class="m-avatar" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="m-name">[Name]</div><div class="m-exp">[TBC]</div></article>
+        <div id="team-grid" class="mentors-grid r d1" role="list"></div>
+      </div>
+    </section>
+
+    <section id="journey" aria-labelledby="journey-heading">
+      <div class="wrap">
+        <div class="about-accent-num r">06</div>
+        <span class="eyebrow r d1">The Road Ahead</span>
+        <h2 class="section-title r d2" id="journey-heading">Our Journey</h2>
+        <p class="section-sub r d3" style="margin-block-end:clamp(2.5rem,5vw,4rem)">The milestones that take us from launch to the national stage.</p>
+        <div class="timeline r d2">
+
+          <div class="tl-item complete r d1">
+            <div class="tl-marker" aria-hidden="true"><div class="tl-dot"></div><div class="tl-line"></div></div>
+            <div class="tl-content">
+              <div class="tl-date">April 2026</div>
+              <div class="tl-title">Attend FIRST UK Finals, London</div>
+              <div class="tl-badge-complete"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Complete</div>
+            </div>
+          </div>
+
+          <div class="tl-item complete r d2">
+            <div class="tl-marker" aria-hidden="true"><div class="tl-dot"></div><div class="tl-line"></div></div>
+            <div class="tl-content">
+              <div class="tl-date">May 2026</div>
+              <div class="tl-title">Registered as a Scottish Charity with OSCR (SC055377)</div>
+              <div class="tl-badge-complete"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Complete</div>
+            </div>
+          </div>
+
+          <div class="tl-item r d3">
+            <div class="tl-marker" aria-hidden="true"><div class="tl-dot"></div><div class="tl-line"></div></div>
+            <div class="tl-content">
+              <div class="tl-date">June 2026</div>
+              <div class="tl-title">Register teams with FIRST UK, confirm mentors</div>
+            </div>
+          </div>
+
+          <div class="tl-item r d3">
+            <div class="tl-marker" aria-hidden="true"><div class="tl-dot"></div><div class="tl-line"></div></div>
+            <div class="tl-content">
+              <div class="tl-date">Summer 2026</div>
+              <div class="tl-title">Fundraising, equipment procurement, lab fit-out</div>
+            </div>
+          </div>
+
+          <div class="tl-item r d4">
+            <div class="tl-marker" aria-hidden="true"><div class="tl-dot"></div><div class="tl-line"></div></div>
+            <div class="tl-content">
+              <div class="tl-date">September 2026</div>
+              <div class="tl-title">Club opens, first sessions begin</div>
+            </div>
+          </div>
+
+          <div class="tl-item r d5">
+            <div class="tl-marker" aria-hidden="true"><div class="tl-dot"></div><div class="tl-line"></div></div>
+            <div class="tl-content">
+              <div class="tl-date">October 2026 – February 2027</div>
+              <div class="tl-title">Build season, friendly matches, robot finalised, portfolio completed</div>
+            </div>
+          </div>
+
+          <div class="tl-item r d5">
+            <div class="tl-marker" aria-hidden="true"><div class="tl-dot"></div><div class="tl-line"></div></div>
+            <div class="tl-content">
+              <div class="tl-date">March – April 2027</div>
+              <div class="tl-title">Regional qualifier, FIRST UK National Championship</div>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
 
     <section id="involved" aria-labelledby="involved-heading">
       <div class="wrap">
-        <div class="about-accent-num r">06</div>
+        <div class="about-accent-num r">07</div>
         <span class="eyebrow r d1">Join Bunyaan</span>
-        <h2 class="section-title r d2" id="involved-heading">There Is a Brick Here<br>With Your Name On It</h2>
-        <p class="section-sub r d3">Whether you are a young person ready to build, a professional ready to mentor, or an organisation ready to invest — we have a place for you.</p>
+        <h2 class="section-title r d2" id="involved-heading">Your place in the team<br>starts here.</h2>
+        <p class="section-sub r d3">Register your child, volunteer your expertise, or reach out about supporting the team. Fill in the form below and we'll be in touch.</p>
         <div class="forms-grid">
           <div class="form-card r d1">
             <h3 class="fc-title">Join the Team</h3>
             <p class="fc-body">Are you aged 9–18 and based in Edinburgh? Or are you a parent interested in registering your child? Tell us about yourself and we will be in touch when registration opens.</p>
-            <form name="join-team" method="POST" data-netlify="true" netlify>
-              <input type="hidden" name="form-name" value="join-team">
+            <form name="join-team">
               <div class="fg"><label for="jn">Full name</label><input type="text" id="jn" name="name" placeholder="Your full name" required autocomplete="name"></div>
               <div class="fg"><label for="je">Email address</label><input type="email" id="je" name="email" placeholder="you@example.com" required autocomplete="email"></div>
+              <div class="fg"><label for="jw">WhatsApp number <span class="opt">(optional)</span></label><input type="tel" id="jw" name="whatsapp" placeholder="+44 7700 000000" autocomplete="tel"></div>
               <div class="fg"><label for="ja">Child's age</label><input type="number" id="ja" name="age" min="9" max="18" placeholder="9–18"></div>
               <div class="fg"><label for="js">How did you hear about us?</label><select id="js" name="source"><option value="">Select…</option><option>Mosque</option><option>School</option><option>Friend</option><option>Social Media</option><option>Other</option></select></div>
-              <div class="fg"><label for="jq">Any questions? <span style="color:var(--muted-2);font-weight:300">(optional)</span></label><textarea id="jq" name="questions" placeholder="Write here…"></textarea></div>
+              <div class="fg"><label for="jq">Any questions? <span class="opt">(optional)</span></label><textarea id="jq" name="questions" placeholder="Write here…"></textarea></div>
+              <div class="fg fg-check"><label class="check-label"><input type="checkbox" name="gdpr" required><span>I agree to my information being held by Bunyaan (SC055377) for the purpose of team registration.</span></label></div>
               <button type="submit" class="f-submit">Register Interest</button>
             </form>
-            <div class="f-success" id="ok-join" aria-live="polite"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg><h3>You're registered!</h3><p>Thank you. We'll be in touch when Season 1 registration opens.</p></div>
+            <div class="f-success" id="ok-join" aria-live="polite">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+              <h3>You're registered!</h3>
+              <p>Thank you. We'll be in touch as soon as Season 1 registration opens. Keep an eye on your email.</p>
+            </div>
           </div>
           <div class="form-card r d2">
             <h3 class="fc-title">Become a Mentor</h3>
-            <p class="fc-body">We are looking for volunteers with expertise in Java, CAD, electronics, AI, or business. No prior FIRST experience required — we will train you.</p>
-            <form name="mentor" method="POST" data-netlify="true" netlify>
-              <input type="hidden" name="form-name" value="mentor">
+            <p class="fc-body">We are looking for volunteers with expertise in Java, CAD, electronics, AI, or business. No prior FIRST experience required. We will train you.</p>
+            <form name="mentor">
               <div class="fg"><label for="mn">Full name</label><input type="text" id="mn" name="name" placeholder="Your full name" required autocomplete="name"></div>
               <div class="fg"><label for="me">Email address</label><input type="email" id="me" name="email" placeholder="you@example.com" required autocomplete="email"></div>
-              <div class="fg"><label for="mb">Professional background</label><input type="text" id="mb" name="background" placeholder="e.g. Software Engineer at Acme"></div>
-              <div class="fg"><label for="mx">Area of expertise</label><select id="mx" name="expertise"><option value="">Select…</option><option>Java / Android Studio</option><option>CAD / Mechanical Engineering</option><option>AI / Computer Vision</option><option>Electronics</option><option>Portfolio Writing</option><option>Business Coaching</option><option>Other</option></select></div>
+              <div class="fg"><label for="mw">WhatsApp number <span class="opt">(optional)</span></label><input type="tel" id="mw" name="whatsapp" placeholder="+44 7700 000000" autocomplete="tel"></div>
+              <div class="fg"><label for="mb">Professional background</label><input type="text" id="mb" name="background" placeholder="e.g. Software Engineer at Acme" required></div>
+              <div class="fg"><label for="mx">Area of expertise</label><select id="mx" name="expertise"><option value="">Select…</option><option>Java / Android Studio</option><option>CAD / Mechanical Engineering</option><option>Robotics</option><option>AI / Computer Vision</option><option>Electronics</option><option>Portfolio Writing</option><option>Business Coaching</option><option>Other</option></select></div>
               <div class="fg"><label for="mv">Availability</label><select id="mv" name="availability"><option value="">Select…</option><option>Weekday evenings</option><option>Saturdays</option><option>Both</option><option>Flexible</option></select></div>
-              <div class="fg"><label for="mq">Any questions? <span style="color:var(--muted-2);font-weight:300">(optional)</span></label><textarea id="mq" name="questions" placeholder="Write here…"></textarea></div>
+              <div class="fg"><label for="mq">Any questions? <span class="opt">(optional)</span></label><textarea id="mq" name="questions" placeholder="Write here…"></textarea></div>
+              <div class="fg fg-check"><label class="check-label"><input type="checkbox" name="gdpr" required><span>I agree to my information being held by Bunyaan (SC055377) for the purpose of mentor registration.</span></label></div>
               <button type="submit" class="f-submit">Apply as Mentor</button>
             </form>
-            <div class="f-success" id="ok-mentor" aria-live="polite"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg><h3>Application received!</h3><p>Thank you for volunteering. We'll be in touch shortly.</p></div>
+            <div class="f-success" id="ok-mentor" aria-live="polite">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+              <h3>Application received!</h3>
+              <p>Thank you for volunteering your expertise. Someone from the team will be in touch within a few days.</p>
+            </div>
           </div>
           <div class="form-card r d3">
             <h3 class="fc-title">Support Us</h3>
             <p class="fc-body">Your contribution funds equipment, robot kits, competition entry, and team clothing. Every pound goes directly to the young people we serve.</p>
-            <form name="sponsor" method="POST" data-netlify="true" netlify>
-              <input type="hidden" name="form-name" value="sponsor">
+            <form name="sponsor">
               <div class="fg"><label for="sn">Organisation / Name</label><input type="text" id="sn" name="name" placeholder="Your organisation or name" required autocomplete="organization"></div>
               <div class="fg"><label for="se">Email address</label><input type="email" id="se" name="email" placeholder="you@example.com" required autocomplete="email"></div>
-              <div class="fg"><label for="sl">Sponsorship level</label><select id="sl" name="level"><option value="">Select…</option><option value="Builder — from £500">Builder — from £500</option><option value="Engineer — from £2,500">Engineer — from £2,500</option><option value="Architect — from £5,000">Architect — from £5,000</option><option value="Other amount">Other amount</option></select></div>
-              <div class="fg"><label for="sm">Message <span style="color:var(--muted-2);font-weight:300">(optional)</span></label><textarea id="sm" name="message" placeholder="Tell us more…"></textarea></div>
+              <div class="fg"><label for="sw">WhatsApp number <span class="opt">(optional)</span></label><input type="tel" id="sw" name="whatsapp" placeholder="+44 7700 000000" autocomplete="tel"></div>
+              <div class="fg"><label for="sl">Sponsorship level</label><select id="sl" name="level"><option value="">Select…</option><option value="Builder: from £500">Builder: from £500</option><option value="Engineer: from £2,500">Engineer: from £2,500</option><option value="Architect: from £5,000">Architect: from £5,000</option><option value="Other amount">Other amount</option></select></div>
+              <div class="fg"><label for="sm">Message <span class="opt">(optional)</span></label><textarea id="sm" name="message" placeholder="Tell us more…"></textarea></div>
+              <div class="fg fg-check"><label class="check-label"><input type="checkbox" name="gdpr" required><span>I agree to my information being held by Bunyaan (SC055377) for the purpose of sponsorship enquiry.</span></label></div>
               <button type="submit" class="f-submit">Get in Touch</button>
             </form>
-            <div class="f-success" id="ok-sponsor" aria-live="polite"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg><h3>Message sent!</h3><p>Thank you. We'll be in touch within 48 hours.</p></div>
+            <div class="f-success" id="ok-sponsor" aria-live="polite">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+              <h3>Message sent!</h3>
+              <p>Thank you for your interest. We will be in touch within 48 hours to discuss next steps.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -807,11 +1164,11 @@
       </div>
       <div>
         <div class="f-head">Quick Links</div>
-        <ul class="f-links"><li><a href="#about">About Bunyaan</a></li><li><a href="#first">What is FIRST UK</a></li><li><a href="#pillars">Our Pillars</a></li><li><a href="#team">Meet the Team</a></li><li><a href="#sponsor">Support Us</a></li><li><a href="#involved">Get Involved</a></li></ul>
+        <ul class="f-links"><li><a href="#about">About Bunyaan</a></li><li><a href="#first">What is FIRST UK</a></li><li><a href="#pillars">Our Pillars</a></li><li><a href="#team">Meet the Team</a></li><li><a href="#journey">Our Journey</a></li><li><a href="#sponsor">Support Us</a></li><li><a href="#involved">Get Involved</a></li></ul>
       </div>
       <div>
         <div class="f-head">Contact</div>
-        <div class="f-contact-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:hello@bunyaan.org">hello@bunyaan.org</a></div>
+        <div class="f-contact-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:info@bunyaan.org.uk">info@bunyaan.org.uk</a></div>
         <div class="f-contact-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Edinburgh, Scotland</span></div>
         <div class="f-contact-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg><a href="https://firstuk.org" target="_blank" rel="noopener noreferrer">firstuk.org</a></div>
         <div class="f-socials" aria-label="Social media">
@@ -822,7 +1179,7 @@
       </div>
     </div>
     <div class="footer-bar">
-      <span>&copy; 2026 Bunyaan. Registered Scottish Charity (pending). Built with purpose in Edinburgh.</span>
+      <span>&copy; 2026 Bunyaan. Registered Scottish Charity SC055377. Built with purpose in Edinburgh.</span>
       <span>Scotland's first Muslim robotics team.</span>
     </div>
   </footer>
@@ -866,13 +1223,110 @@
         if (t) window.scrollTo({ top: t.getBoundingClientRect().top + scrollY - 72, behavior: 'smooth' });
       });
     });
-    [['join-team','ok-join'],['mentor','ok-mentor'],['sponsor','ok-sponsor']].forEach(([name, okId]) => {
+    // Floating particles per section
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('section').forEach(section => {
+        for (let i = 0; i < 6; i++) {
+          const p = document.createElement('div');
+          p.className = 'particle';
+          const s = 1.5 + Math.random() * 2.5;
+          p.style.cssText = `left:${6+Math.random()*88}%;top:${6+Math.random()*88}%;width:${s}px;height:${s}px;animation-delay:${Math.random()*9}s;animation-duration:${9+Math.random()*9}s;`;
+          section.appendChild(p);
+        }
+      });
+    }
+
+  </script>
+
+  <script type="module">
+    import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+    import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+    // ── Firebase config ─────────────────────────────────────────────────────
+    // Replace every "YOUR_..." value with your Firebase project credentials.
+    // Find these in Firebase Console > Project Settings > Your apps > Web app.
+    const firebaseConfig = {
+      apiKey:            "AIzaSyAfbLECWwc8w0Xkby7hAYFzT_jFw67l6hQ",
+      authDomain:        "bunyaan-26ed6.firebaseapp.com",
+      projectId:         "bunyaan-26ed6",
+      storageBucket:     "bunyaan-26ed6.firebasestorage.app",
+      messagingSenderId: "902272445369",
+      appId:             "1:902272445369:web:da198c14adbd2ee95de468"
+    };
+
+    const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+    const db  = getFirestore(app);
+
+    // ── Team members (dynamic) ──────────────────────────────────────────────
+    const PERSON_SVG = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
+
+    function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+    function memberCard(m) {
+      const av = m.photoURL ? `<img src="${esc(m.photoURL)}" alt="${esc(m.name||'')}" loading="lazy">` : PERSON_SVG;
+      return `<article class="mentor-card" role="listitem">
+        <div class="m-avatar">${av}</div>
+        <div class="m-name">${esc(m.name||'')}</div>
+        ${m.role ? `<div class="m-exp">${esc(m.role)}</div>` : ''}
+        ${m.bio  ? `<div class="m-bio">${esc(m.bio)}</div>`  : ''}
+      </article>`;
+    }
+
+    function renderTeamGrid(id, members) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.innerHTML = members.length ? members.map(memberCard).join('') : '';
+    }
+
+    onSnapshot(
+      query(collection(db, 'team_members'), orderBy('order')),
+      snap => {
+        const members = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        const trustees = members.filter(m => m.category === 'trustee');
+        const others   = members.filter(m => m.category !== 'trustee');
+        renderTeamGrid('team-grid', [...trustees, ...others]);
+      },
+      err => console.error('Team read failed:', err.code, err.message)
+    );
+
+    // ── Form submissions ────────────────────────────────────────────────────
+    const FORMS = [
+      { name: 'join-team', coll: 'join_submissions',   okId: 'ok-join'    },
+      { name: 'mentor',    coll: 'mentor_submissions',  okId: 'ok-mentor'  },
+      { name: 'sponsor',   coll: 'sponsor_submissions', okId: 'ok-sponsor' },
+    ];
+
+    FORMS.forEach(({ name, coll, okId }) => {
       const form = document.querySelector(`form[name="${name}"]`);
       if (!form) return;
-      form.addEventListener('submit', e => {
+      form.addEventListener('submit', async e => {
         e.preventDefault();
-        fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(new FormData(form)).toString() })
-          .catch(() => {}).finally(() => { form.style.display = 'none'; document.getElementById(okId).classList.add('show'); });
+        const btn = form.querySelector('button[type="submit"]');
+        const origLabel = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = 'Sending…';
+
+        const fd = new FormData(form);
+        const data = Object.fromEntries(fd);
+        data.createdAt = serverTimestamp();
+
+        try {
+          await addDoc(collection(db, coll), data);
+          form.style.display = 'none';
+          document.getElementById(okId).classList.add('show');
+        } catch (err) {
+          console.error('Firestore write failed:', err);
+          btn.disabled = false;
+          btn.textContent = origLabel;
+          const existing = form.querySelector('.f-err');
+          if (!existing) {
+            const errEl = document.createElement('p');
+            errEl.className = 'f-err';
+            errEl.style.cssText = 'color:#f87171;font-size:0.82rem;margin-top:0.75rem;text-align:center';
+            errEl.textContent = 'Something went wrong. Please try again or email info@bunyaan.org.uk';
+            form.appendChild(errEl);
+          }
+        }
       });
     });
   </script>
