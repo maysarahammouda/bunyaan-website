@@ -1,0 +1,13 @@
+# Dependencies / tooling
+node_modules/
+.wrangler/
+.netlify/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Personal / private files
+maysara.jpg
+*.env
+.env.*
