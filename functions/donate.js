@@ -16,8 +16,8 @@ export async function onRequestPost(context) {
         'Supporting Scotland\'s first Muslim community robotics and AI team for young people.',
       'line_items[0][quantity]':  '1',
       'mode':                     'payment',
-      'success_url':              'https://www.bunyaan.org.uk/?donated=1#sponsor',
-      'cancel_url':               'https://www.bunyaan.org.uk/#sponsor',
+      'success_url':              'https://www.bunyaan.org.uk/?donated=1#donate',
+      'cancel_url':               'https://www.bunyaan.org.uk/#donate',
       'submit_type':              'donate',
     });
 

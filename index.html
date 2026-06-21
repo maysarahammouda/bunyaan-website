@@ -126,6 +126,7 @@
       font-size: 0.8rem; font-weight: 400;
       letter-spacing: 0.06em; text-transform: uppercase;
       color: var(--muted); transition: color 0.25s;
+      white-space: nowrap;
     }
     .nav-links a:hover { color: var(--gold); }
     .nav-cta {
@@ -136,6 +137,15 @@
       border-radius: 3px; transition: background 0.25s, transform 0.2s;
     }
     .nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .nav-donate {
+      flex-shrink: 0;
+      margin-inline-end: 0.5rem;
+      padding: 0.55rem 1.4rem;
+      font-size: 0.78rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
+      background: #fff; color: var(--navy);
+      border-radius: 3px; transition: background 0.25s, transform 0.2s;
+    }
+    .nav-donate:hover { background: rgba(255,255,255,0.88); transform: translateY(-1px); }
     .nav-burger {
       display: none; flex-direction: column; gap: 5px;
       padding: 0.5rem; margin-inline-start: auto;
@@ -454,6 +464,7 @@
        GET INVOLVED
     ============================================================ */
     #involved { background: var(--navy); }
+    #donate { background: var(--navy-2); }
     .forms-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; align-items: start; margin-block-start: clamp(2.5rem, 5vw, 4rem); }
     .form-card { background: var(--navy-2); border: 1px solid var(--gold-border); border-radius: 12px; padding: 2rem 1.75rem; transition: border-color 0.3s; }
     .form-card:hover { border-color: rgba(201,168,76,0.4); }
@@ -511,7 +522,7 @@
     ============================================================ */
 
     /* Clip ghost text / glows to section bounds (not on #about — has sticky child) */
-    #first, #pillars, #sponsor, #team, #journey, #involved { overflow: hidden; }
+    #first, #pillars, #sponsor, #team, #journey, #involved, #donate { overflow: hidden; }
 
     /* Ghost text + glow shared defaults */
     section::before, section::after { pointer-events: none; }
@@ -729,10 +740,12 @@
       .forms-grid { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr 1fr; }
     }
-    @media (max-width: 640px) {
-      /* Nav */
-      .nav-links, .nav-cta { display: none; }
+    @media (max-width: 1024px) {
+      .nav-links, .nav-cta, .nav-donate { display: none; }
       .nav-burger { display: flex; }
+    }
+
+    @media (max-width: 640px) {
 
       /* Hero */
       .hero-logo { width: min(76vw, 300px); }
@@ -825,7 +838,7 @@
     }
 
     /* Section boundary accents */
-    #first, #sponsor, #involved {
+    #first, #sponsor, #involved, #donate {
       border-block-start: 1px solid rgba(201,168,76,0.13);
     }
 
@@ -854,8 +867,8 @@
       <li><a href="#sponsor">Support Us</a></li>
       <li><a href="#team">The Team</a></li>
       <li><a href="#journey">Our Journey</a></li>
-      <li><a href="#involved">Get Involved</a></li>
     </ul>
+    <a href="#donate" class="nav-donate">Donate</a>
     <a href="#involved" class="nav-cta">Get Involved</a>
     <button class="nav-burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">
       <span></span><span></span><span></span>
@@ -870,6 +883,7 @@
     <a href="#team">The Team</a>
     <a href="#journey">Our Journey</a>
     <a href="#involved">Get Involved</a>
+    <a href="#donate">Donate</a>
   </div>
 
   <main>
@@ -897,7 +911,7 @@
         <h1 class="sr-only">Bunyaan: Scotland's First Muslim Robotics Team</h1>
 
         <div class="hero-logo-wrap">
-          <img src="logo-white.png" alt="Bunyaan: students and robots standing together as one united team" class="hero-logo">
+          <img src="/assets/logo-nav.png" alt="Bunyaan: Scotland's first Muslim robotics team" class="hero-logo">
         </div>
 
         <div class="hero-divider" aria-hidden="true"></div>
@@ -941,8 +955,8 @@
           <div class="about-right r d2">
             <div class="stats-stack">
               <div class="stat-row"><div class="stat-num">9–18</div><div class="stat-info"><div class="stat-lbl">Ages served</div><div class="stat-desc">Open to all Muslim youth across Edinburgh and the surrounding area.</div></div></div>
-              <div class="stat-row"><div class="stat-num">20+</div><div class="stat-info"><div class="stat-lbl">Students in Season 1</div><div class="stat-desc">Positions across engineering, programming, design, and business roles.</div></div></div>
-              <div class="stat-row"><div class="stat-num">5</div><div class="stat-info"><div class="stat-lbl">Expert mentors</div><div class="stat-desc">Professionals in Java, CAD, AI, electronics, and portfolio writing.</div></div></div>
+              <div class="stat-row"><div class="stat-num">30</div><div class="stat-info"><div class="stat-lbl">Students in Season 1</div><div class="stat-desc">Positions across engineering, programming, design, and business roles.</div></div></div>
+              <div class="stat-row"><div class="stat-num">10</div><div class="stat-info"><div class="stat-lbl">Expert mentors</div><div class="stat-desc">Professionals in Java, CAD, AI, electronics, and portfolio writing.</div></div></div>
               <div class="stat-row"><div class="stat-num">2026</div><div class="stat-info"><div class="stat-lbl">Season 1 begins</div><div class="stat-desc">Registration opening soon. Be the first to join Scotland's pioneering team.</div></div></div>
             </div>
           </div>
@@ -1032,36 +1046,6 @@
           </article>
         </div>
 
-        <div class="donate-divider"><span>or make a one-off donation</span></div>
-
-        <div class="donate-box r d1">
-          <div id="donate-form-wrap">
-            <h3 class="donate-heading">Give what you can</h3>
-            <p class="donate-sub">Every pound funds equipment, competition entry, and the next generation of Muslim engineers. Bunyaan is a registered Scottish charity (SC055377) — your donation goes directly to the young people we serve.</p>
-            <div class="donate-presets" role="group" aria-label="Preset donation amounts">
-              <button class="donate-preset" data-amount="5">£5</button>
-              <button class="donate-preset" data-amount="10">£10</button>
-              <button class="donate-preset active" data-amount="25">£25</button>
-              <button class="donate-preset" data-amount="50">£50</button>
-              <button class="donate-preset" data-amount="100">£100</button>
-            </div>
-            <div class="donate-custom">
-              <span class="donate-custom-prefix" aria-hidden="true">£</span>
-              <input class="donate-custom-input" id="donate-amount" type="number" min="1" max="10000" placeholder="Other amount" aria-label="Custom donation amount in pounds">
-            </div>
-            <button class="donate-btn" id="donate-btn">
-              Donate securely
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            <p class="donate-err" id="donate-err" aria-live="polite"></p>
-            <p class="donate-note">Payments processed securely by Stripe. Bunyaan SC055377.</p>
-          </div>
-          <div class="donate-success" id="donate-success" hidden>
-            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
-            <h3>Thank you!</h3>
-            <p>Your donation makes a real difference to the young people we serve. Jazakallah khayran.</p>
-          </div>
-        </div>
 
       </div>
     </section>
@@ -1241,6 +1225,41 @@
       </div>
     </section>
 
+    <section id="donate" aria-labelledby="donate-heading">
+      <div class="wrap">
+        <div class="about-accent-num r">08</div>
+        <span class="eyebrow r d1">Support Bunyaan</span>
+        <h2 class="section-title r d2" id="donate-heading">Give What You Can</h2>
+        <p class="section-sub r d3" style="margin-block-end:clamp(2rem,4vw,3rem)">Every pound funds equipment, competition entry, and the next generation of Muslim engineers. Bunyaan is a registered Scottish charity (SC055377).</p>
+        <div class="donate-box r d4">
+          <div id="donate-form-wrap">
+            <div class="donate-presets" role="group" aria-label="Preset donation amounts">
+              <button class="donate-preset" data-amount="5">£5</button>
+              <button class="donate-preset" data-amount="10">£10</button>
+              <button class="donate-preset active" data-amount="25">£25</button>
+              <button class="donate-preset" data-amount="50">£50</button>
+              <button class="donate-preset" data-amount="100">£100</button>
+            </div>
+            <div class="donate-custom">
+              <span class="donate-custom-prefix" aria-hidden="true">£</span>
+              <input class="donate-custom-input" id="donate-amount" type="number" min="1" max="10000" placeholder="Other amount" aria-label="Custom donation amount in pounds">
+            </div>
+            <button class="donate-btn" id="donate-btn">
+              Donate securely
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            <p class="donate-err" id="donate-err" aria-live="polite"></p>
+            <p class="donate-note">Payments processed securely by Stripe. Bunyaan SC055377.</p>
+          </div>
+          <div class="donate-success" id="donate-success" hidden>
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+            <h3>Thank you!</h3>
+            <p>Your donation makes a real difference to the young people we serve. Jazakallah khayran.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer role="contentinfo">
@@ -1381,7 +1400,7 @@
       if (new URLSearchParams(window.location.search).get('donated') === '1') {
         document.getElementById('donate-form-wrap').hidden = true;
         document.getElementById('donate-success').hidden   = false;
-        history.replaceState(null, '', window.location.pathname + '#sponsor');
+        history.replaceState(null, '', window.location.pathname + '#donate');
       }
     })();
 
