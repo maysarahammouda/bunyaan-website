@@ -646,6 +646,13 @@
       color: #4ade80; background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.18);
       border-radius: 100px; padding: 0.25rem 0.8rem; margin-block-start: 0.6rem;
     }
+    .tl-badge-progress {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.6rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold); background: var(--gold-dim); border: 1px solid var(--gold-border);
+      border-radius: 100px; padding: 0.25rem 0.8rem; margin-block-start: 0.6rem;
+    }
+    .tl-item.progress .tl-dot { border-color: var(--gold); background: var(--gold-dim); }
 
     /* JOURNEY decorative layers */
     #journey::before {
@@ -1039,19 +1046,29 @@
             </div>
           </div>
 
-          <div class="tl-item r d3">
+          <div class="tl-item complete r d3">
             <div class="tl-marker" aria-hidden="true"><div class="tl-dot"></div><div class="tl-line"></div></div>
             <div class="tl-content">
               <div class="tl-date">June 2026</div>
               <div class="tl-title">Register teams with FIRST UK, confirm mentors</div>
+              <div class="tl-badge-complete"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Complete</div>
             </div>
           </div>
 
-          <div class="tl-item r d3">
+          <div class="tl-item progress r d3">
+            <div class="tl-marker" aria-hidden="true"><div class="tl-dot"></div><div class="tl-line"></div></div>
+            <div class="tl-content">
+              <div class="tl-date">June 2026</div>
+              <div class="tl-title">Fundraising launched, first grant awarded</div>
+              <div class="tl-badge-progress"><svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><circle cx="12" cy="12" r="12"/></svg>In Progress</div>
+            </div>
+          </div>
+
+          <div class="tl-item r d4">
             <div class="tl-marker" aria-hidden="true"><div class="tl-dot"></div><div class="tl-line"></div></div>
             <div class="tl-content">
               <div class="tl-date">Summer 2026</div>
-              <div class="tl-title">Fundraising, equipment procurement, lab fit-out</div>
+              <div class="tl-title">Equipment procurement, lab fit-out</div>
             </div>
           </div>
 
