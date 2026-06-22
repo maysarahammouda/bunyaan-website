@@ -1320,9 +1320,31 @@
               <div class="bank-field"><span class="bank-fl">Account number</span><button class="bank-copy" data-copy="20314232" aria-label="Copy account number">20314232 <span class="bank-copy-tip">Copied</span></button></div>
             </div>
             <p class="donate-col-intro">After transferring, email <a href="mailto:info@bunyaan.org.uk">info@bunyaan.org.uk</a> so we can confirm receipt and send a thank-you.</p>
-            <div class="ga-bank-section">
-              <p class="ga-bank-title">Claim Gift Aid</p>
-              <p class="ga-bank-body">UK taxpayer? We can claim an extra 25p per £1 at no cost to you. Email <a href="mailto:info@bunyaan.org.uk">info@bunyaan.org.uk</a> with your full name, home address, and postcode and we will send you a declaration to sign.</p>
+            <div class="ga-wrap" style="margin-block-start:1.5rem;padding-block-start:1.25rem;border-block-start:1px solid var(--gold-border)">
+              <div id="ga-bank-form-wrap">
+                <button type="button" class="ga-toggle" id="ga-bank-toggle" aria-expanded="false" aria-controls="ga-bank-fields">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                  Boost your donation by 25% with Gift Aid
+                  <svg class="ga-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+                <div class="ga-fields" id="ga-bank-fields" hidden>
+                  <p class="ga-info">If you're a UK taxpayer, Bunyaan can claim an extra 25p for every £1 you donate at no extra cost to you.</p>
+                  <div class="fg"><label for="ga-bank-name">Full name</label><input type="text" id="ga-bank-name" placeholder="As it appears on your tax record"></div>
+                  <div class="fg"><label for="ga-bank-address">Home address</label><input type="text" id="ga-bank-address" placeholder="Street address"></div>
+                  <div class="fg"><label for="ga-bank-postcode">Postcode</label><input type="text" id="ga-bank-postcode" placeholder="EH1 1AA"></div>
+                  <div class="fg fg-check"><label class="check-label"><input type="checkbox" id="ga-bank-confirm"><span>I am a UK taxpayer and understand that if I pay less Income Tax and/or Capital Gains Tax than the amount of Gift Aid claimed on all my donations in that tax year it is my responsibility to pay any difference.</span></label></div>
+                  <button type="button" class="donate-btn" id="ga-bank-btn" style="margin-block-start:0.5rem">
+                    Submit Gift Aid declaration
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </button>
+                  <p class="donate-err" id="ga-bank-err" aria-live="polite"></p>
+                </div>
+              </div>
+              <div id="ga-bank-success" hidden style="text-align:center;padding:1.5rem 0">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-block-end:0.75rem"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+                <p style="font-weight:600;color:var(--white);margin-block-end:0.25rem">Declaration saved</p>
+                <p style="font-size:0.85rem;color:var(--muted)">We will claim Gift Aid on your bank transfer. Jazakallah khayran.</p>
+              </div>
             </div>
           </div>
 
@@ -1445,6 +1467,51 @@
           const expanded = gaToggle.getAttribute('aria-expanded') === 'true';
           gaToggle.setAttribute('aria-expanded', String(!expanded));
           gaFields.hidden = expanded;
+        });
+      }
+
+      // Bank Gift Aid toggle
+      const gaBankToggle = document.getElementById('ga-bank-toggle');
+      const gaBankFields = document.getElementById('ga-bank-fields');
+      if (gaBankToggle && gaBankFields) {
+        gaBankToggle.addEventListener('click', () => {
+          const expanded = gaBankToggle.getAttribute('aria-expanded') === 'true';
+          gaBankToggle.setAttribute('aria-expanded', String(!expanded));
+          gaBankFields.hidden = expanded;
+        });
+      }
+
+      // Bank Gift Aid submit
+      const gaBankBtn = document.getElementById('ga-bank-btn');
+      const gaBankErr = document.getElementById('ga-bank-err');
+      if (gaBankBtn) {
+        gaBankBtn.addEventListener('click', async () => {
+          const name     = document.getElementById('ga-bank-name').value.trim();
+          const address  = document.getElementById('ga-bank-address').value.trim();
+          const postcode = document.getElementById('ga-bank-postcode').value.trim();
+          const confirm  = document.getElementById('ga-bank-confirm').checked;
+          if (!name || !address || !postcode) {
+            gaBankErr.textContent = 'Please fill in all fields.';
+            return;
+          }
+          if (!confirm) {
+            gaBankErr.textContent = 'Please tick the Gift Aid declaration.';
+            return;
+          }
+          gaBankBtn.disabled = true;
+          gaBankBtn.textContent = 'Saving…';
+          gaBankErr.textContent = '';
+          try {
+            if (window.saveGiftAid) {
+              await window.saveGiftAid({ name, address, postcode, method: 'bank' });
+            }
+            document.getElementById('ga-bank-form-wrap').hidden = true;
+            document.getElementById('ga-bank-success').hidden   = false;
+          } catch (err) {
+            gaBankErr.textContent = 'Something went wrong. Please try again.';
+            gaBankBtn.disabled = false;
+            gaBankBtn.textContent = 'Submit Gift Aid declaration';
+          }
         });
       }
 
