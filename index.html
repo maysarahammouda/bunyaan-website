@@ -425,6 +425,40 @@
     .donate-success p { font-size: 0.875rem; color: var(--muted); }
     .donate-err { font-size: 0.8rem; color: #f87171; margin-block-start: 0.75rem; text-align: center; min-height: 1.2rem; }
     .ti-check { flex-shrink: 0; color: var(--gold); margin-block-start: 0.15rem; }
+    /* Two-column donate grid */
+    .donate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .donate-grid .donate-box { max-width: none; margin-inline: 0; border-radius: 12px; }
+    /* Column heading — matches .fc-title */
+    .donate-col-head { font-family: var(--f-display); font-size: 1.5rem; font-weight: 700; margin-block-end: 1.5rem; padding-block-end: 1rem; border-block-end: 1px solid var(--gold-border); }
+    /* Intro text — matches .fc-body */
+    .donate-col-intro { font-size: 0.875rem; color: var(--muted); line-height: 1.75; margin-block-end: 1.25rem; }
+    .donate-col-intro a { color: var(--gold); }
+    /* Bank details */
+    .bank-details { border: 1px solid var(--gold-border); border-radius: 8px; overflow: hidden; margin-block-end: 1.25rem; }
+    .bank-row { display: flex; justify-content: space-between; align-items: center; padding: 0.65rem 1rem; border-block-end: 1px solid rgba(201,168,76,0.12); }
+    .bank-row:last-child { border-block-end: none; }
+    /* Label — matches .fg label */
+    .bank-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+    .bank-val { font-family: var(--f-body); font-size: 0.875rem; font-weight: 500; color: var(--white); }
+    .bank-copy { cursor: pointer; color: var(--white); background: none; border: none; display: flex; align-items: center; gap: 0.6rem; font-family: var(--f-body); font-size: 0.875rem; font-weight: 500; transition: color 0.2s; padding: 0; }
+    .bank-copy:hover { color: var(--gold); }
+    .bank-copy-tip { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); opacity: 0; transition: opacity 0.3s; }
+    .bank-copy.copied .bank-copy-tip { opacity: 1; }
+    /* Gift Aid */
+    .ga-wrap { margin-block: 1rem 1.25rem; }
+    .ga-toggle { display: flex; align-items: center; gap: 0.5rem; width: 100%; padding: 0.6rem 0.9rem; background: var(--gold-dim); border: 1px solid var(--gold-border); border-radius: 4px; color: var(--gold); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; font-family: var(--f-body); text-align: left; transition: background 0.2s; }
+    .ga-toggle:hover { background: rgba(201,168,76,0.18); }
+    .ga-toggle .ga-chev { flex-shrink: 0; margin-inline-start: auto; transition: transform 0.25s; }
+    .ga-toggle[aria-expanded="true"] .ga-chev { transform: rotate(180deg); }
+    .ga-fields { margin-block-start: 0.75rem; padding: 1rem; background: rgba(201,168,76,0.04); border-radius: 4px; border: 1px solid var(--gold-border); }
+    /* Gift Aid info — matches .fc-body */
+    .ga-info { font-size: 0.875rem; color: var(--muted); margin-block-end: 1rem; line-height: 1.75; }
+    .ga-bank-section { margin-block-start: 1.5rem; padding-block-start: 1.25rem; border-block-start: 1px solid var(--gold-border); }
+    /* Gift Aid section label — matches .fg label */
+    .ga-bank-title { font-size: 0.72rem; font-weight: 500; color: var(--gold); text-transform: uppercase; letter-spacing: 0.06em; margin-block-end: 0.5rem; }
+    .ga-bank-body { font-size: 0.875rem; color: var(--muted); line-height: 1.75; }
+    .ga-bank-body a { color: var(--gold); }
+    @media (max-width: 768px) { .donate-grid { grid-template-columns: 1fr; } }
 
     /* ============================================================
        BUTTONS
@@ -1231,31 +1265,68 @@
         <span class="eyebrow r d1">Support Bunyaan</span>
         <h2 class="section-title r d2" id="donate-heading">Give What You Can</h2>
         <p class="section-sub r d3" style="margin-block-end:clamp(2rem,4vw,3rem)">Every pound funds equipment, competition entry, and the next generation of Muslim engineers. Bunyaan is a registered Scottish charity (SC055377).</p>
-        <div class="donate-box r d4">
-          <div id="donate-form-wrap">
-            <div class="donate-presets" role="group" aria-label="Preset donation amounts">
-              <button class="donate-preset" data-amount="5">£5</button>
-              <button class="donate-preset" data-amount="10">£10</button>
-              <button class="donate-preset active" data-amount="25">£25</button>
-              <button class="donate-preset" data-amount="50">£50</button>
-              <button class="donate-preset" data-amount="100">£100</button>
+        <div class="donate-grid r d4">
+
+          <!-- Card payment -->
+          <div class="donate-box">
+            <div id="donate-form-wrap">
+              <h3 class="donate-col-head">Pay by card</h3>
+              <div class="donate-presets" role="group" aria-label="Preset donation amounts">
+                <button class="donate-preset" data-amount="5">£5</button>
+                <button class="donate-preset" data-amount="10">£10</button>
+                <button class="donate-preset active" data-amount="25">£25</button>
+                <button class="donate-preset" data-amount="50">£50</button>
+                <button class="donate-preset" data-amount="100">£100</button>
+              </div>
+              <div class="donate-custom">
+                <span class="donate-custom-prefix" aria-hidden="true">£</span>
+                <input class="donate-custom-input" id="donate-amount" type="number" min="1" max="10000" placeholder="Other amount" aria-label="Custom donation amount in pounds">
+              </div>
+              <div class="ga-wrap">
+                <button type="button" class="ga-toggle" id="ga-toggle" aria-expanded="false" aria-controls="ga-fields">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                  Boost your donation by 25% with Gift Aid
+                  <svg class="ga-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+                <div class="ga-fields" id="ga-fields" hidden>
+                  <p class="ga-info">If you're a UK taxpayer, Bunyaan can claim an extra 25p for every £1 you donate at no extra cost to you.</p>
+                  <div class="fg"><label for="ga-name">Full name</label><input type="text" id="ga-name" placeholder="As it appears on your tax record"></div>
+                  <div class="fg"><label for="ga-address">Home address</label><input type="text" id="ga-address" placeholder="Street address"></div>
+                  <div class="fg"><label for="ga-postcode">Postcode</label><input type="text" id="ga-postcode" placeholder="EH1 1AA"></div>
+                  <div class="fg fg-check"><label class="check-label"><input type="checkbox" id="ga-confirm"><span>I am a UK taxpayer and understand that if I pay less Income Tax and/or Capital Gains Tax than the amount of Gift Aid claimed on all my donations in that tax year it is my responsibility to pay any difference.</span></label></div>
+                </div>
+              </div>
+              <button class="donate-btn" id="donate-btn">
+                Donate securely
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </button>
+              <p class="donate-err" id="donate-err" aria-live="polite"></p>
+              <p class="donate-note">Payments processed securely by Stripe. Bunyaan SC055377.</p>
             </div>
-            <div class="donate-custom">
-              <span class="donate-custom-prefix" aria-hidden="true">£</span>
-              <input class="donate-custom-input" id="donate-amount" type="number" min="1" max="10000" placeholder="Other amount" aria-label="Custom donation amount in pounds">
+            <div class="donate-success" id="donate-success" hidden>
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+              <h3>Thank you!</h3>
+              <p>Your donation makes a real difference to the young people we serve. Jazakallah khayran.</p>
             </div>
-            <button class="donate-btn" id="donate-btn">
-              Donate securely
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            <p class="donate-err" id="donate-err" aria-live="polite"></p>
-            <p class="donate-note">Payments processed securely by Stripe. Bunyaan SC055377.</p>
           </div>
-          <div class="donate-success" id="donate-success" hidden>
-            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
-            <h3>Thank you!</h3>
-            <p>Your donation makes a real difference to the young people we serve. Jazakallah khayran.</p>
+
+          <!-- Bank transfer -->
+          <div class="donate-box">
+            <h3 class="donate-col-head">Pay by bank transfer</h3>
+            <p class="donate-col-intro">Free and instant with most UK banks. No card fees — more of your donation reaches the team directly.</p>
+            <div class="bank-details">
+              <div class="bank-row"><span class="bank-label">Bank</span><span class="bank-val">Virgin Money</span></div>
+              <div class="bank-row"><span class="bank-label">Account name</span><span class="bank-val">Bunyaan</span></div>
+              <div class="bank-row"><span class="bank-label">Sort code</span><button class="bank-copy" data-copy="82-12-08" aria-label="Copy sort code 82-12-08">82-12-08<span class="bank-copy-tip">Copied</span></button></div>
+              <div class="bank-row"><span class="bank-label">Account number</span><button class="bank-copy" data-copy="20314232" aria-label="Copy account number 20314232">20314232<span class="bank-copy-tip">Copied</span></button></div>
+            </div>
+            <p class="donate-col-intro">After transferring, email <a href="mailto:info@bunyaan.org.uk">info@bunyaan.org.uk</a> so we can confirm receipt and send a thank-you.</p>
+            <div class="ga-bank-section">
+              <p class="ga-bank-title">Claim Gift Aid</p>
+              <p class="ga-bank-body">UK taxpayer? We can claim an extra 25p per £1 at no cost to you. Email <a href="mailto:info@bunyaan.org.uk">info@bunyaan.org.uk</a> with your full name, home address, and postcode and we will send you a declaration to sign.</p>
+            </div>
           </div>
+
         </div>
       </div>
     </section>
@@ -1367,6 +1438,27 @@
         errEl.textContent = '';
       });
 
+      // Gift Aid toggle
+      const gaToggle = document.getElementById('ga-toggle');
+      const gaFields = document.getElementById('ga-fields');
+      if (gaToggle && gaFields) {
+        gaToggle.addEventListener('click', () => {
+          const expanded = gaToggle.getAttribute('aria-expanded') === 'true';
+          gaToggle.setAttribute('aria-expanded', String(!expanded));
+          gaFields.hidden = expanded;
+        });
+      }
+
+      // Click-to-copy bank details
+      document.querySelectorAll('.bank-copy').forEach(btn => {
+        btn.addEventListener('click', () => {
+          navigator.clipboard.writeText(btn.dataset.copy).then(() => {
+            btn.classList.add('copied');
+            setTimeout(() => btn.classList.remove('copied'), 2000);
+          });
+        });
+      });
+
       // Donate button
       donateBtn.addEventListener('click', async () => {
         const amount = parseFloat(amountInput.value);
@@ -1374,10 +1466,39 @@
           errEl.textContent = 'Please enter or select an amount.';
           return;
         }
+
+        // Validate Gift Aid fields if toggle is open
+        const gaActive = gaToggle && gaToggle.getAttribute('aria-expanded') === 'true';
+        if (gaActive) {
+          const gaName     = document.getElementById('ga-name').value.trim();
+          const gaAddress  = document.getElementById('ga-address').value.trim();
+          const gaPostcode = document.getElementById('ga-postcode').value.trim();
+          const gaConfirm  = document.getElementById('ga-confirm').checked;
+          if (!gaName || !gaAddress || !gaPostcode) {
+            errEl.textContent = 'Please complete your Gift Aid details or close the Gift Aid section.';
+            return;
+          }
+          if (!gaConfirm) {
+            errEl.textContent = 'Please tick the Gift Aid declaration or close the Gift Aid section.';
+            return;
+          }
+        }
+
         donateBtn.disabled = true;
         donateBtn.textContent = 'Redirecting to payment…';
         errEl.textContent = '';
         try {
+          // Save Gift Aid declaration before redirect
+          if (gaActive && window.saveGiftAid) {
+            await window.saveGiftAid({
+              name:     document.getElementById('ga-name').value.trim(),
+              address:  document.getElementById('ga-address').value.trim(),
+              postcode: document.getElementById('ga-postcode').value.trim(),
+              amount,
+              method:   'stripe',
+            });
+          }
+
           const res  = await fetch('/donate', {
             method:  'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -1424,6 +1545,9 @@
 
     const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
     const db  = getFirestore(app);
+
+    // Expose Gift Aid declaration save for the donation widget
+    window.saveGiftAid = (data) => addDoc(collection(db, 'giftaid_declarations'), { ...data, createdAt: serverTimestamp() });
 
     // ── Team members (dynamic) ──────────────────────────────────────────────
     const PERSON_SVG = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
