@@ -434,15 +434,13 @@
     .donate-col-intro { font-size: 0.875rem; color: var(--muted); line-height: 1.75; margin-block-end: 1.25rem; }
     .donate-col-intro a { color: var(--gold); }
     /* Bank details */
-    .bank-details { border: 1px solid var(--gold-border); border-radius: 8px; overflow: hidden; margin-block-end: 1.25rem; }
-    .bank-row { display: flex; justify-content: space-between; align-items: center; padding: 0.65rem 1rem; border-block-end: 1px solid rgba(201,168,76,0.12); }
-    .bank-row:last-child { border-block-end: none; }
-    /* Label — matches .fg label */
-    .bank-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
-    .bank-val { font-family: var(--f-body); font-size: 0.875rem; font-weight: 500; color: var(--white); }
-    .bank-copy { cursor: pointer; color: var(--white); background: none; border: none; display: flex; align-items: center; gap: 0.6rem; font-family: var(--f-body); font-size: 0.875rem; font-weight: 500; transition: color 0.2s; padding: 0; }
+    .bank-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-block: 1.25rem; }
+    .bank-field { padding: 0.8rem 1rem; background: var(--navy); border: 1px solid var(--gold-border); border-radius: 6px; }
+    .bank-fl { display: block; font-size: 0.68rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-block-end: 0.3rem; }
+    .bank-fv { display: block; font-family: var(--f-body); font-size: 0.975rem; font-weight: 600; color: var(--white); }
+    .bank-copy { cursor: pointer; background: none; border: none; display: flex; align-items: center; gap: 0.5rem; font-family: var(--f-body); font-size: 0.975rem; font-weight: 600; color: var(--white); padding: 0; width: 100%; text-align: left; transition: color 0.2s; }
     .bank-copy:hover { color: var(--gold); }
-    .bank-copy-tip { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); opacity: 0; transition: opacity 0.3s; }
+    .bank-copy-tip { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); opacity: 0; transition: opacity 0.3s; }
     .bank-copy.copied .bank-copy-tip { opacity: 1; }
     /* Gift Aid */
     .ga-wrap { margin-block: 1rem 1.25rem; }
@@ -1272,11 +1270,11 @@
             <div id="donate-form-wrap">
               <h3 class="donate-col-head">Pay by card</h3>
               <div class="donate-presets" role="group" aria-label="Preset donation amounts">
-                <button class="donate-preset" data-amount="5">£5</button>
                 <button class="donate-preset" data-amount="10">£10</button>
-                <button class="donate-preset active" data-amount="25">£25</button>
                 <button class="donate-preset" data-amount="50">£50</button>
-                <button class="donate-preset" data-amount="100">£100</button>
+                <button class="donate-preset active" data-amount="100">£100</button>
+                <button class="donate-preset" data-amount="200">£200</button>
+                <button class="donate-preset" data-amount="500">£500</button>
               </div>
               <div class="donate-custom">
                 <span class="donate-custom-prefix" aria-hidden="true">£</span>
@@ -1314,11 +1312,11 @@
           <div class="donate-box">
             <h3 class="donate-col-head">Pay by bank transfer</h3>
             <p class="donate-col-intro">Free and instant with most UK banks. No card fees, so more of your donation reaches the team directly.</p>
-            <div class="bank-details">
-              <div class="bank-row"><span class="bank-label">Bank</span><span class="bank-val">Virgin Money</span></div>
-              <div class="bank-row"><span class="bank-label">Account name</span><span class="bank-val">Bunyaan</span></div>
-              <div class="bank-row"><span class="bank-label">Sort code</span><button class="bank-copy" data-copy="82-12-08" aria-label="Copy sort code 82-12-08">82-12-08<span class="bank-copy-tip">Copied</span></button></div>
-              <div class="bank-row"><span class="bank-label">Account number</span><button class="bank-copy" data-copy="20314232" aria-label="Copy account number 20314232">20314232<span class="bank-copy-tip">Copied</span></button></div>
+            <div class="bank-fields">
+              <div class="bank-field"><span class="bank-fl">Account name</span><span class="bank-fv">Bunyaan</span></div>
+              <div class="bank-field"><span class="bank-fl">Bank</span><span class="bank-fv">Virgin Money</span></div>
+              <div class="bank-field"><span class="bank-fl">Sort code</span><button class="bank-copy" data-copy="82-12-08" aria-label="Copy sort code">82-12-08 <span class="bank-copy-tip">Copied</span></button></div>
+              <div class="bank-field"><span class="bank-fl">Account number</span><button class="bank-copy" data-copy="20314232" aria-label="Copy account number">20314232 <span class="bank-copy-tip">Copied</span></button></div>
             </div>
             <p class="donate-col-intro">After transferring, email <a href="mailto:info@bunyaan.org.uk">info@bunyaan.org.uk</a> so we can confirm receipt and send a thank-you.</p>
             <div class="ga-bank-section">
