@@ -298,12 +298,12 @@
        MARQUEE
     ============================================================ */
     .marquee-strip { position: relative; z-index: 1; background: var(--gold); overflow: hidden; padding-block: 0.65rem; white-space: nowrap; }
-    #supporters { background: var(--navy-2); border-block: 1px solid var(--gold-border); padding-block: 2.25rem; position: relative; z-index: 1; }
-    .supporters-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-align: center; margin-block-end: 1.25rem; }
-    .supporters-logos { display: flex; justify-content: center; align-items: center; gap: 2.5rem; flex-wrap: wrap; }
-    .supporter-logo { background: #fff; border-radius: 6px; padding: 0.6rem 1.4rem; display: flex; align-items: center; transition: opacity 0.2s; }
-    .supporter-logo:hover { opacity: 0.85; }
-    .supporter-logo img { height: 40px; width: auto; display: block; }
+    #supporters { background: var(--navy-2); border-block: 1px solid var(--gold-border); padding-block: 2.75rem; position: relative; z-index: 1; }
+    .supporters-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-align: center; margin-block-end: 1.75rem; }
+    .supporters-logos { display: flex; justify-content: center; align-items: center; gap: 3rem; flex-wrap: wrap; }
+    .supporter-logo { background: #fff; border-radius: 10px; padding: 1rem 2.5rem; display: flex; align-items: center; box-shadow: 0 4px 24px rgba(0,0,0,0.25); transition: transform 0.2s, box-shadow 0.2s; }
+    .supporter-logo:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.35); }
+    .supporter-logo img { height: 56px; width: auto; display: block; }
     .marquee-track { display: inline-flex; gap: 0; animation: marquee 75s linear infinite; }
     .marquee-track span { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--navy); padding-inline: 2rem; }
     .marquee-sep { color: rgba(10,22,40,0.4) !important; padding-inline: 0 !important; }
