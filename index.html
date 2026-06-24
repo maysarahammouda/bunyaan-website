@@ -298,12 +298,6 @@
        MARQUEE
     ============================================================ */
     .marquee-strip { position: relative; z-index: 1; background: var(--gold); overflow: hidden; padding-block: 0.65rem; white-space: nowrap; }
-    #supporters { background: var(--navy-2); border-block: 1px solid var(--gold-border); padding-block: 3rem; position: relative; z-index: 1; }
-    .supporters-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-align: center; margin-block-end: 2rem; }
-    .supporters-logos { display: flex; justify-content: center; align-items: center; gap: 4rem; flex-wrap: wrap; }
-    .supporter-logo { display: flex; align-items: center; opacity: 0.85; transition: opacity 0.2s; }
-    .supporter-logo:hover { opacity: 1; }
-    .supporter-logo img { height: 100px; width: auto; display: block; filter: brightness(0) invert(1); }
     .marquee-track { display: inline-flex; gap: 0; animation: marquee 75s linear infinite; }
     .marquee-track span { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--navy); padding-inline: 2rem; }
     .marquee-sep { color: rgba(10,22,40,0.4) !important; padding-inline: 0 !important; }
@@ -978,18 +972,7 @@
       </div>
     </div>
 
-    <section id="supporters" aria-label="Funded and supported by">
-      <div class="wrap">
-        <p class="supporters-label">Funded and Supported by</p>
-        <div class="supporters-logos">
-          <a href="https://www.ed.ac.uk" target="_blank" rel="noopener noreferrer" class="supporter-logo" aria-label="The University of Edinburgh">
-            <img src="/assets/uoe-logo.svg" alt="The University of Edinburgh">
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section id="about" aria-labelledby="about-heading">
+<section id="about" aria-labelledby="about-heading">
       <div class="wrap">
         <div class="about-grid">
           <div>
