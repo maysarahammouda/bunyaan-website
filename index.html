@@ -42,6 +42,7 @@
       --muted:       rgba(255,255,255,0.55);
       --muted-2:     rgba(255,255,255,0.30);
       --nav-h:       72px;
+      --announce-h:  40px;
       --f-display:   'Cormorant Garamond', Georgia, serif;
       --f-body:      'DM Sans', system-ui, sans-serif;
       --f-arabic:    'Noto Naskh Arabic', serif;
@@ -98,8 +99,22 @@
     /* ============================================================
        NAV
     ============================================================ */
+    .announce-bar {
+      position: fixed; top: 0; inset-inline: 0; z-index: 300;
+      height: var(--announce-h);
+      background: #C8A84B; color: #0C1A2E;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--f-body); font-size: 0.8rem; font-weight: 500;
+      letter-spacing: 0.03em; text-align: center;
+      padding-inline: 1rem;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .announce-bar:hover { background: #d9b655; }
+    .announce-bar strong { font-weight: 700; }
+
     nav {
-      position: fixed; top: 0; inset-inline: 0; z-index: 200;
+      position: fixed; top: var(--announce-h); inset-inline: 0; z-index: 200;
       height: var(--nav-h);
       display: flex; align-items: center;
       padding-inline: clamp(1.5rem, 5vw, 4rem);
@@ -159,7 +174,7 @@
     .nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
     .nav-drawer {
       display: none;
-      position: fixed; top: var(--nav-h); inset-inline: 0; z-index: 199;
+      position: fixed; top: calc(var(--announce-h) + var(--nav-h)); inset-inline: 0; z-index: 199;
       background: rgba(10,22,40,0.98); backdrop-filter: blur(24px);
       padding: 1.5rem clamp(1.5rem, 5vw, 4rem) 2rem;
       border-block-end: 1px solid var(--gold-border);
@@ -181,7 +196,7 @@
       position: relative; z-index: 1;
       padding-block: clamp(5rem, 12vw, 9rem);
       padding-inline: clamp(1.5rem, 5vw, 4rem);
-      scroll-margin-top: var(--nav-h);
+      scroll-margin-top: calc(var(--announce-h) + var(--nav-h));
     }
     .wrap { max-width: 1240px; margin-inline: auto; position: relative; z-index: 1; }
     .eyebrow {
@@ -220,7 +235,7 @@
       min-height: 100svh;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      padding-block-start: calc(var(--nav-h) + 3rem);
+      padding-block-start: calc(var(--announce-h) + var(--nav-h) + 3rem);
       padding-block-end: 4rem;
       text-align: center; overflow: hidden;
     }
@@ -315,7 +330,7 @@
     }
     .about-body p { font-size: 0.975rem; color: var(--muted); line-height: 1.85; margin-block-end: 1.25rem; }
     .about-body p:last-child { margin-block-end: 0; }
-    .about-right { position: sticky; top: calc(var(--nav-h) + 2rem); }
+    .about-right { position: sticky; top: calc(var(--announce-h) + var(--nav-h) + 2rem); }
     .stats-stack { display: flex; flex-direction: column; gap: 0; }
     .stat-row { display: grid; grid-template-columns: 1fr 1fr; border-block-end: 1px solid var(--gold-border); padding-block: 2rem; }
     .stat-row:first-child { border-block-start: 1px solid var(--gold-border); }
@@ -759,7 +774,7 @@
        RESPONSIVE
     ============================================================ */
     @media (max-width: 1024px) {
-      #hero { padding-block-start: calc(var(--nav-h) + 2rem); }
+      #hero { padding-block-start: calc(var(--announce-h) + var(--nav-h) + 2rem); }
       .hero-scroll { display: none; }
       .about-grid { grid-template-columns: 1fr; }
       .about-right { position: static; }
@@ -890,6 +905,10 @@
   <div class="geo-canvas" aria-hidden="true"></div>
   <div class="geo-glow-tr" aria-hidden="true"></div>
   <div class="geo-glow-bl" aria-hidden="true"></div>
+
+  <a href="/summer_bootcamps" class="announce-bar" id="announce" aria-label="Summer Robotics Bootcamp announcement">
+    🤖 <strong>Summer Robotics Bootcamp:</strong>&nbsp; Spaces are limited.&nbsp; Book now &rarr;
+  </a>
 
   <nav id="nav" role="navigation" aria-label="Main navigation">
     <a href="#hero" class="nav-mark" aria-label="Bunyaan home"><img src="/assets/logo-nav.png" alt="Bunyaan" class="nav-logo"></a>
@@ -1410,7 +1429,8 @@
         const id = a.getAttribute('href'); if (id === '#') return;
         const t = document.querySelector(id); if (!t) return;
         e.preventDefault();
-        window.scrollTo({ top: t.getBoundingClientRect().top + scrollY - 72, behavior: 'smooth' });
+        const offset = (document.getElementById('announce')?.offsetHeight || 0) + (document.getElementById('nav')?.offsetHeight || 72);
+        window.scrollTo({ top: t.getBoundingClientRect().top + scrollY - offset, behavior: 'smooth' });
       });
     });
     document.querySelectorAll('[data-sponsor-level]').forEach(el => {
