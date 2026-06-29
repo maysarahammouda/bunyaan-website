@@ -314,55 +314,64 @@
        05 SESSIONS
     ============================================================ */
     #sessions { background: var(--navy); }
-    .sessions-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-    }
-    .session-card {
+    .sessions-compare {
       background: var(--navy-2);
       border: 1px solid var(--gold-border);
       border-radius: 14px;
       overflow: hidden;
-      transition: border-color 0.25s, transform 0.25s;
     }
-    .session-card:hover { border-color: var(--gold); transform: translateY(-4px); }
-    .session-head {
+    .sc-header {
+      display: grid;
+      grid-template-columns: 160px 1fr 1fr;
       background: var(--navy-3);
       border-block-end: 1px solid var(--gold-border);
-      padding: 1.5rem 2rem;
     }
-    .session-num {
-      font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
-      color: var(--gold); margin-block-end: 0.4rem;
-    }
-    .session-age {
-      font-family: var(--f-display); font-size: 1.6rem; font-weight: 700;
-    }
-    .session-body { padding: 2rem; }
-    .cal-tiles { display: flex; gap: 0.75rem; margin-block-end: 1.75rem; }
-    .cal-tile {
-      flex: 1;
-      background: var(--gold);
-      color: var(--navy);
-      border-radius: 8px;
-      padding: 0.9rem 0.5rem;
+    .sc-header-label { padding: 1.25rem 1.5rem; }
+    .sc-col-head {
+      padding: 1.25rem 1.5rem;
+      border-inline-start: 1px solid var(--gold-border);
       text-align: center;
     }
-    .cal-day { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-block-end: 0.2rem; }
-    .cal-num { font-family: var(--f-display); font-size: 2.4rem; font-weight: 700; line-height: 1; margin-block-end: 0.2rem; }
-    .cal-mon { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
-    .session-details { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; margin-block-end: 2rem; }
-    .session-details li { display: flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; color: var(--muted); }
-    .session-details li svg { color: var(--gold); flex-shrink: 0; }
-    .session-details li strong { color: var(--white); font-weight: 500; }
+    .sc-col-num {
+      font-size: 0.62rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin-block-end: 0.3rem;
+    }
+    .sc-col-age { font-family: var(--f-display); font-size: 1.3rem; font-weight: 700; }
+    .sc-row {
+      display: grid;
+      grid-template-columns: 160px 1fr 1fr;
+      border-block-end: 1px solid rgba(255,255,255,0.05);
+    }
+    .sc-row:last-child { border-block-end: none; }
+    .sc-row-label {
+      padding: 1rem 1.5rem;
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted-2); display: flex; align-items: center;
+    }
+    .sc-cell {
+      padding: 1rem 1.5rem;
+      border-inline-start: 1px solid var(--gold-border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; color: var(--muted); text-align: center;
+    }
+    .sc-price { font-family: var(--f-display); font-size: 1.5rem; font-weight: 700; color: var(--gold); }
+    .cal-tiles-sm { display: flex; gap: 0.4rem; }
+    .cal-tile-sm {
+      background: var(--gold); color: var(--navy);
+      border-radius: 5px; padding: 0.45rem 0.65rem;
+      text-align: center; min-width: 46px;
+    }
+    .cal-tile-sm .cday { font-size: 0.5rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-block-end: 0.1rem; }
+    .cal-tile-sm .cnum { font-family: var(--f-display); font-size: 1.35rem; font-weight: 700; line-height: 1; margin-block-end: 0.1rem; }
+    .cal-tile-sm .cmon { font-size: 0.5rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+    .sc-book-row .sc-cell { padding-block: 1.5rem; }
     .btn-book {
       display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-      width: 100%; padding: 1rem;
+      width: 100%; padding: 0.85rem 1rem;
       background: var(--gold); color: var(--navy);
-      font-family: var(--f-body); font-size: 0.88rem; font-weight: 700;
+      font-family: var(--f-body); font-size: 0.82rem; font-weight: 700;
       letter-spacing: 0.1em; text-transform: uppercase;
-      border-radius: 6px; border: none; cursor: pointer;
+      border-radius: 6px; border: none; cursor: pointer; text-decoration: none;
       transition: background 0.25s, transform 0.2s;
     }
     .btn-book:hover { background: var(--gold-light); transform: translateY(-2px); }
@@ -382,24 +391,39 @@
     .m-stat-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-block-start: 0.3rem; }
 
     /* ============================================================
-       07 SUPPORTERS
+       07 CONTACT
+    ============================================================ */
+    #contact { background: var(--navy-2); }
+    .contact-inner { max-width: 640px; }
+    .contact-items { display: flex; flex-direction: column; gap: 1rem; margin-block-start: 1.5rem; }
+    .contact-item {
+      display: flex; align-items: center; gap: 1rem;
+      font-size: 1rem; color: var(--muted);
+    }
+    .contact-item svg { color: var(--gold); flex-shrink: 0; }
+    .contact-item a { color: var(--white); transition: color 0.2s; }
+    .contact-item a:hover { color: var(--gold); }
+
+    /* ============================================================
+       08 SUPPORTERS
     ============================================================ */
     #supporters {
-      background: var(--parchment);
-      padding-block: 3.5rem;
+      background: var(--navy);
+      padding-block: 4rem;
+      border-block-start: 1px solid var(--gold-border);
     }
     #supporters .wrap { text-align: center; }
     .supporters-heading {
       font-size: 0.65rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
-      color: #7a7570; margin-block-end: 2rem;
+      color: var(--muted); margin-block-end: 2.5rem;
     }
     .supporters-logos { display: flex; justify-content: center; align-items: center; gap: 4rem; flex-wrap: wrap; }
-    .supporter-logo-link { display: flex; align-items: center; opacity: 0.9; transition: opacity 0.2s; }
+    .supporter-logo-link { display: flex; align-items: center; opacity: 0.85; transition: opacity 0.2s; }
     .supporter-logo-link:hover { opacity: 1; }
-    .supporter-logo-link img { height: 60px; width: auto; }
+    .supporter-logo-link img { height: 110px; width: auto; filter: brightness(0) invert(1); }
     .supporters-caption {
-      margin-block-start: 2rem;
-      font-size: 0.875rem; color: #5a5550;
+      margin-block-start: 2.5rem;
+      font-size: 0.9rem; color: var(--muted);
       max-width: 560px; margin-inline: auto;
       line-height: 1.7;
     }
@@ -453,7 +477,6 @@
     @media (max-width: 768px) {
       .hero-grid { grid-template-columns: 1fr; }
       .hero-image-wrap { order: -1; max-width: 340px; margin-inline: auto; }
-      .sessions-grid { grid-template-columns: 1fr; }
       .outcomes-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 640px) {
@@ -461,6 +484,14 @@
       .footer-grid { grid-template-columns: 1fr; }
       .footer-bar { flex-direction: column; align-items: flex-start; }
       .hero-title { font-size: clamp(2.5rem, 10vw, 4rem); }
+      .sc-header, .sc-row { grid-template-columns: 90px 1fr 1fr; }
+      .sc-row-label { font-size: 0.62rem; padding: 0.75rem; }
+      .sc-cell { padding: 0.75rem; font-size: 0.8rem; }
+      .sc-col-head { padding: 0.9rem 0.75rem; }
+      .sc-col-age { font-size: 0.95rem; }
+      .cal-tiles-sm { gap: 0.3rem; }
+      .cal-tile-sm { min-width: 36px; padding: 0.4rem 0.4rem; }
+      .cal-tile-sm .cnum { font-size: 1.1rem; }
     }
 
     /* ============================================================
@@ -478,7 +509,7 @@
   <div class="geo-canvas" aria-hidden="true"></div>
 
   <!-- Announcement bar -->
-  <a href="/summer_bootcamps" class="announce-bar" id="announce" aria-label="Summer Robotics Bootcamp announcement">
+  <a href="/summer_bootcamps#sessions" class="announce-bar" id="announce" aria-label="Summer Robotics Bootcamp announcement">
     🤖 <strong>Summer Robotics Bootcamp:</strong>&nbsp; Spaces are limited.&nbsp; Book now &rarr;
   </a>
 
@@ -532,7 +563,7 @@
           <div class="hero-image-wrap r d3">
             <div class="hero-image-glow" aria-hidden="true"></div>
             <img
-              src="https://cdn.shopify.com/s/files/1/0070/5901/3716/files/Mask_group-1_1.jpg?v=1736153903"
+              src="https://cdn.shopify.com/s/files/1/0070/5901/3716/files/mbot2_thumbnail.png?v=1728374910"
               alt="mBot2 robot by Makeblock — the robot used in the bootcamp"
               class="hero-robot-img"
               loading="eager"
@@ -548,8 +579,7 @@
       <div class="wrap">
         <div class="about-inner">
           <p class="eyebrow r d1">The Bootcamp</p>
-          <h2 class="section-title r d2" id="about-heading">Two days. One robot. Real skills.</h2>
-          <p class="about-text r d3">
+          <p class="about-text r d2">
             Bunyaan's Summer Robotics Bootcamp brings young people face to face with
             <strong>engineers and academics</strong> for two days of hands-on robotics.
             Build a real robot, program it, compete as a team, and present your work.
@@ -562,7 +592,7 @@
     <section id="activities" aria-labelledby="activities-heading">
       <div class="wrap">
         <p class="eyebrow r d1">What You Will Do</p>
-        <h2 class="section-title r d2" id="activities-heading">Four challenges. Two days.</h2>
+        <h2 class="section-title r d2" id="activities-heading">What happens over the two days.</h2>
         <div class="activities-grid">
 
           <div class="act-card r d2">
@@ -615,17 +645,17 @@
 
           <div class="outcome-item r d3">
             <svg class="outcome-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-            <span class="outcome-text">Real Python programming experience</span>
+            <span class="outcome-text">Block coding and Python programming</span>
           </div>
 
           <div class="outcome-item r d4">
             <svg class="outcome-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-            <span class="outcome-text">Ability to explain technical work to an audience</span>
+            <span class="outcome-text">Engineering problem-solving under pressure</span>
           </div>
 
           <div class="outcome-item r d5">
             <svg class="outcome-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-            <span class="outcome-text">Completion certificate</span>
+            <span class="outcome-text">Communicating technical work to an audience</span>
           </div>
 
         </div>
@@ -637,99 +667,71 @@
       <div class="wrap">
         <p class="eyebrow r d1">Book Your Place</p>
         <h2 class="section-title r d2" id="sessions-heading">Two sessions. Choose yours.</h2>
-        <p class="section-sub r d3">Each session runs over a weekend — Saturday and Sunday, 10am to 4pm. Small groups of 5 per mentor.</p>
-        <div class="sessions-grid">
-
-          <!-- Session 1 -->
-          <div class="session-card r d3">
-            <div class="session-head">
-              <div class="session-num">Session 1</div>
-              <div class="session-age">Ages 8 to 12</div>
+        <p class="section-sub r d3">Each session runs over a weekend. Saturday and Sunday, 10am to 4pm.</p>
+        <div class="sessions-compare r d3">
+          <div class="sc-header">
+            <div class="sc-header-label"></div>
+            <div class="sc-col-head">
+              <div class="sc-col-num">Session 1</div>
+              <div class="sc-col-age">Ages 8 to 12</div>
             </div>
-            <div class="session-body">
-              <div class="cal-tiles" aria-label="Session dates: Saturday 11 July and Sunday 12 July">
-                <div class="cal-tile">
-                  <div class="cal-day">Sat</div>
-                  <div class="cal-num">11</div>
-                  <div class="cal-mon">Jul</div>
-                </div>
-                <div class="cal-tile">
-                  <div class="cal-day">Sun</div>
-                  <div class="cal-num">12</div>
-                  <div class="cal-mon">Jul</div>
-                </div>
+            <div class="sc-col-head">
+              <div class="sc-col-num">Session 2</div>
+              <div class="sc-col-age">Ages 13 to 16</div>
+            </div>
+          </div>
+          <div class="sc-row">
+            <div class="sc-row-label">Dates</div>
+            <div class="sc-cell">
+              <div class="cal-tiles-sm" aria-label="Saturday 11 July and Sunday 12 July">
+                <div class="cal-tile-sm"><div class="cday">Sat</div><div class="cnum">11</div><div class="cmon">Jul</div></div>
+                <div class="cal-tile-sm"><div class="cday">Sun</div><div class="cnum">12</div><div class="cmon">Jul</div></div>
               </div>
-              <ul class="session-details">
-                <li>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                  <span>10am to 4pm each day</span>
-                </li>
-                <li>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                  <span>Edinburgh Central Mosque</span>
-                </li>
-                <li>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-                  <span><strong>£99</strong> per participant</span>
-                </li>
-                <li>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
-                  <span>Snacks provided</span>
-                </li>
-              </ul>
+            </div>
+            <div class="sc-cell">
+              <div class="cal-tiles-sm" aria-label="Saturday 18 July and Sunday 19 July">
+                <div class="cal-tile-sm"><div class="cday">Sat</div><div class="cnum">18</div><div class="cmon">Jul</div></div>
+                <div class="cal-tile-sm"><div class="cday">Sun</div><div class="cnum">19</div><div class="cmon">Jul</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="sc-row">
+            <div class="sc-row-label">Time</div>
+            <div class="sc-cell">10am to 4pm each day</div>
+            <div class="sc-cell">10am to 4pm each day</div>
+          </div>
+          <div class="sc-row">
+            <div class="sc-row-label">Venue</div>
+            <div class="sc-cell">Edinburgh Central Mosque</div>
+            <div class="sc-cell">Edinburgh Central Mosque</div>
+          </div>
+          <div class="sc-row">
+            <div class="sc-row-label">Price</div>
+            <div class="sc-cell sc-price">£99</div>
+            <div class="sc-cell sc-price">£99</div>
+          </div>
+          <div class="sc-row">
+            <div class="sc-row-label">Snacks</div>
+            <div class="sc-cell">Provided</div>
+            <div class="sc-cell">Provided</div>
+          </div>
+          <div class="sc-row sc-book-row">
+            <div class="sc-row-label"></div>
+            <div class="sc-cell">
               <!-- STRIPE SESSION 1 LINK: replace href when available -->
               <a href="#" class="btn-book" aria-label="Book Session 1 — Ages 8 to 12, 11-12 July">
                 Book Now
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </a>
             </div>
-          </div>
-
-          <!-- Session 2 -->
-          <div class="session-card r d4">
-            <div class="session-head">
-              <div class="session-num">Session 2</div>
-              <div class="session-age">Ages 13 to 16</div>
-            </div>
-            <div class="session-body">
-              <div class="cal-tiles" aria-label="Session dates: Saturday 18 July and Sunday 19 July">
-                <div class="cal-tile">
-                  <div class="cal-day">Sat</div>
-                  <div class="cal-num">18</div>
-                  <div class="cal-mon">Jul</div>
-                </div>
-                <div class="cal-tile">
-                  <div class="cal-day">Sun</div>
-                  <div class="cal-num">19</div>
-                  <div class="cal-mon">Jul</div>
-                </div>
-              </div>
-              <ul class="session-details">
-                <li>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                  <span>10am to 4pm each day</span>
-                </li>
-                <li>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                  <span>Edinburgh Central Mosque</span>
-                </li>
-                <li>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-                  <span><strong>£99</strong> per participant</span>
-                </li>
-                <li>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
-                  <span>Snacks provided</span>
-                </li>
-              </ul>
+            <div class="sc-cell">
               <!-- STRIPE SESSION 2 LINK: replace href when available -->
               <a href="#" class="btn-book" aria-label="Book Session 2 — Ages 13 to 16, 18-19 July">
                 Book Now
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </a>
             </div>
           </div>
-
         </div>
       </div>
     </section>
@@ -741,45 +743,50 @@
           <p class="eyebrow r d1">Who You Will Learn From</p>
           <h2 class="section-title r d2" id="mentors-heading">Guided by people who build things for real.</h2>
           <p class="mentors-text r d3">Every session is guided by engineers and academics from leading universities and industry. Small groups of 5. No experience needed.</p>
-          <div class="mentors-stats r d4">
-            <div>
-              <div class="m-stat-num">5</div>
-              <div class="m-stat-label">Participants per mentor</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 CONTACT -->
+    <section id="contact" aria-labelledby="contact-heading">
+      <div class="wrap">
+        <div class="contact-inner">
+          <p class="eyebrow r d1">Questions</p>
+          <h2 class="section-title r d2" id="contact-heading">Get in touch.</h2>
+          <div class="contact-items r d3">
+            <div class="contact-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.22 1.18 2 2 0 012.22 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.56-.56a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
+              <span>WhatsApp: <a href="https://wa.me/447716772296">07716 772296</a></span>
             </div>
-            <div>
-              <div class="m-stat-num">2</div>
-              <div class="m-stat-label">Full days</div>
-            </div>
-            <div>
-              <div class="m-stat-num">0</div>
-              <div class="m-stat-label">Experience needed</div>
+            <div class="contact-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <span>Email: <a href="mailto:info@bunyaan.org.uk">info@bunyaan.org.uk</a></span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 07 SUPPORTERS -->
+    <!-- 08 SUPPORTERS -->
     <section id="supporters" aria-labelledby="supporters-heading">
       <div class="wrap">
         <p class="supporters-heading r d1" id="supporters-heading">Supported by</p>
         <div class="supporters-logos r d2">
           <a href="https://www.ed.ac.uk" target="_blank" rel="noopener noreferrer" class="supporter-logo-link" aria-label="The University of Edinburgh">
-            <img src="/assets/uoe-logo.png" alt="The University of Edinburgh">
+            <img src="/assets/uoe-logo.svg" alt="The University of Edinburgh">
           </a>
         </div>
         <p class="supporters-caption r d3">Bunyaan's Summer Robotics Bootcamp is supported by the University of Edinburgh.</p>
       </div>
     </section>
 
-    <!-- 08 BOTTOM CTA -->
+    <!-- 09 BOTTOM CTA -->
     <section id="cta" aria-label="Book your place">
       <div class="wrap">
         <div class="cta-inner">
-          <p class="eyebrow r d1" style="justify-content:center">Act now</p>
-          <h2 class="cta-title r d2">Spaces are very limited.</h2>
-          <p class="cta-sub r d3">Two sessions. Two age groups. Once they are full, they are full.</p>
-          <a href="#sessions" class="btn-primary r d4" style="margin-inline:auto">
+          <h2 class="cta-title r d1">Spaces are very limited.</h2>
+          <p class="cta-sub r d2">Two sessions. Two age groups. Once they are full, they are full.</p>
+          <a href="#sessions" class="btn-primary r d3" style="margin-inline:auto">
             Book your place
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
