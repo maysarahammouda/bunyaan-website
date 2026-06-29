@@ -898,6 +898,29 @@
       .mentors-grid { grid-template-columns: repeat(2, 1fr); }
       .m-avatar { width: 56px; height: 56px; }
     }
+  #supporters {
+    background: var(--navy);
+    padding-block: 1.75rem;
+    border-block-start: 1px solid var(--gold-border);
+  }
+  #supporters .wrap { text-align: center; }
+  .supporters-row {
+    display: flex; align-items: center; justify-content: center;
+    gap: 1.5rem; flex-wrap: wrap;
+    margin-block-end: 0.75rem;
+  }
+  .supporters-label {
+    font-size: 0.65rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--muted); white-space: nowrap;
+  }
+  .supporter-logo-link { display: flex; align-items: center; opacity: 0.9; transition: opacity 0.2s; }
+  .supporter-logo-link:hover { opacity: 1; }
+  .supporter-logo-link img { height: 60px; width: auto; max-width: 100%; filter: invert(1); }
+  .supporters-caption {
+    font-size: 0.82rem; color: var(--muted);
+    max-width: 480px; margin-inline: auto;
+    line-height: 1.6;
+  }
   </style>
 </head>
 <body>
@@ -1373,6 +1396,18 @@
     </section>
 
   </main>
+
+  <section id="supporters" aria-labelledby="supporters-label">
+    <div class="wrap">
+      <div class="supporters-row r">
+        <span class="supporters-label" id="supporters-label">Supported by</span>
+        <a href="https://www.ed.ac.uk" target="_blank" rel="noopener noreferrer" class="supporter-logo-link" aria-label="The University of Edinburgh">
+          <img src="/assets/uoe-logo-bw.png" alt="The University of Edinburgh">
+        </a>
+      </div>
+      <p class="supporters-caption r d1">Bunyaan is supported by the University of Edinburgh.</p>
+    </div>
+  </section>
 
   <footer role="contentinfo">
     <div class="footer-grid">
