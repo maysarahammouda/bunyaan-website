@@ -391,40 +391,29 @@
     .m-stat-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-block-start: 0.3rem; }
 
     /* ============================================================
-       07 CONTACT
-    ============================================================ */
-    #contact { background: var(--navy-2); }
-    .contact-inner { max-width: 640px; }
-    .contact-items { display: flex; flex-direction: column; gap: 1rem; margin-block-start: 1.5rem; }
-    .contact-item {
-      display: flex; align-items: center; gap: 1rem;
-      font-size: 1rem; color: var(--muted);
-    }
-    .contact-item svg { color: var(--gold); flex-shrink: 0; }
-    .contact-item a { color: var(--white); transition: color 0.2s; }
-    .contact-item a:hover { color: var(--gold); }
-
-    /* ============================================================
-       08 SUPPORTERS
+       07 SUPPORTERS
     ============================================================ */
     #supporters {
       background: var(--navy);
-      padding-block: 4rem;
+      padding-block: 3.5rem;
       border-block-start: 1px solid var(--gold-border);
     }
     #supporters .wrap { text-align: center; }
-    .supporters-heading {
-      font-size: 0.65rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
-      color: var(--muted); margin-block-end: 2.5rem;
+    .supporters-row {
+      display: flex; align-items: center; justify-content: center;
+      gap: 2.5rem; flex-wrap: wrap;
+      margin-block-end: 1.75rem;
     }
-    .supporters-logos { display: flex; justify-content: center; align-items: center; gap: 4rem; flex-wrap: wrap; }
-    .supporter-logo-link { display: flex; align-items: center; opacity: 0.85; transition: opacity 0.2s; }
+    .supporters-label {
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--muted); white-space: nowrap;
+    }
+    .supporter-logo-link { display: flex; align-items: center; opacity: 0.9; transition: opacity 0.2s; }
     .supporter-logo-link:hover { opacity: 1; }
-    .supporter-logo-link img { height: 110px; width: auto; filter: brightness(0) invert(1); }
+    .supporter-logo-link img { height: 220px; width: auto; max-width: min(100%, 660px); filter: invert(1); }
     .supporters-caption {
-      margin-block-start: 2.5rem;
-      font-size: 0.9rem; color: var(--muted);
-      max-width: 560px; margin-inline: auto;
+      font-size: 0.875rem; color: var(--muted);
+      max-width: 520px; margin-inline: auto;
       line-height: 1.7;
     }
 
@@ -563,7 +552,7 @@
           <div class="hero-image-wrap r d3">
             <div class="hero-image-glow" aria-hidden="true"></div>
             <img
-              src="https://cdn.shopify.com/s/files/1/0070/5901/3716/files/mbot2_thumbnail.png?v=1728374910"
+              src="/assets/mbot2-product.webp"
               alt="mBot2 robot by Makeblock — the robot used in the bootcamp"
               class="hero-robot-img"
               loading="eager"
@@ -667,7 +656,6 @@
       <div class="wrap">
         <p class="eyebrow r d1">Book Your Place</p>
         <h2 class="section-title r d2" id="sessions-heading">Two sessions. Choose yours.</h2>
-        <p class="section-sub r d3">Each session runs over a weekend. Saturday and Sunday, 10am to 4pm.</p>
         <div class="sessions-compare r d3">
           <div class="sc-header">
             <div class="sc-header-label"></div>
@@ -747,36 +735,16 @@
       </div>
     </section>
 
-    <!-- 07 CONTACT -->
-    <section id="contact" aria-labelledby="contact-heading">
+    <!-- 07 SUPPORTERS -->
+    <section id="supporters" aria-labelledby="supporters-label">
       <div class="wrap">
-        <div class="contact-inner">
-          <p class="eyebrow r d1">Questions</p>
-          <h2 class="section-title r d2" id="contact-heading">Get in touch.</h2>
-          <div class="contact-items r d3">
-            <div class="contact-item">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.22 1.18 2 2 0 012.22 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.56-.56a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
-              <span>WhatsApp: <a href="https://wa.me/447716772296">07716 772296</a></span>
-            </div>
-            <div class="contact-item">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              <span>Email: <a href="mailto:info@bunyaan.org.uk">info@bunyaan.org.uk</a></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 08 SUPPORTERS -->
-    <section id="supporters" aria-labelledby="supporters-heading">
-      <div class="wrap">
-        <p class="supporters-heading r d1" id="supporters-heading">Supported by</p>
-        <div class="supporters-logos r d2">
+        <div class="supporters-row r d1">
+          <span class="supporters-label" id="supporters-label">Supported by</span>
           <a href="https://www.ed.ac.uk" target="_blank" rel="noopener noreferrer" class="supporter-logo-link" aria-label="The University of Edinburgh">
-            <img src="/assets/uoe-logo.svg" alt="The University of Edinburgh">
+            <img src="/assets/uoe-logo-bw.png" alt="The University of Edinburgh">
           </a>
         </div>
-        <p class="supporters-caption r d3">Bunyaan's Summer Robotics Bootcamp is supported by the University of Edinburgh.</p>
+        <p class="supporters-caption r d2">Bunyaan's Summer Robotics Bootcamp is supported by the University of Edinburgh.</p>
       </div>
     </section>
 
@@ -818,6 +786,7 @@
       </div>
       <div>
         <div class="f-head">Contact</div>
+        <div class="f-contact-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.22 1.18 2 2 0 012.22 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.56-.56a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg><span>WhatsApp: <a href="https://wa.me/447716772296">07716772296</a></span></div>
         <div class="f-contact-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:info@bunyaan.org.uk">info@bunyaan.org.uk</a></div>
         <div class="f-contact-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Edinburgh, Scotland</span></div>
         <div class="f-contact-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg><a href="https://www.bunyaan.org.uk" target="_blank" rel="noopener noreferrer">bunyaan.org.uk</a></div>
