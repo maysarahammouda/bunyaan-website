@@ -250,9 +250,10 @@
 
     /* ── Stat cards (overview) ────────────────────────────────────────────── */
     .stat-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
+      display: grid; grid-template-columns: repeat(4, 1fr);
       gap: 1.25rem; margin-block-end: 2.5rem;
     }
+    @media (max-width: 900px) { .stat-grid { grid-template-columns: repeat(2, 1fr); } }
     .stat-card {
       background: var(--navy-2); border: 1px solid var(--gold-border);
       border-radius: 12px; padding: 1.75rem 1.5rem;
@@ -332,9 +333,10 @@
       padding: 0.2rem 0.6rem; border-radius: 100px;
       font-size: 0.6rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
     }
-    .chip-join    { background: rgba(99,179,237,0.12); color: #63b3ed; border: 1px solid rgba(99,179,237,0.2); }
-    .chip-mentor  { background: rgba(154,215,160,0.12); color: #9ad7a0; border: 1px solid rgba(154,215,160,0.2); }
-    .chip-sponsor { background: var(--gold-dim); color: var(--gold); border: 1px solid var(--gold-border); }
+    .chip-join     { background: rgba(99,179,237,0.12); color: #63b3ed; border: 1px solid rgba(99,179,237,0.2); }
+    .chip-mentor   { background: rgba(154,215,160,0.12); color: #9ad7a0; border: 1px solid rgba(154,215,160,0.2); }
+    .chip-sponsor  { background: var(--gold-dim); color: var(--gold); border: 1px solid var(--gold-border); }
+    .chip-waitlist { background: rgba(232,147,90,0.12); color: #E8935A; border: 1px solid rgba(232,147,90,0.2); }
 
     /* ── Config warning banner ────────────────────────────────────────────── */
     .config-banner {
@@ -535,6 +537,12 @@
           <span class="nav-badge" id="sb-sponsor">0</span>
         </button>
 
+        <button class="nav-item" data-view="waitlist">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+          Waitlist
+          <span class="nav-badge" id="sb-waitlist">0</span>
+        </button>
+
         <div class="sidebar-section-label" style="margin-block-start:0.5rem">Website</div>
 
         <button class="nav-item" data-view="team">
@@ -610,6 +618,12 @@
               <div class="stat-card-label">Support Us</div>
               <div class="stat-card-num" id="ov-sponsor">0</div>
               <div class="stat-card-sub">submissions</div>
+              <div class="stat-card-cta">View all <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+            </div>
+            <div class="stat-card" id="stat-waitlist" role="button" tabindex="0" aria-label="View Waitlist">
+              <div class="stat-card-label">Bootcamp Waitlist</div>
+              <div class="stat-card-num" id="ov-waitlist" style="color:#E8935A">0</div>
+              <div class="stat-card-sub">waiting</div>
               <div class="stat-card-cta">View all <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
             </div>
           </div>
@@ -697,6 +711,29 @@
                 <th>Submitted</th><th>Name</th><th>Email</th><th>WhatsApp</th><th>Sponsorship Level</th><th>Status</th><th>Notes</th><th></th>
               </tr></thead>
               <tbody id="tbody-sponsor"><tr><td colspan="8" class="td-empty">Loading...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ── Waitlist ──────────────────────────────────────────────────── -->
+        <div id="view-waitlist" class="view" hidden>
+          <div class="page-header">
+            <h1 class="page-title">Bootcamp Waitlist</h1>
+            <p class="page-subtitle" id="meta-waitlist">Loading...</p>
+          </div>
+          <div class="table-section-head">
+            <div></div>
+            <button id="export-waitlist" class="export-btn" disabled>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export CSV
+            </button>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr>
+                <th>Submitted</th><th>Name</th><th>Email</th><th>WhatsApp</th><th>Session</th><th>Age</th><th>Status</th><th>Notes</th><th></th>
+              </tr></thead>
+              <tbody id="tbody-waitlist"><tr><td colspan="9" class="td-empty">Loading...</td></tr></tbody>
             </table>
           </div>
         </div>
@@ -847,9 +884,10 @@
     import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
     import { getFirestore, collection, query, orderBy, onSnapshot, addDoc, setDoc, deleteDoc, doc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
-    // ── Credentials (change these) ────────────────────────────────────────────
+    // ── Credentials ──────────────────────────────────────────────────────────
     const ADMIN_USERNAME = 'admin';
     const ADMIN_PASSWORD = 'Bunyaan2026';
+    const ADMIN_TOKEN    = 'Bunyaan2026_admin_token';
 
     // ── Firebase config (replace YOUR_... values) ─────────────────────────────
     const firebaseConfig = {
@@ -863,8 +901,25 @@
 
     // ── Collection definitions ────────────────────────────────────────────────
     const CONFIGS = {
+      waitlist: {
+        label: 'Waitlist',
+        chipClass: 'chip-waitlist',
+        tableFields: [
+          { key: 'name',      label: 'Name' },
+          { key: 'email',     label: 'Email' },
+          { key: 'whatsapp',  label: 'WhatsApp' },
+          { key: 'session',   label: 'Session' },
+          { key: 'child_age', label: 'Age' },
+        ],
+        detailFields: [
+          { key: 'session',   label: 'Session' },
+          { key: 'child_age', label: 'Age' },
+          { key: 'whatsapp',  label: 'WhatsApp' },
+        ],
+        csvHeaders: ['Submitted', 'Name', 'Email', 'WhatsApp', 'Session', 'Age', 'Status', 'Notes'],
+        csvKeys:    ['created_at', 'name', 'email', 'whatsapp', 'session', 'child_age', 'status', 'notes'],
+      },
       join: {
-        coll: 'join_submissions',
         label: 'Join the Team',
         chipClass: 'chip-join',
         tableFields: [
@@ -883,7 +938,6 @@
         csvKeys:    ['createdAt', 'name', 'email', 'whatsapp', 'age', 'source', 'questions', 'status', 'notes'],
       },
       mentor: {
-        coll: 'mentor_submissions',
         label: 'Mentors',
         chipClass: 'chip-mentor',
         tableFields: [
@@ -903,7 +957,6 @@
         csvKeys:    ['createdAt', 'name', 'email', 'whatsapp', 'background', 'expertise', 'availability', 'questions', 'status', 'notes'],
       },
       sponsor: {
-        coll: 'sponsor_submissions',
         label: 'Support Us',
         chipClass: 'chip-sponsor',
         tableFields: [
@@ -922,7 +975,7 @@
     };
 
     // ── State ─────────────────────────────────────────────────────────────────
-    const snapData   = { join: [], mentor: [], sponsor: [] };
+    const snapData   = { join: [], mentor: [], sponsor: [], waitlist: [] };
     let   activeView = 'overview';
     let   initialized = false;
     let   db, appInstance;
@@ -978,7 +1031,7 @@
     });
 
     // Stat cards on overview also navigate
-    ['join','mentor','sponsor'].forEach(key => {
+    ['join','mentor','sponsor','waitlist'].forEach(key => {
       document.getElementById('stat-' + key).addEventListener('click',  () => switchView(key));
       document.getElementById('stat-' + key).addEventListener('keydown', e => { if (e.key === 'Enter') switchView(key); });
     });
@@ -988,7 +1041,7 @@
       document.querySelectorAll('.view').forEach(el => el.hidden = true);
       document.getElementById('view-' + view).hidden = false;
       document.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('active', b.dataset.view === view));
-      const titles = { overview: 'Overview', join: 'Join the Team', mentor: 'Mentors', sponsor: 'Support Us', team: 'Team Management' };
+      const titles = { overview: 'Overview', join: 'Join the Team', mentor: 'Mentors', sponsor: 'Support Us', waitlist: 'Waitlist', team: 'Team Management' };
       document.getElementById('topbar-title').textContent = titles[view] || view;
     }
 
@@ -996,60 +1049,61 @@
     function bootApp() {
       loginPage.hidden = true;
       appEl.hidden = false;
-      if (!initialized) { initialized = true; initFirebase(); }
+      if (!initialized) {
+        initialized = true;
+        initFirebase();
+        loadD1Submissions();
+        setInterval(loadD1Submissions, 30000);
+        ['join','mentor','sponsor','waitlist'].forEach(key => {
+          document.getElementById('export-' + key).addEventListener('click', () => exportCSV(key));
+        });
+      }
     }
 
-    // ── Firebase ──────────────────────────────────────────────────────────────
-    function initFirebase() {
-      if (firebaseConfig.apiKey === 'YOUR_API_KEY') {
-        document.getElementById('config-banner').hidden = false;
-        document.getElementById('config-badge').hidden  = false;
-        document.getElementById('live-badge').hidden    = true;
-        ['join','mentor','sponsor'].forEach(key => {
-          document.getElementById('tbody-' + key).innerHTML =
-            '<tr class="err-row"><td colspan="10">Firebase not configured yet. See the banner above.</td></tr>';
-          document.getElementById('meta-' + key).textContent = '';
-        });
-        document.getElementById('recent-tbody').innerHTML =
-          '<tr><td colspan="5" class="td-empty">Firebase not configured yet.</td></tr>';
-        document.getElementById('ov-subtitle').textContent = 'Not connected';
-        return;
-      }
-
-      appInstance = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-      db  = getFirestore(appInstance);
-
-      initTeam();
-
-      Object.entries(CONFIGS).forEach(([key, cfg]) => {
-        const q = query(collection(db, cfg.coll), orderBy('createdAt', 'desc'));
-        onSnapshot(q, snap => {
-          snapData[key] = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-          updateBadges();
-          renderTable(key);
-          renderOverview();
-        }, err => {
-          const msg = err.code === 'permission-denied'
-            ? 'Permission denied. Update Firestore security rules to allow reads.'
-            : 'Error: ' + err.message;
-          document.getElementById('tbody-' + key).innerHTML =
-            '<tr class="err-row"><td colspan="10">' + escHtml(msg) + '</td></tr>';
-        });
-
-        document.getElementById('export-' + key).addEventListener('click', () => exportCSV(key));
+    // ── D1 Submissions ────────────────────────────────────────────────────────
+    async function apiGet(type) {
+      const res = await fetch('/api/admin/data?type=' + type, {
+        headers: { 'Authorization': 'Bearer ' + ADMIN_TOKEN }
       });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    }
+
+    async function loadD1Submissions() {
+      try {
+        const counts = await apiGet('counts');
+        document.getElementById('ov-waitlist').textContent = counts.waitlist || 0;
+        document.getElementById('sb-waitlist').textContent = counts.waitlist || 0;
+
+        for (const key of ['join','mentor','sponsor','waitlist']) {
+          const { rows } = await apiGet(key);
+          snapData[key] = rows || [];
+          renderTable(key);
+        }
+        updateBadges();
+        renderOverview();
+      } catch (e) {
+        console.error('D1 load failed:', e.message);
+      }
+    }
+
+    // ── Firebase (team management only) ───────────────────────────────────────
+    function initFirebase() {
+      appInstance = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+      db = getFirestore(appInstance);
+      initTeam();
     }
 
     // ── Update sidebar badges ─────────────────────────────────────────────────
     function updateBadges() {
-      ['join','mentor','sponsor'].forEach(key => {
+      ['join','mentor','sponsor','waitlist'].forEach(key => {
         const n = snapData[key].length;
         document.getElementById('sb-' + key).textContent = n;
         document.getElementById('ov-' + key).textContent = n;
       });
       const total = snapData.join.length + snapData.mentor.length + snapData.sponsor.length;
       const noun  = total === 1 ? 'submission' : 'submissions';
-      document.getElementById('ov-subtitle').textContent = total + ' total ' + noun + ' (real-time)';
+      document.getElementById('ov-subtitle').textContent = total + ' total ' + noun;
     }
 
     // ── Render individual table ───────────────────────────────────────────────
@@ -1076,7 +1130,7 @@
       tbody.innerHTML = '';
       docs.forEach(d => {
         const tr = document.createElement('tr');
-        const ts = d.createdAt ? fmtDate(d.createdAt.toDate()) : 'Pending';
+        const ts = d.created_at ? fmtDate(d.created_at) : 'Pending';
         const status = d.status || 'new';
         const sc = STATUS_CLASSES[status] || 's-new';
         const sl = STATUS_LABELS[status]  || 'New';
@@ -1097,13 +1151,13 @@
     // ── Render overview recent activity ───────────────────────────────────────
     function renderOverview() {
       const all = [];
-      ['join','mentor','sponsor'].forEach(key => {
+      ['join','mentor','sponsor','waitlist'].forEach(key => {
         snapData[key].forEach(doc => all.push({ key, doc }));
       });
       all.sort((a, b) => {
-        const ta = a.doc.createdAt ? a.doc.createdAt.seconds : 0;
-        const tb = b.doc.createdAt ? b.doc.createdAt.seconds : 0;
-        return tb - ta;
+        const ta = a.doc.created_at || '';
+        const tb = b.doc.created_at || '';
+        return tb.localeCompare(ta);
       });
       const recent = all.slice(0, 15);
       const tbody  = document.getElementById('recent-tbody');
@@ -1117,7 +1171,7 @@
       recent.forEach(({ key, doc }) => {
         const cfg = CONFIGS[key];
         const tr  = document.createElement('tr');
-        const ts  = doc.createdAt ? fmtDate(doc.createdAt.toDate()) : 'Pending';
+        const ts  = doc.created_at ? fmtDate(doc.created_at) : 'Pending';
         const detail = (cfg.detailFields || cfg.tableFields).slice(0, 3).map(f => doc[f.key] || '').filter(Boolean).join(', ');
         tr.innerHTML =
           '<td>' + escHtml(ts) + '</td>' +
@@ -1136,8 +1190,7 @@
       if (docs.length === 0) return;
 
       const rows = docs.map(doc => {
-        const ts = doc.createdAt ? doc.createdAt.toDate().toISOString() : '';
-        return cfg.csvKeys.map(k => k === 'createdAt' ? ts : (doc[k] || ''));
+        return cfg.csvKeys.map(k => doc[k] || '');
       });
 
       const csv = [cfg.csvHeaders, ...rows]
@@ -1170,7 +1223,7 @@
 
     function openEditPanel(key, docId) {
       const cfg = CONFIGS[key];
-      const d   = snapData[key].find(x => x.id === docId);
+      const d   = snapData[key].find(x => String(x.id) === String(docId));
       if (!d) return;
       editKey = key;
       editId  = docId;
@@ -1198,15 +1251,27 @@
       saveBtn.disabled = true;
       saveBtn.textContent = 'Saving…';
       try {
-        await setDoc(
-          doc(db, CONFIGS[editKey].coll, editId),
-          {
-            status:    document.getElementById('ep-status').value,
-            notes:     document.getElementById('ep-notes').value.trim(),
-            updatedAt: serverTimestamp(),
+        const res = await fetch('/api/admin/data', {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + ADMIN_TOKEN
           },
-          { merge: true }
-        );
+          body: JSON.stringify({
+            id:     Number(editId),
+            table:  editKey,
+            status: document.getElementById('ep-status').value,
+            notes:  document.getElementById('ep-notes').value.trim()
+          })
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const row = snapData[editKey].find(x => String(x.id) === String(editId));
+        if (row) {
+          row.status = document.getElementById('ep-status').value;
+          row.notes  = document.getElementById('ep-notes').value.trim();
+          renderTable(editKey);
+        }
+        msgEl.style.color = '';
         msgEl.textContent = 'Saved.';
         setTimeout(() => { msgEl.textContent = ''; }, 2000);
       } catch (err) {
@@ -1220,7 +1285,8 @@
 
     // ── Helpers ───────────────────────────────────────────────────────────────
     function fmtDate(d) {
-      return d.toLocaleString('en-GB', {
+      const obj = typeof d === 'string' ? new Date(d) : d;
+      return obj.toLocaleString('en-GB', {
         day: 'numeric', month: 'short', year: 'numeric',
         hour: '2-digit', minute: '2-digit'
       });

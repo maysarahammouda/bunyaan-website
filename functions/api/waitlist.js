@@ -1,8 +1,8 @@
 export async function onRequestPost(context) {
   try {
-    const { name, email, session, child_age } = await context.request.json();
+    const { name, email, session, child_age, whatsapp } = await context.request.json();
 
-    if (!name?.trim() || !email?.trim() || !session?.trim()) {
+    if (!name?.trim() || !email?.trim() || !session?.trim() || !child_age?.toString().trim() || !whatsapp?.trim()) {
       return jsonResponse({ error: 'Please fill in all required fields.' }, 400);
     }
 
@@ -12,12 +12,13 @@ export async function onRequestPost(context) {
     }
 
     await context.env.bunyaan_waitlist.prepare(
-      'INSERT INTO waitlist (name, email, session, child_age) VALUES (?, ?, ?, ?)'
+      'INSERT INTO waitlist (name, email, session, child_age, whatsapp) VALUES (?, ?, ?, ?, ?)'
     ).bind(
       name.trim(),
       email.trim().toLowerCase(),
       session.trim(),
-      child_age?.trim() || null
+      child_age.toString().trim(),
+      whatsapp.trim()
     ).run();
 
     return jsonResponse({ success: true });

@@ -1705,12 +1705,12 @@
 
     // ── Form submissions ────────────────────────────────────────────────────
     const FORMS = [
-      { name: 'join-team', coll: 'join_submissions',   okId: 'ok-join'    },
-      { name: 'mentor',    coll: 'mentor_submissions',  okId: 'ok-mentor'  },
-      { name: 'sponsor',   coll: 'sponsor_submissions', okId: 'ok-sponsor' },
+      { name: 'join-team', type: 'join',    okId: 'ok-join'    },
+      { name: 'mentor',    type: 'mentor',  okId: 'ok-mentor'  },
+      { name: 'sponsor',   type: 'sponsor', okId: 'ok-sponsor' },
     ];
 
-    FORMS.forEach(({ name, coll, okId }) => {
+    FORMS.forEach(({ name, type, okId }) => {
       const form = document.querySelector(`form[name="${name}"]`);
       if (!form) return;
       form.addEventListener('submit', async e => {
@@ -1722,14 +1722,19 @@
 
         const fd = new FormData(form);
         const data = Object.fromEntries(fd);
-        data.createdAt = serverTimestamp();
+        data.form_type = type;
 
         try {
-          await addDoc(collection(db, coll), data);
+          const res = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+          });
+          const json = await res.json();
+          if (!res.ok) throw new Error(json.error || 'Submission failed.');
           form.style.display = 'none';
           document.getElementById(okId).classList.add('show');
         } catch (err) {
-          console.error('Firestore write failed:', err);
           btn.disabled = false;
           btn.textContent = origLabel;
           const existing = form.querySelector('.f-err');
@@ -1737,7 +1742,7 @@
             const errEl = document.createElement('p');
             errEl.className = 'f-err';
             errEl.style.cssText = 'color:#f87171;font-size:0.82rem;margin-top:0.75rem;text-align:center';
-            errEl.textContent = 'Something went wrong. Please try again or email info@bunyaan.org.uk';
+            errEl.textContent = err.message || 'Something went wrong. Please try again.';
             form.appendChild(errEl);
           }
         }
