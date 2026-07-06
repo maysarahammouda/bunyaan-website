@@ -499,6 +499,92 @@
   }
   .seats-notice.visible { display: block; }
   .seats-notice.sold-out { color: var(--muted); }
+
+  /* Waitlist modal */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 500;
+    background: rgba(12,26,46,0.88);
+    backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 1.5rem;
+    opacity: 0; transition: opacity 0.25s;
+    pointer-events: none;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal-card {
+    background: var(--navy-2);
+    border: 1px solid var(--gold-border);
+    border-radius: 12px;
+    width: 100%; max-width: 440px;
+    padding: 2.5rem;
+    position: relative;
+    transform: translateY(28px); transition: transform 0.28s;
+  }
+  .modal-overlay.open .modal-card { transform: translateY(0); }
+  .modal-close {
+    position: absolute; top: 1rem; right: 1rem;
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 1px solid var(--gold-border);
+    color: var(--muted); font-size: 1.1rem; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: border-color 0.2s, color 0.2s;
+  }
+  .modal-close:hover { border-color: var(--gold); color: var(--white); }
+  .modal-eyebrow {
+    font-size: 0.65rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); margin-block-end: 0.6rem;
+  }
+  .modal-title {
+    font-family: var(--f-display); font-size: 2rem; font-weight: 700;
+    color: var(--white); line-height: 1.15; margin-block-end: 0.3rem;
+  }
+  .modal-session-tag {
+    font-size: 0.75rem; font-weight: 500; color: var(--gold);
+    margin-block-end: 0.6rem; display: block;
+  }
+  .modal-sub { font-size: 0.88rem; color: var(--muted); margin-block-end: 1.75rem; }
+  .modal-form .mfg { margin-block-end: 1rem; }
+  .modal-form label {
+    display: block; font-size: 0.72rem; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); margin-block-end: 0.35rem;
+  }
+  .modal-form .opt { font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 0.72rem; }
+  .modal-form input {
+    width: 100%; padding: 0.7rem 0.9rem;
+    background: var(--navy-3); border: 1px solid var(--gold-border);
+    border-radius: 6px; color: var(--white);
+    font-family: var(--f-body); font-size: 0.9rem;
+    transition: border-color 0.2s;
+  }
+  .modal-form input:focus { outline: none; border-color: var(--gold); }
+  .modal-form input::placeholder { color: var(--muted-2); }
+  .modal-error { font-size: 0.8rem; color: #E8935A; margin-block-start: 1rem; display: none; }
+  .modal-error.visible { display: block; }
+  .btn-modal-submit {
+    width: 100%; padding: 0.85rem 1rem;
+    background: var(--gold); color: var(--navy);
+    font-family: var(--f-body); font-size: 0.82rem; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    border-radius: 6px; border: none;
+    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    cursor: pointer; transition: background 0.2s, transform 0.2s;
+    margin-block-start: 1.5rem;
+  }
+  .btn-modal-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .btn-modal-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .modal-success { text-align: center; padding-block: 0.5rem; }
+  .modal-success-icon { color: var(--gold); margin-block-end: 1.25rem; }
+  .modal-success-title {
+    font-family: var(--f-display); font-size: 2rem; font-weight: 700;
+    color: var(--white); margin-block-end: 0.5rem;
+  }
+  .modal-success-sub { font-size: 0.9rem; color: var(--muted); }
+  .btn-book.soldout {
+    background: transparent; border: 1px solid var(--gold-border);
+    color: var(--white); cursor: pointer;
+  }
+  .btn-book.soldout:hover { background: var(--gold-dim); border-color: var(--gold); transform: translateY(-2px); }
   </style>
 </head>
 <body>
@@ -811,6 +897,46 @@
     </div>
   </footer>
 
+  <!-- Waitlist modal -->
+  <div id="waitlist-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card">
+      <button class="modal-close" id="modal-close" aria-label="Close waitlist form">&times;</button>
+      <div id="modal-form-wrap">
+        <p class="modal-eyebrow">Join the Waitlist</p>
+        <h2 class="modal-title" id="modal-title">Be first in line</h2>
+        <span class="modal-session-tag" id="modal-session-tag"></span>
+        <p class="modal-sub">We will contact you as soon as a place becomes available.</p>
+        <form class="modal-form" id="waitlist-form" novalidate>
+          <input type="hidden" id="wl-session" name="session">
+          <div class="mfg">
+            <label for="wl-name">Full name</label>
+            <input type="text" id="wl-name" name="name" required placeholder="Your name">
+          </div>
+          <div class="mfg">
+            <label for="wl-email">Email address</label>
+            <input type="email" id="wl-email" name="email" required placeholder="your@email.com">
+          </div>
+          <div class="mfg">
+            <label for="wl-age">Child's age <span class="opt">(optional)</span></label>
+            <input type="number" id="wl-age" name="child_age" min="8" max="16" placeholder="e.g. 11">
+          </div>
+          <p class="modal-error" id="modal-error"></p>
+          <button type="submit" class="btn-modal-submit">
+            Join Waitlist
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </form>
+      </div>
+      <div id="modal-success" class="modal-success" hidden>
+        <div class="modal-success-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>
+        </div>
+        <p class="modal-success-title">You're on the list</p>
+        <p class="modal-success-sub">We will be in touch if a place opens up.</p>
+      </div>
+    </div>
+  </div>
+
   <script>
     // Nav scroll behaviour
     const nav = document.getElementById('nav');
@@ -850,6 +976,10 @@
       });
     });
     // Live seat availability from Stripe
+    const SESSION_LABELS = {
+      'session1': 'Session 1 — Ages 8 to 12, 11-12 July',
+      'session2': 'Session 2 — Ages 13 to 16, 18-19 July'
+    };
     fetch('/api/seats')
       .then(r => r.json())
       .then(data => {
@@ -858,8 +988,22 @@
           const el = document.getElementById(elId);
           if (!info || !el) return;
           if (info.remaining !== null && info.remaining <= 0) {
-            el.textContent = 'Fully booked';
+            el.textContent = 'This session is full';
             el.classList.add('visible', 'sold-out');
+            const btn = el.closest('.sc-cell').querySelector('.btn-book');
+            if (btn) {
+              btn.removeAttribute('href');
+              btn.setAttribute('role', 'button');
+              btn.classList.add('soldout');
+              btn.querySelector('svg')?.remove();
+              btn.childNodes[0].textContent = 'Join Waitlist ';
+              btn.appendChild(Object.assign(document.createElementNS('http://www.w3.org/2000/svg','svg'), {innerHTML:'<path d="M5 12h14M12 5l7 7-7 7"/>'}));
+              btn.lastChild.setAttribute('viewBox','0 0 24 24');
+              btn.lastChild.setAttribute('width','13'); btn.lastChild.setAttribute('height','13');
+              btn.lastChild.setAttribute('fill','none'); btn.lastChild.setAttribute('stroke','currentColor');
+              btn.lastChild.setAttribute('stroke-width','2.5'); btn.lastChild.setAttribute('stroke-linecap','round'); btn.lastChild.setAttribute('stroke-linejoin','round');
+              btn.addEventListener('click', () => openWaitlist(key));
+            }
           } else if (info.remaining !== null && info.remaining < 10) {
             el.textContent = 'Only ' + info.remaining + ' seats left';
             el.classList.add('visible');
@@ -867,6 +1011,62 @@
         });
       })
       .catch(() => {});
+
+    // Waitlist modal
+    const modal = document.getElementById('waitlist-modal');
+    const modalClose = document.getElementById('modal-close');
+    const waitlistForm = document.getElementById('waitlist-form');
+    const modalError = document.getElementById('modal-error');
+
+    function openWaitlist(sessionKey) {
+      document.getElementById('wl-session').value = sessionKey;
+      document.getElementById('modal-session-tag').textContent = SESSION_LABELS[sessionKey] || '';
+      document.getElementById('modal-form-wrap').hidden = false;
+      document.getElementById('modal-success').hidden = true;
+      modalError.classList.remove('visible');
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => document.getElementById('wl-name').focus(), 50);
+    }
+
+    function closeWaitlist() {
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    modalClose.addEventListener('click', closeWaitlist);
+    modal.addEventListener('click', e => { if (e.target === modal) closeWaitlist(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeWaitlist(); });
+
+    waitlistForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      const btn = waitlistForm.querySelector('.btn-modal-submit');
+      const name = document.getElementById('wl-name').value.trim();
+      const email = document.getElementById('wl-email').value.trim();
+      const session = document.getElementById('wl-session').value;
+      const child_age = document.getElementById('wl-age').value.trim();
+
+      modalError.classList.remove('visible');
+      btn.disabled = true;
+      btn.textContent = 'Submitting...';
+
+      try {
+        const res = await fetch('/api/waitlist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, session, child_age })
+        });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error || 'Something went wrong.');
+        document.getElementById('modal-form-wrap').hidden = true;
+        document.getElementById('modal-success').hidden = false;
+      } catch (err) {
+        modalError.textContent = err.message;
+        modalError.classList.add('visible');
+        btn.disabled = false;
+        btn.textContent = 'Join Waitlist';
+      }
+    });
   </script>
 
 </body>

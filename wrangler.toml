@@ -1,0 +1,7 @@
+name = "bunyaan"
+pages_build_output_dir = "."
+
+[[d1_databases]]
+binding = "bunyaan_waitlist"
+database_name = "bunyaan-waitlist"
+database_id = "653da7c1-38e4-4c84-a5c9-b05ef94b45f7"
