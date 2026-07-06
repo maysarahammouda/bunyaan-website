@@ -250,7 +250,7 @@
 
     /* ── Stat cards (overview) ────────────────────────────────────────────── */
     .stat-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr);
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       gap: 1.25rem; margin-block-end: 2.5rem;
     }
     @media (max-width: 900px) { .stat-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -336,7 +336,8 @@
     .chip-join     { background: rgba(99,179,237,0.12); color: #63b3ed; border: 1px solid rgba(99,179,237,0.2); }
     .chip-mentor   { background: rgba(154,215,160,0.12); color: #9ad7a0; border: 1px solid rgba(154,215,160,0.2); }
     .chip-sponsor  { background: var(--gold-dim); color: var(--gold); border: 1px solid var(--gold-border); }
-    .chip-waitlist { background: rgba(232,147,90,0.12); color: #E8935A; border: 1px solid rgba(232,147,90,0.2); }
+    .chip-waitlist  { background: rgba(232,147,90,0.12); color: #E8935A; border: 1px solid rgba(232,147,90,0.2); }
+    .chip-bookings  { background: rgba(72,199,142,0.12); color: #48C78E; border: 1px solid rgba(72,199,142,0.2); }
 
     /* ── Config warning banner ────────────────────────────────────────────── */
     .config-banner {
@@ -543,6 +544,12 @@
           <span class="nav-badge" id="sb-waitlist">0</span>
         </button>
 
+        <button class="nav-item" data-view="bookings">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          Paid Bookings
+          <span class="nav-badge" id="sb-bookings" style="background:rgba(72,199,142,0.2);color:#48C78E">–</span>
+        </button>
+
         <div class="sidebar-section-label" style="margin-block-start:0.5rem">Website</div>
 
         <button class="nav-item" data-view="team">
@@ -624,6 +631,12 @@
               <div class="stat-card-label">Bootcamp Waitlist</div>
               <div class="stat-card-num" id="ov-waitlist" style="color:#E8935A">0</div>
               <div class="stat-card-sub">waiting</div>
+              <div class="stat-card-cta">View all <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+            </div>
+            <div class="stat-card" id="stat-bookings" role="button" tabindex="0" aria-label="View Stripe Bookings">
+              <div class="stat-card-label">Paid Bookings</div>
+              <div class="stat-card-num" id="ov-bookings" style="color:#48C78E">–</div>
+              <div class="stat-card-sub">via Stripe</div>
               <div class="stat-card-cta">View all <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
             </div>
           </div>
@@ -734,6 +747,35 @@
                 <th>Submitted</th><th>Name</th><th>Email</th><th>WhatsApp</th><th>Session</th><th>Age</th><th>Status</th><th>Notes</th><th></th>
               </tr></thead>
               <tbody id="tbody-waitlist"><tr><td colspan="9" class="td-empty">Loading...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ── Paid Bookings (Stripe) ───────────────────────────────────── -->
+        <div id="view-bookings" class="view" hidden>
+          <div class="page-header">
+            <h1 class="page-title">Paid Bookings</h1>
+            <p class="page-subtitle" id="meta-bookings">Click Refresh to load from Stripe</p>
+          </div>
+          <div class="table-section-head">
+            <div></div>
+            <div style="display:flex;gap:0.75rem;align-items:center">
+              <button id="refresh-bookings" class="export-btn" style="background:rgba(72,199,142,0.12);color:#48C78E;border-color:rgba(72,199,142,0.3)">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+                Refresh
+              </button>
+              <button id="export-bookings" class="export-btn" disabled>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Export CSV
+              </button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr>
+                <th>Booked</th><th>Name</th><th>Email</th><th>Phone</th><th>Session</th><th>Amount</th>
+              </tr></thead>
+              <tbody id="tbody-bookings"><tr><td colspan="6" class="td-empty">Click Refresh to load bookings from Stripe.</td></tr></tbody>
             </table>
           </div>
         </div>
@@ -1031,7 +1073,7 @@
     });
 
     // Stat cards on overview also navigate
-    ['join','mentor','sponsor','waitlist'].forEach(key => {
+    ['join','mentor','sponsor','waitlist','bookings'].forEach(key => {
       document.getElementById('stat-' + key).addEventListener('click',  () => switchView(key));
       document.getElementById('stat-' + key).addEventListener('keydown', e => { if (e.key === 'Enter') switchView(key); });
     });
@@ -1041,11 +1083,14 @@
       document.querySelectorAll('.view').forEach(el => el.hidden = true);
       document.getElementById('view-' + view).hidden = false;
       document.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('active', b.dataset.view === view));
-      const titles = { overview: 'Overview', join: 'Join the Team', mentor: 'Mentors', sponsor: 'Support Us', waitlist: 'Waitlist', team: 'Team Management' };
+      const titles = { overview: 'Overview', join: 'Join the Team', mentor: 'Mentors', sponsor: 'Support Us', waitlist: 'Waitlist', bookings: 'Paid Bookings', team: 'Team Management' };
       document.getElementById('topbar-title').textContent = titles[view] || view;
+      if (view === 'bookings' && bookingsData.length === 0) loadBookings();
     }
 
     // ── Boot ──────────────────────────────────────────────────────────────────
+    let bookingsData = [];
+
     function bootApp() {
       loginPage.hidden = true;
       appEl.hidden = false;
@@ -1057,6 +1102,8 @@
         ['join','mentor','sponsor','waitlist'].forEach(key => {
           document.getElementById('export-' + key).addEventListener('click', () => exportCSV(key));
         });
+        document.getElementById('refresh-bookings').addEventListener('click', loadBookings);
+        document.getElementById('export-bookings').addEventListener('click', exportBookings);
       }
     }
 
@@ -1085,6 +1132,76 @@
       } catch (e) {
         console.error('D1 load failed:', e.message);
       }
+    }
+
+    // ── Stripe Bookings ───────────────────────────────────────────────────────
+    async function loadBookings() {
+      const btn    = document.getElementById('refresh-bookings');
+      const metaEl = document.getElementById('meta-bookings');
+      const tbody  = document.getElementById('tbody-bookings');
+      btn.disabled = true;
+      btn.textContent = 'Loading…';
+      metaEl.textContent = 'Fetching from Stripe…';
+      tbody.innerHTML = '<tr><td colspan="6" class="td-empty">Loading…</td></tr>';
+      try {
+        const res = await fetch('/api/admin/stripe-bookings', {
+          headers: { 'Authorization': 'Bearer ' + ADMIN_TOKEN }
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const { bookings, error } = await res.json();
+        if (error) throw new Error(error);
+        bookingsData = bookings || [];
+        renderBookings();
+        const count = bookingsData.length;
+        document.getElementById('ov-bookings').textContent = count;
+        document.getElementById('sb-bookings').textContent = count;
+        metaEl.textContent = count + ' paid booking' + (count !== 1 ? 's' : '') + ' (live from Stripe)';
+      } catch (e) {
+        metaEl.textContent = 'Error: ' + e.message;
+        tbody.innerHTML = '<tr><td colspan="6" class="td-empty" style="color:var(--red)">Could not load Stripe data: ' + escHtml(e.message) + '</td></tr>';
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg> Refresh';
+      }
+    }
+
+    function renderBookings() {
+      const tbody  = document.getElementById('tbody-bookings');
+      const expBtn = document.getElementById('export-bookings');
+      expBtn.disabled = bookingsData.length === 0;
+      if (bookingsData.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="td-empty">No paid bookings found.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = '';
+      bookingsData.forEach(b => {
+        const tr = document.createElement('tr');
+        tr.innerHTML =
+          '<td>' + escHtml(fmtDate(b.created_at)) + '</td>' +
+          '<td class="name-col">' + escHtml(b.name) + '</td>' +
+          '<td>' + escHtml(b.email) + '</td>' +
+          '<td>' + escHtml(b.phone || '–') + '</td>' +
+          '<td><span class="form-chip chip-bookings">' + escHtml(b.session) + '</span></td>' +
+          '<td style="color:var(--gold);font-weight:600">' + escHtml(b.amount) + '</td>';
+        tbody.appendChild(tr);
+      });
+    }
+
+    function exportBookings() {
+      if (bookingsData.length === 0) return;
+      const headers = ['Booked','Name','Email','Phone','Session','Amount'];
+      const rows = bookingsData.map(b => [b.created_at, b.name, b.email, b.phone, b.session, b.amount]);
+      const csv = [headers, ...rows]
+        .map(r => r.map(v => '"' + String(v || '').replace(/"/g, '""') + '"').join(','))
+        .join('\n');
+      const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+      const url  = URL.createObjectURL(blob);
+      const a    = Object.assign(document.createElement('a'), {
+        href: url,
+        download: 'bunyaan-bookings-' + new Date().toISOString().split('T')[0] + '.csv'
+      });
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      URL.revokeObjectURL(url);
     }
 
     // ── Firebase (team management only) ───────────────────────────────────────
