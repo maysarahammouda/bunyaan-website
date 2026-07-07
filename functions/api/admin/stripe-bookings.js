@@ -4,20 +4,25 @@ const SESSION1_LABEL = 'Session 1 — 11 & 12 Jul';
 const SESSION2_LABEL = 'Session 2 — 18 & 19 Jul';
 
 function sessionToBooking(s, sessionLabel) {
-  const cf = {};
-  (s.custom_fields || []).forEach(f => {
-    cf[f.key] = f.text?.value || f.numeric?.value || f.dropdown?.value || '';
-  });
+  // Match fields by label keyword — works regardless of the exact key Stripe uses
+  function pick(keywords) {
+    for (const f of (s.custom_fields || [])) {
+      const haystack = ((f.label?.custom || '') + ' ' + f.key).toLowerCase();
+      const val = f.text?.value || f.numeric?.value || f.dropdown?.value || '';
+      if (keywords.some(k => haystack.includes(k))) return val;
+    }
+    return '';
+  }
   return {
-    id:         s.id,
-    child_name: cf.child_name || '',
-    child_age:  cf.child_age  || '',
-    whatsapp:   cf.whatsapp   || '',
-    booker:     s.customer_details?.name  || '',
-    email:      s.customer_details?.email || '',
-    session:    sessionLabel,
-    amount:     s.amount_total != null ? '£' + (s.amount_total / 100).toFixed(2) : '',
-    created_at: new Date(s.created * 1000).toISOString(),
+    id:          s.id,
+    participant: pick(['participant', 'child name', 'child\'s']),
+    whatsapp:    pick(['whatsapp', 'phone']),
+    consent:     pick(['consent']),
+    booker:      s.customer_details?.name  || '',
+    email:       s.customer_details?.email || '',
+    session:     sessionLabel,
+    amount:      s.amount_total != null ? '£' + (s.amount_total / 100).toFixed(2) : '',
+    created_at:  new Date(s.created * 1000).toISOString(),
   };
 }
 

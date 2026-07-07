@@ -781,9 +781,9 @@
           <div class="table-wrap">
             <table class="data-table">
               <thead><tr>
-                <th>#</th><th>Booked</th><th>Child's Name</th><th>Age</th><th>Booker Email</th><th>WhatsApp</th><th>Session</th><th>Amount</th>
+                <th>#</th><th>Booked</th><th>Participant</th><th>Booker</th><th>Email</th><th>WhatsApp</th><th>Consent</th><th>Session</th><th>Amount</th>
               </tr></thead>
-              <tbody id="tbody-bookings"><tr><td colspan="8" class="td-empty">Click Refresh to load bookings from Stripe.</td></tr></tbody>
+              <tbody id="tbody-bookings"><tr><td colspan="9" class="td-empty">Click Refresh to load bookings from Stripe.</td></tr></tbody>
             </table>
           </div>
         </div>
@@ -1200,14 +1200,19 @@
       }
       tbody.innerHTML = '';
       filtered.forEach((b, i) => {
+        const consentOk = b.consent.toLowerCase().includes('yes') || b.consent.toLowerCase().includes('consent');
+        const consentDisplay = b.consent
+          ? '<span style="color:' + (consentOk ? '#48C78E' : 'var(--gold)') + '">' + escHtml(b.consent) + '</span>'
+          : '<span style="color:var(--muted-2)">–</span>';
         const tr = document.createElement('tr');
         tr.innerHTML =
           '<td style="color:var(--muted-2);font-size:0.8rem">' + (i + 1) + '</td>' +
           '<td>' + escHtml(fmtDate(b.created_at)) + '</td>' +
-          '<td class="name-col">' + escHtml(b.child_name || '–') + '</td>' +
-          '<td>' + escHtml(b.child_age || '–') + '</td>' +
-          '<td title="' + escHtml(b.booker) + '">' + escHtml(b.email) + '</td>' +
+          '<td class="name-col">' + escHtml(b.participant || '–') + '</td>' +
+          '<td>' + escHtml(b.booker || '–') + '</td>' +
+          '<td>' + escHtml(b.email) + '</td>' +
           '<td>' + escHtml(b.whatsapp || '–') + '</td>' +
+          '<td>' + consentDisplay + '</td>' +
           '<td><span class="form-chip chip-bookings">' + escHtml(b.session) + '</span></td>' +
           '<td style="color:var(--gold);font-weight:600">' + escHtml(b.amount) + '</td>';
         tbody.appendChild(tr);
@@ -1241,8 +1246,8 @@
       const filterVal = document.getElementById('filter-bookings-session').value;
       const toExport  = filterVal ? bookingsData.filter(b => b.session === filterVal) : bookingsData;
       if (toExport.length === 0) return;
-      const headers = ['#','Booked','Child Name','Age','Booker Email','WhatsApp','Session','Amount'];
-      const rows = toExport.map((b, i) => [i + 1, b.created_at, b.child_name, b.child_age, b.email, b.whatsapp, b.session, b.amount]);
+      const headers = ['#','Booked','Participant','Booker','Email','WhatsApp','Consent','Session','Amount'];
+      const rows = toExport.map((b, i) => [i + 1, b.created_at, b.participant, b.booker, b.email, b.whatsapp, b.consent, b.session, b.amount]);
       const csv = [headers, ...rows]
         .map(r => r.map(v => '"' + String(v || '').replace(/"/g, '""') + '"').join(','))
         .join('\n');
