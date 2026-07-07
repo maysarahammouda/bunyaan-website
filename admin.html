@@ -1147,9 +1147,9 @@
         const res = await fetch('/api/admin/stripe-bookings', {
           headers: { 'Authorization': 'Bearer ' + ADMIN_TOKEN }
         });
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const { bookings, error } = await res.json();
-        if (error) throw new Error(error);
+        const payload = await res.json().catch(() => ({}));
+        if (!res.ok || payload.error) throw new Error(payload.error || 'HTTP ' + res.status);
+        const { bookings } = payload;
         bookingsData = bookings || [];
         renderBookings();
         const count = bookingsData.length;
