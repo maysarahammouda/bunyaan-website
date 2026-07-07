@@ -1,5 +1,7 @@
-const SESSION1_SLUG = '28E4gB9mc9SYbhmcAb9IQ01';
-const SESSION2_SLUG = '6oUdRb9mcd5a1GMfMn9IQ02';
+const SESSION1_SLUG  = '28E4gB9mc9SYbhmcAb9IQ01';
+const SESSION2_SLUG  = '6oUdRb9mcd5a1GMfMn9IQ02';
+const SESSION1_LABEL = 'Session 1 — 11 & 12 Jul';
+const SESSION2_LABEL = 'Session 2 — 18 & 19 Jul';
 
 async function stripeGet(path, key) {
   const res = await fetch('https://api.stripe.com/v1' + path, {
@@ -22,44 +24,55 @@ export async function onRequest(context) {
   const debug = new URL(context.request.url).searchParams.get('debug') === '1';
 
   try {
-    // Build payment link ID -> session label map (non-fatal if it fails)
-    let linkLabels = {};
-    let plDebug = null;
-    try {
-      const plData = await stripeGet('/payment_links?limit=20', stripeKey);
-      plDebug = (plData.data || []).map(pl => ({ id: pl.id, url: pl.url }));
-      for (const pl of plData.data || []) {
-        if (pl.url?.includes(SESSION1_SLUG))      linkLabels[pl.id] = 'Session 1 - 26 Jul';
-        else if (pl.url?.includes(SESSION2_SLUG)) linkLabels[pl.id] = 'Session 2 - 2 Aug';
-      }
-    } catch (e) {
-      plDebug = { error: e.message };
+    // Identify payment link IDs by URL slug
+    const plData = await stripeGet('/payment_links?limit=20', stripeKey);
+    const labeledLinks = [];
+    for (const pl of plData.data || []) {
+      if (pl.url?.includes(SESSION1_SLUG))      labeledLinks.push({ id: pl.id, label: SESSION1_LABEL, url: pl.url });
+      else if (pl.url?.includes(SESSION2_SLUG)) labeledLinks.push({ id: pl.id, label: SESSION2_LABEL, url: pl.url });
     }
 
-    // Fetch all completed checkout sessions and keep only paid ones
-    const csData = await stripeGet('/checkout/sessions?limit=100&status=complete', stripeKey);
+    let bookings = [];
 
-    const bookings = (csData.data || [])
-      .map(s => ({
-        id:         s.id,
-        name:       s.customer_details?.name  || '',
-        email:      s.customer_details?.email || '',
-        phone:      s.customer_details?.phone || '',
-        session:    s.payment_link ? (linkLabels[s.payment_link] || 'Bootcamp') : 'Direct',
-        amount:     s.amount_total != null ? '£' + (s.amount_total / 100).toFixed(2) : '',
-        created_at: new Date(s.created * 1000).toISOString(),
-      }))
-      .sort((a, b) => a.created_at.localeCompare(b.created_at));
+    if (labeledLinks.length > 0) {
+      // Fetch sessions per payment link — guarantees correct session label
+      for (const link of labeledLinks) {
+        const csData = await stripeGet(
+          '/checkout/sessions?limit=100&status=complete&payment_link=' + link.id,
+          stripeKey
+        );
+        for (const s of csData.data || []) {
+          bookings.push({
+            id:         s.id,
+            name:       s.customer_details?.name  || '',
+            email:      s.customer_details?.email || '',
+            phone:      s.customer_details?.phone || '',
+            session:    link.label,
+            amount:     s.amount_total != null ? '£' + (s.amount_total / 100).toFixed(2) : '',
+            created_at: new Date(s.created * 1000).toISOString(),
+          });
+        }
+      }
+    } else {
+      // Fallback: URL matching failed — show all complete sessions unlabelled
+      const csData = await stripeGet('/checkout/sessions?limit=100&status=complete', stripeKey);
+      for (const s of csData.data || []) {
+        bookings.push({
+          id:         s.id,
+          name:       s.customer_details?.name  || '',
+          email:      s.customer_details?.email || '',
+          phone:      s.customer_details?.phone || '',
+          session:    'Bootcamp',
+          amount:     s.amount_total != null ? '£' + (s.amount_total / 100).toFixed(2) : '',
+          created_at: new Date(s.created * 1000).toISOString(),
+        });
+      }
+    }
+
+    bookings.sort((a, b) => a.created_at.localeCompare(b.created_at));
 
     const out = { bookings, total: bookings.length };
-    if (debug) out._debug = {
-      linkLabels,
-      paymentLinks: plDebug,
-      rawSessions: (csData.data || []).map(s => ({
-        id: s.id, status: s.status, payment_status: s.payment_status,
-        payment_link: s.payment_link, amount_total: s.amount_total, created: s.created,
-      })),
-    };
+    if (debug) out._debug = { labeledLinks, allPaymentLinks: plData.data?.map(p => ({ id: p.id, url: p.url })) };
     return jsonResponse(out);
   } catch (e) {
     return jsonResponse({ error: e.message }, 500);

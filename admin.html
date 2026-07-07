@@ -758,7 +758,11 @@
             <p class="page-subtitle" id="meta-bookings">Click Refresh to load from Stripe</p>
           </div>
           <div class="table-section-head">
-            <div></div>
+            <div>
+              <select id="filter-bookings-session" style="background:var(--navy-3);color:var(--white);border:1px solid var(--gold-border);border-radius:8px;padding:0.45rem 0.75rem;font-size:0.82rem;cursor:pointer" aria-label="Filter by session">
+                <option value="">All sessions</option>
+              </select>
+            </div>
             <div style="display:flex;gap:0.75rem;align-items:center">
               <button id="refresh-bookings" class="export-btn" style="background:rgba(72,199,142,0.12);color:#48C78E;border-color:rgba(72,199,142,0.3)">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
@@ -1104,6 +1108,7 @@
         });
         document.getElementById('refresh-bookings').addEventListener('click', loadBookings);
         document.getElementById('export-bookings').addEventListener('click', exportBookings);
+        document.getElementById('filter-bookings-session').addEventListener('change', renderBookings);
       }
     }
 
@@ -1151,6 +1156,17 @@
         if (!res.ok || payload.error) throw new Error(payload.error || 'HTTP ' + res.status);
         const { bookings } = payload;
         bookingsData = bookings || [];
+        // Populate session filter with unique session labels
+        const sessionSel = document.getElementById('filter-bookings-session');
+        const prevVal = sessionSel.value;
+        sessionSel.innerHTML = '<option value="">All sessions</option>';
+        const sessions = [...new Set(bookingsData.map(b => b.session))].sort();
+        sessions.forEach(s => {
+          const opt = document.createElement('option');
+          opt.value = s; opt.textContent = s;
+          if (s === prevVal) opt.selected = true;
+          sessionSel.appendChild(opt);
+        });
         renderBookings();
         const count = bookingsData.length;
         document.getElementById('ov-bookings').textContent = count;
@@ -1166,15 +1182,19 @@
     }
 
     function renderBookings() {
-      const tbody  = document.getElementById('tbody-bookings');
-      const expBtn = document.getElementById('export-bookings');
+      const tbody     = document.getElementById('tbody-bookings');
+      const expBtn    = document.getElementById('export-bookings');
+      const filterVal = document.getElementById('filter-bookings-session').value;
+      const filtered  = filterVal ? bookingsData.filter(b => b.session === filterVal) : bookingsData;
       expBtn.disabled = bookingsData.length === 0;
-      if (bookingsData.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="td-empty">No paid bookings found.</td></tr>';
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="td-empty">' +
+          (bookingsData.length === 0 ? 'No paid bookings found.' : 'No bookings for this session.') +
+          '</td></tr>';
         return;
       }
       tbody.innerHTML = '';
-      bookingsData.forEach(b => {
+      filtered.forEach(b => {
         const tr = document.createElement('tr');
         tr.innerHTML =
           '<td>' + escHtml(fmtDate(b.created_at)) + '</td>' +
