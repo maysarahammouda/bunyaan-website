@@ -3,6 +3,24 @@ const SESSION2_SLUG  = '6oUdRb9mcd5a1GMfMn9IQ02';
 const SESSION1_LABEL = 'Session 1 — 11 & 12 Jul';
 const SESSION2_LABEL = 'Session 2 — 18 & 19 Jul';
 
+function sessionToBooking(s, sessionLabel) {
+  const cf = {};
+  (s.custom_fields || []).forEach(f => {
+    cf[f.key] = f.text?.value || f.numeric?.value || f.dropdown?.value || '';
+  });
+  return {
+    id:         s.id,
+    child_name: cf.child_name || '',
+    child_age:  cf.child_age  || '',
+    whatsapp:   cf.whatsapp   || '',
+    booker:     s.customer_details?.name  || '',
+    email:      s.customer_details?.email || '',
+    session:    sessionLabel,
+    amount:     s.amount_total != null ? '£' + (s.amount_total / 100).toFixed(2) : '',
+    created_at: new Date(s.created * 1000).toISOString(),
+  };
+}
+
 async function stripeGet(path, key) {
   const res = await fetch('https://api.stripe.com/v1' + path, {
     headers: { 'Authorization': 'Bearer ' + key }
@@ -42,30 +60,14 @@ export async function onRequest(context) {
           stripeKey
         );
         for (const s of csData.data || []) {
-          bookings.push({
-            id:         s.id,
-            name:       s.customer_details?.name  || '',
-            email:      s.customer_details?.email || '',
-            phone:      s.customer_details?.phone || '',
-            session:    link.label,
-            amount:     s.amount_total != null ? '£' + (s.amount_total / 100).toFixed(2) : '',
-            created_at: new Date(s.created * 1000).toISOString(),
-          });
+          bookings.push(sessionToBooking(s, link.label));
         }
       }
     } else {
       // Fallback: URL matching failed — show all complete sessions unlabelled
       const csData = await stripeGet('/checkout/sessions?limit=100&status=complete', stripeKey);
       for (const s of csData.data || []) {
-        bookings.push({
-          id:         s.id,
-          name:       s.customer_details?.name  || '',
-          email:      s.customer_details?.email || '',
-          phone:      s.customer_details?.phone || '',
-          session:    'Bootcamp',
-          amount:     s.amount_total != null ? '£' + (s.amount_total / 100).toFixed(2) : '',
-          created_at: new Date(s.created * 1000).toISOString(),
-        });
+        bookings.push(sessionToBooking(s, 'Bootcamp'));
       }
     }
 

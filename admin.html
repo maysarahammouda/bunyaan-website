@@ -764,6 +764,10 @@
               </select>
             </div>
             <div style="display:flex;gap:0.75rem;align-items:center">
+              <button id="setup-stripe-fields" class="export-btn" title="Add child name, age, WhatsApp and consent fields to both Stripe payment links. Run once only." style="background:rgba(201,168,76,0.1);color:var(--gold);border-color:var(--gold-border)">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+                Setup Fields
+              </button>
               <button id="refresh-bookings" class="export-btn" style="background:rgba(72,199,142,0.12);color:#48C78E;border-color:rgba(72,199,142,0.3)">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
                 Refresh
@@ -777,9 +781,9 @@
           <div class="table-wrap">
             <table class="data-table">
               <thead><tr>
-                <th>Booked</th><th>Name</th><th>Email</th><th>Phone</th><th>Session</th><th>Amount</th>
+                <th>#</th><th>Booked</th><th>Child's Name</th><th>Age</th><th>Booker Email</th><th>WhatsApp</th><th>Session</th><th>Amount</th>
               </tr></thead>
-              <tbody id="tbody-bookings"><tr><td colspan="6" class="td-empty">Click Refresh to load bookings from Stripe.</td></tr></tbody>
+              <tbody id="tbody-bookings"><tr><td colspan="8" class="td-empty">Click Refresh to load bookings from Stripe.</td></tr></tbody>
             </table>
           </div>
         </div>
@@ -1106,6 +1110,7 @@
         ['join','mentor','sponsor','waitlist'].forEach(key => {
           document.getElementById('export-' + key).addEventListener('click', () => exportCSV(key));
         });
+        document.getElementById('setup-stripe-fields').addEventListener('click', setupStripeFields);
         document.getElementById('refresh-bookings').addEventListener('click', loadBookings);
         document.getElementById('export-bookings').addEventListener('click', exportBookings);
         document.getElementById('filter-bookings-session').addEventListener('change', renderBookings);
@@ -1188,29 +1193,56 @@
       const filtered  = filterVal ? bookingsData.filter(b => b.session === filterVal) : bookingsData;
       expBtn.disabled = bookingsData.length === 0;
       if (filtered.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="td-empty">' +
+        tbody.innerHTML = '<tr><td colspan="8" class="td-empty">' +
           (bookingsData.length === 0 ? 'No paid bookings found.' : 'No bookings for this session.') +
           '</td></tr>';
         return;
       }
       tbody.innerHTML = '';
-      filtered.forEach(b => {
+      filtered.forEach((b, i) => {
         const tr = document.createElement('tr');
         tr.innerHTML =
+          '<td style="color:var(--muted-2);font-size:0.8rem">' + (i + 1) + '</td>' +
           '<td>' + escHtml(fmtDate(b.created_at)) + '</td>' +
-          '<td class="name-col">' + escHtml(b.name) + '</td>' +
-          '<td>' + escHtml(b.email) + '</td>' +
-          '<td>' + escHtml(b.phone || '–') + '</td>' +
+          '<td class="name-col">' + escHtml(b.child_name || '–') + '</td>' +
+          '<td>' + escHtml(b.child_age || '–') + '</td>' +
+          '<td title="' + escHtml(b.booker) + '">' + escHtml(b.email) + '</td>' +
+          '<td>' + escHtml(b.whatsapp || '–') + '</td>' +
           '<td><span class="form-chip chip-bookings">' + escHtml(b.session) + '</span></td>' +
           '<td style="color:var(--gold);font-weight:600">' + escHtml(b.amount) + '</td>';
         tbody.appendChild(tr);
       });
     }
 
+    async function setupStripeFields() {
+      const btn   = document.getElementById('setup-stripe-fields');
+      const meta  = document.getElementById('meta-bookings');
+      if (!confirm('This will add child name, age, WhatsApp, and a consent notice to both Stripe payment links. Run once only — continue?')) return;
+      btn.disabled = true;
+      btn.textContent = 'Setting up…';
+      try {
+        const res = await fetch('/api/admin/setup-stripe-fields', {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + ADMIN_TOKEN }
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || data.error) throw new Error(data.error || 'HTTP ' + res.status);
+        const names = (data.updated || []).map(u => u.session).join(' and ');
+        meta.textContent = 'Fields added to ' + names + '. New bookings will now collect the extra info.';
+        btn.textContent = 'Done';
+      } catch (e) {
+        alert('Setup failed: ' + e.message);
+        btn.disabled = false;
+        btn.textContent = 'Setup Fields';
+      }
+    }
+
     function exportBookings() {
-      if (bookingsData.length === 0) return;
-      const headers = ['Booked','Name','Email','Phone','Session','Amount'];
-      const rows = bookingsData.map(b => [b.created_at, b.name, b.email, b.phone, b.session, b.amount]);
+      const filterVal = document.getElementById('filter-bookings-session').value;
+      const toExport  = filterVal ? bookingsData.filter(b => b.session === filterVal) : bookingsData;
+      if (toExport.length === 0) return;
+      const headers = ['#','Booked','Child Name','Age','Booker Email','WhatsApp','Session','Amount'];
+      const rows = toExport.map((b, i) => [i + 1, b.created_at, b.child_name, b.child_age, b.email, b.whatsapp, b.session, b.amount]);
       const csv = [headers, ...rows]
         .map(r => r.map(v => '"' + String(v || '').replace(/"/g, '""') + '"').join(','))
         .join('\n');
