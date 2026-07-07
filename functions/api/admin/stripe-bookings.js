@@ -36,8 +36,8 @@ export async function onRequest(context) {
       plDebug = { error: e.message };
     }
 
-    // Fetch all paid checkout sessions (drop status=complete — payment_status=paid is sufficient)
-    const csData = await stripeGet('/checkout/sessions?limit=100&payment_status=paid', stripeKey);
+    // Fetch all completed checkout sessions and keep only paid ones
+    const csData = await stripeGet('/checkout/sessions?limit=100&status=complete', stripeKey);
 
     const bookings = (csData.data || [])
       .map(s => ({
