@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms &amp; Conditions - Bunyaan</title>
+  <meta name="description" content="Terms and conditions for Bunyaan SCIO programmes, events, and website.">
+  <link rel="icon" href="/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:        #0D1B3E;
+      --navy-2:      #162347;
+      --navy-3:      #1E3060;
+      --gold:        #C9A84C;
+      --gold-light:  #E8C96B;
+      --gold-border: rgba(201,168,76,0.25);
+      --white:       #FFFFFF;
+      --muted:       rgba(255,255,255,0.55);
+      --muted-2:     rgba(255,255,255,0.35);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'DM Sans', system-ui, sans-serif;
+      font-size: 1rem;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+    .geo-bg {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      opacity: 0.035;
+      background-image:
+        repeating-linear-gradient(60deg,  #C9A84C 0, #C9A84C 1px, transparent 0, transparent 50%),
+        repeating-linear-gradient(120deg, #C9A84C 0, #C9A84C 1px, transparent 0, transparent 50%),
+        repeating-linear-gradient(0deg,   #C9A84C 0, #C9A84C 1px, transparent 0, transparent 50%);
+      background-size: 60px 104px;
+    }
+    .skip {
+      position: absolute; top: -999px; left: 1rem;
+      padding: 0.5rem 1rem; background: var(--gold); color: var(--navy);
+      border-radius: 4px; z-index: 9999; font-size: 0.875rem;
+      text-decoration: none;
+    }
+    .skip:focus { top: 1rem; }
+
+    /* nav */
+    nav {
+      position: relative; z-index: 10;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem clamp(1.5rem, 5vw, 4rem);
+      background: rgba(13,27,62,0.96);
+      border-block-end: 1px solid var(--gold-border);
+    }
+    .nav-mark {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.5rem; font-weight: 700; letter-spacing: 0.08em;
+      color: var(--white); text-decoration: none;
+    }
+    .nav-mark .g { color: var(--gold); }
+    .nav-back {
+      font-size: 0.82rem; font-weight: 500; letter-spacing: 0.04em;
+      color: var(--muted); text-decoration: none;
+      padding: 0.45rem 1.1rem;
+      border: 1px solid var(--gold-border); border-radius: 6px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .nav-back:hover, .nav-back:focus { color: var(--gold); border-color: var(--gold); outline: none; }
+
+    /* page header */
+    .legal-header {
+      position: relative; z-index: 1;
+      max-width: 800px; margin-inline: auto;
+      padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem) 0;
+    }
+    .legal-header h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 700; line-height: 1.1;
+      margin-block-end: 0.6rem;
+    }
+    .legal-updated {
+      font-size: 0.85rem; color: var(--muted);
+      padding-block-end: 2rem;
+      border-block-end: 1px solid var(--gold-border);
+      margin-block-end: 0;
+    }
+
+    /* prose */
+    .legal-body {
+      position: relative; z-index: 1;
+      max-width: 800px; margin-inline: auto;
+      padding: 0 clamp(1.5rem, 5vw, 4rem) clamp(5rem, 8vw, 7rem);
+    }
+    .legal-body h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.35rem; font-weight: 600; color: var(--gold);
+      margin-block-start: 2.75rem; margin-block-end: 0.75rem;
+      padding-block-end: 0.4rem;
+      border-block-end: 1px solid var(--gold-border);
+    }
+    .legal-body p {
+      margin-block-end: 1rem;
+      color: rgba(255,255,255,0.82);
+    }
+    .legal-body ul {
+      margin-block-end: 1rem;
+      padding-inline-start: 1.4rem;
+      display: flex; flex-direction: column; gap: 0.55rem;
+    }
+    .legal-body li { color: rgba(255,255,255,0.82); }
+    .legal-body strong { color: var(--white); font-weight: 500; }
+    .legal-body a { color: var(--gold); text-underline-offset: 3px; }
+    .legal-body a:hover { color: var(--gold-light); }
+
+    /* footer */
+    footer {
+      position: relative; z-index: 1;
+      background: var(--navy-2); border-block-start: 1px solid var(--gold-border);
+      padding: clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem) 2rem;
+    }
+    .footer-grid {
+      max-width: 1240px; margin-inline: auto;
+      display: grid; grid-template-columns: 1.6fr 1fr 1fr;
+      gap: clamp(2rem, 5vw, 5rem); margin-block-end: 3rem;
+    }
+    .f-mark {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.75rem; font-weight: 700; letter-spacing: 0.1em;
+      color: var(--white); margin-block-end: 0.75rem;
+    }
+    .f-mark .g { color: var(--gold); }
+    .f-ayah {
+      display: block; font-family: 'Noto Naskh Arabic', serif;
+      font-size: 1.1rem; color: var(--gold); margin-block-end: 0.35rem;
+    }
+    .f-trans {
+      display: block; font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic; font-size: 0.9rem; color: var(--muted);
+      margin-block-end: 1rem;
+    }
+    .f-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+    .f-head {
+      font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--gold); margin-block-end: 1rem;
+    }
+    .f-links { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+    .f-links a { font-size: 0.875rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .f-links a:hover { color: var(--gold); }
+    .f-contact-item {
+      display: flex; align-items: flex-start; gap: 0.6rem;
+      margin-block-end: 0.75rem; font-size: 0.85rem; color: var(--muted);
+    }
+    .f-contact-item a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .f-contact-item a:hover { color: var(--gold); }
+    .f-contact-item svg { flex-shrink: 0; margin-block-start: 0.2rem; color: var(--gold); }
+    .f-socials { display: flex; gap: 0.75rem; margin-block-start: 1rem; }
+    .f-soc {
+      width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
+      border: 1px solid var(--gold-border); border-radius: 6px;
+      color: var(--muted); text-decoration: none; transition: color 0.2s, border-color 0.2s;
+    }
+    .f-soc:hover { color: var(--gold); border-color: var(--gold); }
+    .footer-bar {
+      max-width: 1240px; margin-inline: auto;
+      padding-block-start: 1.5rem;
+      border-block-start: 1px solid rgba(255,255,255,0.06);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 0.75rem;
+    }
+    .footer-bar span, .footer-bar a { font-size: 0.75rem; color: var(--muted-2); text-decoration: none; }
+    .footer-bar a:hover { color: var(--gold); }
+    .footer-legal { display: flex; gap: 1.25rem; }
+    @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) {
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bar { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="geo-bg" aria-hidden="true"></div>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <nav>
+    <a class="nav-mark" href="/">BUN<span class="g">YA</span>AN</a>
+    <a class="nav-back" href="/">Back to site</a>
+  </nav>
+
+  <main id="main">
+    <div class="legal-header">
+      <h1>Terms &amp; Conditions</h1>
+      <p class="legal-updated">Last updated: 9 Jul 2026</p>
+    </div>
+
+    <div class="legal-body">
+
+      <h2>1. About Us</h2>
+      <p>Bunyaan SCIO (Scottish charity number SC055377) is Scotland's first robotics team for Muslim youth, delivering robotics and STEM education to young people aged 6 to 18 in Edinburgh. Bunyaan is open to all, regardless of background.</p>
+      <p>Contact: <a href="mailto:bootcamp@bunyaan.org.uk">bootcamp@bunyaan.org.uk</a> (bookings and events) or <a href="mailto:info@bunyaan.org.uk">info@bunyaan.org.uk</a> (general enquiries).</p>
+
+      <h2>2. Bookings and Payment</h2>
+      <ul>
+        <li>All bookings are made and paid for online through our payment provider, Stripe.</li>
+        <li>A place is only confirmed once payment has been received in full.</li>
+        <li>Prices are as shown at the time of booking. We reserve the right to change prices for future bookings, but this will never affect a booking you have already confirmed and paid for.</li>
+        <li>You must provide accurate information about the participant, including age, at the time of booking, so we can place them in the right group.</li>
+      </ul>
+
+      <h2>3. If You Need to Cancel or Change a Booking</h2>
+      <p>We understand that plans change, so please let us know as early as possible if you need to cancel your child's place.</p>
+      <ul>
+        <li><strong>More than 7 days before the session:</strong> we will offer to transfer the booking to another upcoming Bunyaan session, or refund the amount paid, minus any costs we have already committed on your child's behalf (for example, materials or a kit purchased specifically for them). We will always explain any costs deducted.</li>
+        <li><strong>Within 7 days of the session:</strong> we are unable to offer a refund. By this point we have committed to costs for your child's place and are very unlikely to be able to fill it from a waitlist. At our discretion, we may still be able to offer a transfer to a future session instead.</li>
+        <li>Refunds are returned to your original payment method and, per Stripe's standard processing times, may take 5 to 10 business days to appear on your statement.</li>
+      </ul>
+
+      <h2>4. If We Need to Cancel or Change a Session</h2>
+      <p>If Bunyaan cancels a session, or makes a material change to the date, time or venue, you will be offered a full refund or a transfer to an alternative session, in line with your rights under the Consumer Rights Act 2015.</p>
+
+      <h2>5. Health, Safety, Allergies and Medical Information</h2>
+      <ul>
+        <li>Before each session, we ask for information about any allergies, medical conditions or additional support needs, so we can look after your child properly.</li>
+        <li>Please make sure this information is accurate and up to date. Let us know immediately if anything changes before the session.</li>
+        <li>A first-aid trained adult will be present at all sessions.</li>
+      </ul>
+
+      <h2>6. Code of Conduct</h2>
+      <p>We expect all participants to treat staff, volunteers and other children with respect. In the rare case of a serious behavioural or safety concern, we may need to contact a parent to collect a child early. We will always try to work with families first before this becomes necessary.</p>
+
+      <h2>7. Safeguarding</h2>
+      <p>Bunyaan takes the safety of young people seriously. All staff and volunteers working directly with children are registered under Scotland's PVG (Protecting Vulnerable Groups) scheme. Our Designated Safeguarding Lead can be contacted at <a href="mailto:info@bunyaan.org.uk">info@bunyaan.org.uk</a> for any safeguarding concern.</p>
+
+      <h2>8. Photography and Video</h2>
+      <p>We may take photographs or video during sessions for use on our website, social media, or in reports to funders. We will always ask for your separate, specific consent for this as part of your booking, and you are free to decline without affecting your child's place. You can withdraw this consent at any time by contacting us.</p>
+
+      <h2>9. Data Protection</h2>
+      <p>We collect and use personal information (including your contact details and any health or medical information you provide) in accordance with UK GDPR and our <a href="/privacy">Privacy Policy</a>. We do not sell or share your data with third parties for marketing purposes.</p>
+
+      <h2>10. Liability</h2>
+      <p>While we take all reasonable care to provide a safe environment, Bunyaan cannot accept liability for loss, damage, or injury except where this results from our negligence or breach of our legal duties, including our safeguarding responsibilities. Nothing in these terms limits or excludes liability that cannot be limited or excluded under Scots law.</p>
+
+      <h2>11. Website Use</h2>
+      <p>Content on bunyaan.org.uk, including text, logos and images, belongs to Bunyaan SCIO unless otherwise stated, and may not be reproduced without permission.</p>
+
+      <h2>12. Governing Law</h2>
+      <p>These terms are governed by the law of Scotland, and any disputes will be handled by the Scottish courts.</p>
+
+      <h2>13. Changes to These Terms</h2>
+      <p>We may update these terms from time to time. The current version will always be available at bunyaan.org.uk/terms.</p>
+
+      <h2>14. Contact Us</h2>
+      <p>Questions about these terms, or about a specific booking, can be sent to <a href="mailto:bootcamp@bunyaan.org.uk">bootcamp@bunyaan.org.uk</a>.</p>
+
+    </div>
+  </main>
+
+  <footer role="contentinfo">
+    <div class="footer-grid">
+      <div>
+        <div class="f-mark">BUN<span class="g">YA</span>AN</div>
+        <span class="f-ayah" dir="rtl" lang="ar" aria-label="Quranic verse in Arabic">كَأَنَّهُم بُنيَانٌ مَّرْصُوصٌ</span>
+        <span class="f-trans">"As though they are a single solid structure"</span>
+        <p class="f-desc">Scotland's first Muslim community robotics and AI team. Competing in FIRST UK. Based in Edinburgh.</p>
+      </div>
+      <div>
+        <div class="f-head">Quick Links</div>
+        <ul class="f-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/#about">About Bunyaan</a></li>
+          <li><a href="/#sponsor">Support Us</a></li>
+          <li><a href="/#involved">Get Involved</a></li>
+          <li><a href="/summer_bootcamps">Summer Bootcamp</a></li>
+          <li><a href="/terms">Terms &amp; Conditions</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-head">Contact</div>
+        <div class="f-contact-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <a href="mailto:info@bunyaan.org.uk">info@bunyaan.org.uk</a>
+        </div>
+        <div class="f-contact-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Edinburgh, Scotland</span>
+        </div>
+        <div class="f-socials" aria-label="Social media">
+          <a href="https://www.facebook.com/bunyaanuk" target="_blank" rel="noopener noreferrer" class="f-soc" aria-label="Facebook"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+          <a href="https://www.instagram.com/bunyaanuk" target="_blank" rel="noopener noreferrer" class="f-soc" aria-label="Instagram"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          <a href="https://www.tiktok.com/@bunyaanuk" target="_blank" rel="noopener noreferrer" class="f-soc" aria-label="TikTok"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 12a4 4 0 104 4V4a5 5 0 005 5"/></svg></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>&copy; 2026 Bunyaan. Registered Scottish Charity SC055377. Built with purpose in Edinburgh.</span>
+      <div class="footer-legal">
+        <a href="/terms">Terms &amp; Conditions</a>
+        <a href="/privacy">Privacy Policy</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

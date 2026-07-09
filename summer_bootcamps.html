@@ -452,7 +452,9 @@
     .f-soc { width: 34px; height: 34px; border-radius: 5px; border: 1px solid var(--gold-border); display: flex; align-items: center; justify-content: center; color: var(--muted); transition: all 0.25s; }
     .f-soc:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
     .footer-bar { max-width: 1200px; margin-inline: auto; padding-block-start: 1.5rem; border-block-start: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
-    .footer-bar span { font-size: 0.75rem; color: var(--muted-2); }
+    .footer-bar span, .footer-bar a { font-size: 0.75rem; color: var(--muted-2); text-decoration: none; }
+    .footer-bar a:hover { color: var(--gold); }
+    .footer-legal { display: flex; gap: 1.25rem; }
 
     /* ============================================================
        RESPONSIVE
@@ -876,6 +878,8 @@
           <li><a href="/#sponsor">Support Us</a></li>
           <li><a href="/#involved">Get Involved</a></li>
           <li><a href="/summer_bootcamps">Summer Bootcamp</a></li>
+          <li><a href="/terms">Terms &amp; Conditions</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
         </ul>
       </div>
       <div>
@@ -893,7 +897,10 @@
     </div>
     <div class="footer-bar">
       <span>&copy; 2026 Bunyaan. Registered Scottish Charity SC055377. Built with purpose in Edinburgh.</span>
-      <span>Scotland's first Muslim robotics team.</span>
+      <div class="footer-legal">
+        <a href="/terms">Terms &amp; Conditions</a>
+        <a href="/privacy">Privacy Policy</a>
+      </div>
     </div>
   </footer>
 
