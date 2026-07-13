@@ -1124,6 +1124,7 @@
     // ── D1 Submissions ────────────────────────────────────────────────────────
     async function apiGet(type) {
       const res = await fetch('/api/admin/data?type=' + type, {
+        cache: 'no-store',
         headers: { 'Authorization': 'Bearer ' + ADMIN_TOKEN }
       });
       if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -1452,9 +1453,7 @@
           row.notes  = document.getElementById('ep-notes').value.trim();
           renderTable(editKey);
         }
-        msgEl.style.color = '';
-        msgEl.textContent = 'Saved.';
-        setTimeout(() => { msgEl.textContent = ''; }, 2000);
+        closeEditPanel();
       } catch (err) {
         msgEl.style.color = 'var(--red)';
         msgEl.textContent = 'Error: ' + err.message;
