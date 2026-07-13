@@ -407,6 +407,8 @@
     .btn-gold-sm { padding: 0.6rem 1.5rem; border-radius: 6px; background: var(--gold); color: var(--navy); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; transition: background 0.2s; }
     .btn-gold-sm:hover { background: var(--gold-light); }
     .btn-gold-sm:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn-danger-sm { padding: 0.6rem 1.1rem; border-radius: 6px; background: none; border: 1px solid rgba(255,80,80,0.35); color: rgba(255,100,100,0.85); font-size: 0.78rem; font-weight: 500; transition: all 0.15s; margin-inline-end: auto; }
+    .btn-danger-sm:hover { background: rgba(255,80,80,0.1); border-color: rgba(255,80,80,0.6); color: #ff6464; }
 
     /* ── Status badges ───────────────────────────────────────────────────── */
     .status-badge { display: inline-block; padding: 0.2rem 0.55rem; border-radius: 20px; font-size: 0.68rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
@@ -922,6 +924,7 @@
         </div>
       </div>
       <div class="ep-foot">
+        <button class="btn-danger-sm" id="ep-delete-btn">Delete</button>
         <span class="ep-msg" id="ep-msg" aria-live="polite"></span>
         <button class="btn-outline-sm" id="ep-cancel-btn">Cancel</button>
         <button class="btn-gold-sm" id="ep-save-btn">Save</button>
@@ -1391,6 +1394,7 @@
     document.getElementById('ep-close-btn').addEventListener('click',  closeEditPanel);
     document.getElementById('ep-cancel-btn').addEventListener('click', closeEditPanel);
     document.getElementById('ep-save-btn').addEventListener('click',   saveEditPanel);
+    document.getElementById('ep-delete-btn').addEventListener('click', deleteEditPanel);
 
     // Event delegation for all Edit buttons in tables
     document.getElementById('app').addEventListener('click', e => {
@@ -1457,6 +1461,33 @@
       } finally {
         saveBtn.disabled = false;
         saveBtn.textContent = 'Save';
+      }
+    }
+
+    async function deleteEditPanel() {
+      if (!editKey || !editId) return;
+      const row = snapData[editKey].find(x => String(x.id) === String(editId));
+      const name = row?.name || 'this entry';
+      if (!confirm('Delete ' + name + '? This cannot be undone.')) return;
+      const delBtn = document.getElementById('ep-delete-btn');
+      const msgEl  = document.getElementById('ep-msg');
+      delBtn.disabled = true;
+      try {
+        const res = await fetch('/api/admin/data', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + ADMIN_TOKEN },
+          body: JSON.stringify({ id: Number(editId), table: editKey })
+        });
+        const payload = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(payload.error || 'HTTP ' + res.status);
+        snapData[editKey] = snapData[editKey].filter(x => String(x.id) !== String(editId));
+        renderTable(editKey);
+        updateBadges();
+        closeEditPanel();
+      } catch (err) {
+        msgEl.style.color = 'var(--red)';
+        msgEl.textContent = 'Error: ' + err.message;
+        delBtn.disabled = false;
       }
     }
 

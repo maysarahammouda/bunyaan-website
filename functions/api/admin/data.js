@@ -55,6 +55,18 @@ export async function onRequest(context) {
     }
   }
 
+  if (context.request.method === 'DELETE') {
+    try {
+      const { id, table } = await context.request.json();
+      if (!id || !table) return jsonResponse({ error: 'Missing id or table' }, 400);
+      const tbl = table === 'waitlist' ? 'waitlist' : 'contact_submissions';
+      await db.prepare(`DELETE FROM ${tbl} WHERE id = ?`).bind(id).run();
+      return jsonResponse({ success: true });
+    } catch (e) {
+      return jsonResponse({ error: e.message }, 500);
+    }
+  }
+
   return jsonResponse({ error: 'Method not allowed' }, 405);
 }
 
