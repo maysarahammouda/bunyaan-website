@@ -933,6 +933,7 @@
   <script type="module">
     import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
     import { getFirestore, collection, query, orderBy, onSnapshot, addDoc, setDoc, deleteDoc, doc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+    import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 
     // ── Credentials ──────────────────────────────────────────────────────────
     const ADMIN_USERNAME = 'admin';
@@ -1262,9 +1263,11 @@
     }
 
     // ── Firebase (team management only) ───────────────────────────────────────
-    function initFirebase() {
+    async function initFirebase() {
       appInstance = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
       db = getFirestore(appInstance);
+      const auth = getAuth(appInstance);
+      await signInAnonymously(auth);
       initTeam();
     }
 
