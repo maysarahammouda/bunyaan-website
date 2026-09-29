@@ -587,27 +587,53 @@
     color: var(--white); cursor: pointer;
   }
   .btn-book.soldout:hover { background: var(--gold-dim); border-color: var(--gold); transform: translateY(-2px); }
+    .nav-links { gap: clamp(0.8rem, 1.4vw, 2rem); }
+    .nav-links a { font-size: 0.74rem; letter-spacing: 0.04em; }
+    @media (max-width: 1480px) {
+      .nav-links, .nav-cta, .nav-donate { display: none; }
+      .nav-burger { display: flex; }
+    }
+    @media (max-width: 640px) {
+      .announce-bar { font-size: 0.68rem; line-height: 1.25; letter-spacing: 0.01em; padding-inline: 0.75rem; }
+    }
+      @media (max-width: 640px) {
+      nav { padding-inline: 1rem; }
+      .nav-logo { height: 34px; }
+    }
+    .finished-note {
+      display: inline-block; margin-block-end: 1.75rem;
+      padding: 0.6rem 1rem; font-size: 0.9rem; color: var(--white);
+      background: var(--gold-dim); border: 1px solid var(--gold-border);
+      border-inline-start: 3px solid var(--gold); border-radius: 3px;
+    }
+    .btn-finished {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.7rem 1.4rem; font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted); border: 1px solid rgba(255,255,255,0.18); border-radius: 3px;
+      cursor: default;
+    }
   </style>
 </head>
 <body>
 
   <div class="geo-canvas" aria-hidden="true"></div>
 
-  <!-- Announcement bar -->
-  <a href="/summer_bootcamps#sessions" class="announce-bar" id="announce" aria-label="Summer Robotics Bootcamp announcement">
-    🤖 <strong>Summer Robotics Bootcamp:</strong>&nbsp; Spaces are limited.&nbsp; Book now &rarr;
+  <a href="/ftc" class="announce-bar" id="announce" aria-label="FIRST Tech Challenge competition team announcement">
+    <strong>Join our FIRST Tech Challenge competition team:</strong>&nbsp; limited places &rarr;
   </a>
 
-  <!-- Navigation -->
   <nav id="nav" role="navigation" aria-label="Main navigation">
     <a href="/" class="nav-mark" aria-label="Bunyaan home"><img src="/assets/logo-nav.png" alt="Bunyaan" class="nav-logo"></a>
     <ul class="nav-links">
       <li><a href="/#about">About</a></li>
-      <li><a href="/#first">FIRST UK</a></li>
+      <li><a href="/#programmes">Our Programmes</a></li>
       <li><a href="/#pillars">Our Pillars</a></li>
       <li><a href="/#sponsor">Support Us</a></li>
       <li><a href="/#team">The Team</a></li>
-      <li><a href="/summer_bootcamps" class="active">Bootcamps</a></li>
+      <li><a href="/#journey">Our Journey</a></li>
+      <li><a href="/ftc">FTC Team</a></li>
+      <li><a href="/courses">Courses</a></li>
     </ul>
     <a href="/#donate" class="nav-donate">Donate</a>
     <a href="/#involved" class="nav-cta">Get Involved</a>
@@ -618,11 +644,13 @@
 
   <div class="nav-drawer" id="drawer" role="navigation" aria-label="Mobile navigation">
     <a href="/#about">About</a>
-    <a href="/#first">FIRST UK</a>
+    <a href="/#programmes">Our Programmes</a>
     <a href="/#pillars">Our Pillars</a>
     <a href="/#sponsor">Support Us</a>
     <a href="/#team">The Team</a>
-    <a href="/summer_bootcamps">Bootcamps</a>
+    <a href="/#journey">Our Journey</a>
+    <a href="/ftc">Competition Team</a>
+    <a href="/courses">Courses</a>
     <a href="/#involved">Get Involved</a>
     <a href="/#donate">Donate</a>
   </div>
@@ -637,9 +665,10 @@
             <div class="hero-badge r d1"><span class="hero-badge-dot" aria-hidden="true"></span>Edinburgh &bull; July 2026</div>
             <h1 class="hero-title r d2">SUMMER<br><span class="g">ROBOTICS</span><br>BOOTCAMP</h1>
             <p class="hero-tagline r d3">Hands on. Minds on. Game on.</p>
+            <p class="finished-note r d3">This round has finished. The next round will be announced.</p>
             <div class="hero-actions r d4">
-              <a href="#sessions" class="btn-primary">
-                Book your place
+              <a href="/#programmes" class="btn-primary">
+                Our programmes
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </a>
               <a href="#about" class="btn-outline">Learn more</a>
@@ -750,8 +779,8 @@
     <!-- 05 SESSIONS -->
     <section id="sessions" aria-labelledby="sessions-heading">
       <div class="wrap">
-        <p class="eyebrow r d1">Book Your Place</p>
-        <h2 class="section-title r d2" id="sessions-heading">Two sessions. Choose yours.</h2>
+        <p class="eyebrow r d1">July 2026</p>
+        <h2 class="section-title r d2" id="sessions-heading">These sessions have finished.</h2>
         <div class="sessions-compare r d3">
           <div class="sc-header">
             <div class="sc-header-label"></div>
@@ -799,20 +828,17 @@
             <div class="sc-cell">Provided</div>
             <div class="sc-cell">Provided</div>
           </div>
+          <!-- Booking buttons removed after the July 2026 round. To reopen for the next round, restore:
+               Session 1: https://buy.stripe.com/28E4gB9mc9SYbhmcAb9IQ01
+               Session 2: https://buy.stripe.com/6oUdRb9mcd5a1GMfMn9IQ02 -->
           <div class="sc-row sc-book-row">
             <div class="sc-row-label"></div>
             <div class="sc-cell">
-              <a href="https://buy.stripe.com/28E4gB9mc9SYbhmcAb9IQ01" class="btn-book" aria-label="Book Session 1 — Ages 8 to 12, 11-12 July" target="_blank" rel="noopener noreferrer">
-                Book Now
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </a>
+              <span class="btn-finished">Finished</span>
               <span class="seats-notice" id="seats-1" aria-live="polite"></span>
             </div>
             <div class="sc-cell">
-              <a href="https://buy.stripe.com/6oUdRb9mcd5a1GMfMn9IQ02" class="btn-book" aria-label="Book Session 2 — Ages 13 to 16, 18-19 July" target="_blank" rel="noopener noreferrer">
-                Book Now
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </a>
+              <span class="btn-finished">Finished</span>
               <span class="seats-notice" id="seats-2" aria-live="polite"></span>
             </div>
           </div>
@@ -845,13 +871,13 @@
     </section>
 
     <!-- 09 BOTTOM CTA -->
-    <section id="cta" aria-label="Book your place">
+    <section id="cta" aria-label="Next round">
       <div class="wrap">
         <div class="cta-inner">
-          <h2 class="cta-title r d1">Spaces are very limited.</h2>
-          <p class="cta-sub r d2">Two sessions. Two age groups. Once they are full, they are full.</p>
-          <a href="#sessions" class="btn-primary r d3" style="margin-inline:auto">
-            Book your place
+          <h2 class="cta-title r d1">The next round will be announced.</h2>
+          <p class="cta-sub r d2">See what else we run, including our competition team and weekly courses.</p>
+          <a href="/#programmes" class="btn-primary r d3" style="margin-inline:auto">
+            Our programmes
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
         </div>

@@ -251,7 +251,7 @@
 
     .nav-links { gap: clamp(0.8rem, 1.4vw, 2rem); }
     .nav-links a { font-size: 0.74rem; letter-spacing: 0.04em; }
-    @media (max-width: 1320px) {
+    @media (max-width: 1480px) {
       .nav-links, .nav-cta, .nav-donate { display: none; }
       .nav-burger { display: flex; }
     }
@@ -271,6 +271,10 @@
       html { scroll-behavior: auto; }
     }
 
+      @media (max-width: 640px) {
+      nav { padding-inline: 1rem; }
+      .nav-logo { height: 34px; }
+    }
   </style>
 </head>
 <body>
@@ -285,10 +289,11 @@
     <a href="/" class="nav-mark" aria-label="Bunyaan home"><img src="/assets/logo-nav.png" alt="Bunyaan" class="nav-logo"></a>
     <ul class="nav-links">
       <li><a href="/#about">About</a></li>
-      <li><a href="/#first">FIRST UK</a></li>
+      <li><a href="/#programmes">Our Programmes</a></li>
       <li><a href="/#pillars">Our Pillars</a></li>
       <li><a href="/#sponsor">Support Us</a></li>
       <li><a href="/#team">The Team</a></li>
+      <li><a href="/#journey">Our Journey</a></li>
       <li><a href="/ftc" class="active">FTC Team</a></li>
       <li><a href="/courses">Courses</a></li>
     </ul>
@@ -301,10 +306,11 @@
 
   <div class="nav-drawer" id="drawer" role="navigation" aria-label="Mobile navigation">
     <a href="/#about">About</a>
-    <a href="/#first">FIRST UK</a>
+    <a href="/#programmes">Our Programmes</a>
     <a href="/#pillars">Our Pillars</a>
     <a href="/#sponsor">Support Us</a>
     <a href="/#team">The Team</a>
+    <a href="/#journey">Our Journey</a>
     <a href="/ftc">Competition Team</a>
     <a href="/courses">Courses</a>
     <a href="/#involved">Get Involved</a>
