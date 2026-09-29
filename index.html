@@ -111,6 +111,7 @@
       transition: background 0.2s;
     }
     .announce-bar:hover { background: #d9b655; }
+    @media (max-width: 640px) { .announce-bar { font-size: 0.68rem; line-height: 1.25; letter-spacing: 0.01em; padding-inline: 0.75rem; } }
     .announce-bar strong { font-weight: 700; }
 
     nav {
@@ -367,6 +368,9 @@
        PILLARS
     ============================================================ */
     #pillars { background: var(--navy-2); }
+    #programmes { background: var(--navy); }
+    #programmes .pc { display: flex; flex-direction: column; align-items: flex-start; }
+    #programmes .pc-body { flex-grow: 1; }
     .pillars-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-block-start: clamp(2.5rem, 5vw, 4rem); }
     .pc {
       position: relative; overflow: hidden;
@@ -790,7 +794,9 @@
       .forms-grid { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr 1fr; }
     }
-    @media (max-width: 1024px) {
+    .nav-links { gap: clamp(0.8rem, 1.4vw, 2rem); }
+    .nav-links a { font-size: 0.74rem; letter-spacing: 0.04em; }
+    @media (max-width: 1320px) {
       .nav-links, .nav-cta, .nav-donate { display: none; }
       .nav-burger { display: flex; }
     }
@@ -931,8 +937,8 @@
   <div class="geo-glow-tr" aria-hidden="true"></div>
   <div class="geo-glow-bl" aria-hidden="true"></div>
 
-  <a href="/summer_bootcamps#sessions" class="announce-bar" id="announce" aria-label="Summer Robotics Bootcamp announcement">
-    🤖 <strong>Summer Robotics Bootcamp:</strong>&nbsp; Spaces are limited.&nbsp; Book now &rarr;
+  <a href="/ftc" class="announce-bar" id="announce" aria-label="FIRST Tech Challenge competition team announcement">
+    <strong>Join our FIRST Tech Challenge competition team:</strong>&nbsp; limited places &rarr;
   </a>
 
   <nav id="nav" role="navigation" aria-label="Main navigation">
@@ -944,7 +950,8 @@
       <li><a href="#sponsor">Support Us</a></li>
       <li><a href="#team">The Team</a></li>
       <li><a href="#journey">Our Journey</a></li>
-      <li><a href="/summer_bootcamps" style="color:var(--gold)">Bootcamps</a></li>
+      <li><a href="/ftc" style="color:var(--gold)">FTC Team</a></li>
+      <li><a href="/courses">Courses</a></li>
     </ul>
     <a href="#donate" class="nav-donate">Donate</a>
     <a href="#involved" class="nav-cta">Get Involved</a>
@@ -960,7 +967,8 @@
     <a href="#sponsor">Support Us</a>
     <a href="#team">The Team</a>
     <a href="#journey">Our Journey</a>
-    <a href="/summer_bootcamps" style="color:var(--gold)">Bootcamps</a>
+    <a href="/ftc" style="color:var(--gold)">Competition Team</a>
+    <a href="/courses">Courses</a>
     <a href="#involved">Get Involved</a>
     <a href="#donate">Donate</a>
   </div>
@@ -1039,6 +1047,31 @@
               <div class="stat-row"><div class="stat-num">2026</div><div class="stat-info"><div class="stat-lbl">Season 1 begins</div><div class="stat-desc">Registration opening soon. Be the first to join Scotland's pioneering team.</div></div></div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="programmes" aria-labelledby="programmes-heading">
+      <div class="wrap">
+        <span class="eyebrow r">What We Run</span>
+        <h2 class="section-title r d1" id="programmes-heading">Our Programmes</h2>
+        <p class="section-sub r d2">Three ways for young people to get involved with Bunyaan.</p>
+        <div class="pillars-grid">
+          <article class="pc r d1">
+            <h3 class="pc-title">Competition Team</h3>
+            <p class="pc-body">Our FIRST Tech Challenge team for ages 12 to 18. Build and compete with a robot alongside professional mentors. Places are limited.</p>
+            <a href="/ftc" class="btn btn-gold" style="margin-block-start:1.5rem">Join the team <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </article>
+          <article class="pc r d2">
+            <h3 class="pc-title">Courses</h3>
+            <p class="pc-body">Weekly robotics and STEM courses at Edinburgh Central Mosque, for ages 8 to 12 and 13 and over, one module per school term.</p>
+            <a href="/courses" class="btn btn-outline" style="margin-block-start:1.5rem">See the courses</a>
+          </article>
+          <article class="pc r d3">
+            <h3 class="pc-title">Bootcamps</h3>
+            <p class="pc-body">Hands-on robotics bootcamps for young people. The next round will be announced.</p>
+            <a href="/summer_bootcamps" class="btn btn-outline" style="margin-block-start:1.5rem">About the bootcamps</a>
+          </article>
         </div>
       </div>
     </section>
@@ -1421,7 +1454,7 @@
       </div>
       <div>
         <div class="f-head">Quick Links</div>
-        <ul class="f-links"><li><a href="#about">About Bunyaan</a></li><li><a href="#first">What is FIRST UK</a></li><li><a href="#pillars">Our Pillars</a></li><li><a href="#team">Meet the Team</a></li><li><a href="#journey">Our Journey</a></li><li><a href="#sponsor">Support Us</a></li><li><a href="#involved">Get Involved</a></li><li><a href="/terms">Terms &amp; Conditions</a></li><li><a href="/privacy">Privacy Policy</a></li></ul>
+        <ul class="f-links"><li><a href="#about">About Bunyaan</a></li><li><a href="#first">What is FIRST UK</a></li><li><a href="#pillars">Our Pillars</a></li><li><a href="#team">Meet the Team</a></li><li><a href="#journey">Our Journey</a></li><li><a href="#sponsor">Support Us</a></li><li><a href="#involved">Get Involved</a></li><li><a href="#programmes">Our Programmes</a></li><li><a href="/ftc">Competition Team</a></li><li><a href="/courses">Courses</a></li><li><a href="/summer_bootcamps">Summer Bootcamp</a></li><li><a href="/terms">Terms &amp; Conditions</a></li><li><a href="/privacy">Privacy Policy</a></li></ul>
       </div>
       <div>
         <div class="f-head">Contact</div>
