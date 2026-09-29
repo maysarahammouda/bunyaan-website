@@ -451,6 +451,43 @@
     .ep-foot { padding: 1.25rem 1.5rem; border-block-start: 1px solid var(--border); display: flex; gap: 0.75rem; justify-content: flex-end; flex-shrink: 0; }
     .ep-msg { font-size: 0.78rem; color: var(--green); min-height: 1.2rem; align-self: center; margin-inline-end: auto; }
 
+    /* ── Email Templates tab ─────────────────────────────────────────────── */
+    .tmpl-layout { display: grid; grid-template-columns: 230px 1fr; gap: 1.25rem; min-height: 500px; }
+    .tmpl-list { background: var(--navy-3); border-radius: 10px; border: 1px solid var(--gold-border); overflow-y: auto; }
+    .tmpl-list-item { padding: 0.75rem 1rem; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.05); transition: background 0.15s; }
+    .tmpl-list-item:hover { background: rgba(255,255,255,0.04); }
+    .tmpl-list-item.active { background: var(--gold-dim); border-inline-start: 3px solid var(--gold); padding-inline-start: calc(1rem - 3px); }
+    .tmpl-list-item .tmpl-name { font-size: 0.84rem; font-weight: 500; color: var(--white); }
+    .tmpl-list-item .tmpl-subj { font-size: 0.73rem; color: var(--muted-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+    .tmpl-editor { background: var(--navy-3); border-radius: 10px; border: 1px solid var(--gold-border); padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+    .tmpl-empty-editor { background: var(--navy-3); border-radius: 10px; border: 1px solid var(--gold-border); display: flex; align-items: center; justify-content: center; }
+    .tmpl-field { display: flex; flex-direction: column; gap: 0.4rem; }
+    .tmpl-lbl { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-2); }
+    .tmpl-input { background: var(--navy-2); border: 1px solid var(--gold-border); border-radius: 6px; padding: 0.55rem 0.8rem; color: var(--white); font-family: var(--f-body); font-size: 0.875rem; width: 100%; box-sizing: border-box; }
+    .tmpl-input:focus { outline: none; border-color: var(--gold); }
+    .tmpl-textarea { background: var(--navy-2); border: 1px solid var(--gold-border); border-radius: 6px; padding: 0.75rem; color: var(--white); font-size: 0.75rem; font-family: 'Courier New', monospace; line-height: 1.55; width: 100%; box-sizing: border-box; resize: vertical; min-height: 260px; }
+    .tmpl-textarea:focus { outline: none; border-color: var(--gold); }
+    .tmpl-vars { font-size: 0.73rem; color: var(--muted-2); line-height: 1.9; }
+    .tmpl-vars code { background: rgba(255,255,255,0.06); padding: 1px 5px; border-radius: 3px; color: var(--gold); font-size: 0.69rem; font-family: 'Courier New', monospace; }
+    .tmpl-editor-foot { display: flex; gap: 0.75rem; align-items: center; }
+
+    /* ── Send Email modal ─────────────────────────────────────────────────── */
+    .send-modal { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; padding: 1rem; }
+    .send-modal-bg { position: absolute; inset: 0; background: rgba(0,0,0,0.72); }
+    .send-modal-box { position: relative; background: var(--navy-2); border: 1px solid var(--gold-border); border-radius: 12px; width: 100%; max-width: 680px; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; }
+    .send-modal-head { padding: 1.25rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.07); flex-shrink: 0; }
+    .send-modal-head h3 { font-size: 1rem; font-weight: 600; margin: 0; color: var(--white); }
+    .send-modal-head p { font-size: 0.8rem; color: var(--muted-2); margin: 3px 0 0; }
+    .send-modal-body { flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; }
+    .send-modal-foot { padding: 1rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.07); display: flex; justify-content: flex-end; align-items: center; gap: 0.75rem; flex-shrink: 0; }
+    .tmpl-picker { display: flex; flex-direction: column; gap: 0.45rem; }
+    .tmpl-pick-item { padding: 0.65rem 0.9rem; border-radius: 7px; border: 1px solid rgba(255,255,255,0.08); cursor: pointer; transition: all 0.15s; }
+    .tmpl-pick-item:hover { border-color: var(--gold-border); background: rgba(255,255,255,0.03); }
+    .tmpl-pick-item.selected { border-color: var(--gold); background: var(--gold-dim); }
+    .tmpl-pick-item .tp-name { font-size: 0.84rem; font-weight: 500; color: var(--white); }
+    .tmpl-pick-item .tp-subj { font-size: 0.73rem; color: var(--muted-2); margin-top: 2px; }
+    .email-preview-frame { width: 100%; border: 0; border-radius: 6px; background: #f0f0f2; display: block; }
+
     /* ── Mobile overlay ───────────────────────────────────────────────────── */
     #sidebar-overlay {
       display: none; position: fixed; inset: 0; z-index: 199;
@@ -550,6 +587,11 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
           Paid Bookings
           <span class="nav-badge" id="sb-bookings" style="background:rgba(72,199,142,0.2);color:#48C78E">–</span>
+        </button>
+
+        <button class="nav-item" data-view="templates">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v2H4z"/><path d="M4 10h10"/><path d="M4 14h7"/><rect x="14" y="12" width="7" height="9" rx="1"/></svg>
+          Email Templates
         </button>
 
         <div class="sidebar-section-label" style="margin-block-start:0.5rem">Website</div>
@@ -770,6 +812,10 @@
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
                 Setup Fields
               </button>
+              <button id="test-booking-btn" class="export-btn" style="background:rgba(120,80,200,0.1);color:#a78bfa;border-color:rgba(120,80,200,0.3)">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                Test Entry
+              </button>
               <button id="refresh-bookings" class="export-btn" style="background:rgba(72,199,142,0.12);color:#48C78E;border-color:rgba(72,199,142,0.3)">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
                 Refresh
@@ -783,10 +829,65 @@
           <div class="table-wrap">
             <table class="data-table">
               <thead><tr>
-                <th>#</th><th>Booked</th><th>Participant</th><th>Booker</th><th>Email</th><th>WhatsApp</th><th>Consent</th><th>Session</th><th>Amount</th>
+                <th>#</th><th>Booked</th><th>Participant</th><th>Booker</th><th>Email</th><th>WhatsApp</th><th>Consent</th><th>Session</th><th>Amount</th><th>Confirmation</th>
               </tr></thead>
-              <tbody id="tbody-bookings"><tr><td colspan="9" class="td-empty">Click Refresh to load bookings from Stripe.</td></tr></tbody>
+              <tbody id="tbody-bookings"><tr><td colspan="10" class="td-empty">Click Refresh to load bookings from Stripe.</td></tr></tbody>
             </table>
+          </div>
+        </div>
+
+        <!-- ── Email Templates ──────────────────────────────────────────── -->
+        <div id="view-templates" class="view" hidden>
+          <div class="page-header">
+            <h1 class="page-title">Email Templates</h1>
+            <p class="page-subtitle">Create and manage templates used when sending emails from Paid Bookings.</p>
+          </div>
+          <div style="display:flex;justify-content:flex-end;margin-bottom:1rem;">
+            <button id="tmpl-new-btn" class="btn-gold-sm">+ New Template</button>
+          </div>
+          <div class="tmpl-layout">
+            <div class="tmpl-list" id="tmpl-list">
+              <div style="padding:2rem 1rem;text-align:center;color:var(--muted-2);font-size:0.82rem;">No templates yet.</div>
+            </div>
+            <div class="tmpl-editor" id="tmpl-editor" style="display:none">
+              <div class="tmpl-field">
+                <label class="tmpl-lbl" for="tmpl-name">Template Name</label>
+                <input class="tmpl-input" id="tmpl-name" type="text" placeholder="e.g. Booking Confirmation">
+              </div>
+              <div class="tmpl-field">
+                <label class="tmpl-lbl" for="tmpl-subject">Subject Line</label>
+                <input class="tmpl-input" id="tmpl-subject" type="text" placeholder="e.g. Your Bunyaan bootcamp booking is confirmed">
+              </div>
+              <div class="tmpl-field">
+                <label class="tmpl-lbl" for="tmpl-body">Body (HTML)</label>
+                <textarea class="tmpl-textarea" id="tmpl-body" placeholder="Write the email body HTML here…"></textarea>
+              </div>
+              <div class="tmpl-vars">
+                <strong style="color:var(--muted)">Variables:</strong>
+                <code>{{participant}}</code> <code>{{booker}}</code> <code>{{session_dates}}</code> <code>{{session_time}}</code>
+              </div>
+              <div class="tmpl-editor-foot">
+                <button class="btn-danger-sm" id="tmpl-delete-btn" style="margin-inline-end:auto">Delete</button>
+                <button class="btn-outline-sm" id="tmpl-cancel-btn">Cancel</button>
+                <button class="btn-outline-sm" id="tmpl-preview-btn">Preview</button>
+                <button class="btn-gold-sm" id="tmpl-save-btn">Save Template</button>
+              </div>
+            </div>
+            <div class="tmpl-empty-editor" id="tmpl-empty-editor">
+              <p style="color:var(--muted-2);font-size:0.84rem;margin:0;">Select a template or create a new one.</p>
+            </div>
+          </div>
+
+          <!-- Preview pane -->
+          <div id="tmpl-preview-pane" hidden style="margin-top:1.5rem;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;">
+              <div>
+                <span class="tmpl-lbl">Email Preview</span>
+                <span style="font-size:0.72rem;color:var(--muted-2);margin-inline-start:0.75rem;">Sample values used for variables</span>
+              </div>
+              <button class="btn-outline-sm" id="tmpl-preview-close" style="font-size:0.75rem;padding:0.3rem 0.7rem;">Close</button>
+            </div>
+            <iframe id="tmpl-preview-frame" style="width:100%;border:0;border-radius:8px;display:block;" title="Email preview"></iframe>
           </div>
         </div>
 
@@ -930,6 +1031,32 @@
         <button class="btn-gold-sm" id="ep-save-btn">Save</button>
       </div>
     </div>
+
+  <!-- ── Send Email Modal ──────────────────────────────────────────────────── -->
+  <div id="send-modal" class="send-modal" hidden aria-modal="true" role="dialog" aria-labelledby="send-modal-title">
+    <div class="send-modal-bg" id="send-modal-bg"></div>
+    <div class="send-modal-box">
+      <div class="send-modal-head">
+        <h3 id="send-modal-title">Send Email</h3>
+        <p id="send-modal-sub"></p>
+      </div>
+      <div class="send-modal-body">
+        <div>
+          <div class="tmpl-lbl" style="margin-bottom:0.6rem">Select Template</div>
+          <div class="tmpl-picker" id="tmpl-picker"></div>
+        </div>
+        <div id="send-preview-wrap" hidden>
+          <div class="tmpl-lbl" style="margin-bottom:0.6rem">Preview</div>
+          <iframe id="email-preview" class="email-preview-frame" title="Email preview"></iframe>
+        </div>
+      </div>
+      <div class="send-modal-foot">
+        <span class="ep-msg" id="send-modal-msg" aria-live="polite" style="margin-inline-end:auto"></span>
+        <button class="btn-outline-sm" id="send-modal-cancel">Cancel</button>
+        <button class="btn-gold-sm" id="send-modal-confirm" disabled>Send Email</button>
+      </div>
+    </div>
+  </div>
 
   </div><!-- /app -->
 
@@ -1095,13 +1222,20 @@
       document.querySelectorAll('.view').forEach(el => el.hidden = true);
       document.getElementById('view-' + view).hidden = false;
       document.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('active', b.dataset.view === view));
-      const titles = { overview: 'Overview', join: 'Join the Team', mentor: 'Mentors', sponsor: 'Support Us', waitlist: 'Waitlist', bookings: 'Paid Bookings', team: 'Team Management' };
+      const titles = { overview: 'Overview', join: 'Join the Team', mentor: 'Mentors', sponsor: 'Support Us', waitlist: 'Waitlist', bookings: 'Paid Bookings', templates: 'Email Templates', team: 'Team Management' };
       document.getElementById('topbar-title').textContent = titles[view] || view;
       if (view === 'bookings' && bookingsData.length === 0) loadBookings();
+      if (view === 'templates') loadTemplates();
     }
 
     // ── Boot ──────────────────────────────────────────────────────────────────
-    let bookingsData = [];
+    let bookingsData     = [];
+    let confirmedSet     = new Set();
+    let templatesData    = [];
+    let activeTmplId     = null;
+    let sendModalBooking = null;
+    let sendModalBtn     = null;
+    let selectedTmplId   = null;
 
     function bootApp() {
       loginPage.hidden = true;
@@ -1118,6 +1252,34 @@
         document.getElementById('refresh-bookings').addEventListener('click', loadBookings);
         document.getElementById('export-bookings').addEventListener('click', exportBookings);
         document.getElementById('filter-bookings-session').addEventListener('change', renderBookings);
+        // Template tab
+        document.getElementById('tmpl-new-btn').addEventListener('click', newTemplate);
+        document.getElementById('tmpl-save-btn').addEventListener('click', saveTemplate);
+        document.getElementById('tmpl-delete-btn').addEventListener('click', deleteTemplate);
+        document.getElementById('tmpl-cancel-btn').addEventListener('click', () => { activeTmplId = null; showEmptyEditor(); renderTemplateList(); });
+        document.getElementById('tmpl-preview-btn').addEventListener('click', showTemplatePreview);
+        document.getElementById('tmpl-preview-close').addEventListener('click', () => { document.getElementById('tmpl-preview-pane').hidden = true; });
+        // Send modal
+        document.getElementById('send-modal-cancel').addEventListener('click', closeSendModal);
+        document.getElementById('send-modal-bg').addEventListener('click', closeSendModal);
+        document.getElementById('send-modal-confirm').addEventListener('click', sendFromModal);
+        loadTemplates();
+        document.getElementById('test-booking-btn').addEventListener('click', function() {
+          const fake = {
+            id:          'test_entry_' + Date.now(),
+            created_at:  new Date().toISOString(),
+            participant: 'Eyad Hammouda',
+            booker:      'Maysara',
+            email:       'maysara.hammouda1@gmail.com',
+            whatsapp:    '+447716772296',
+            consent:     'Yes',
+            session:     'Session 2 – 18 & 19 July',
+            amount:      '£50.00 (TEST)',
+          };
+          bookingsData.unshift(fake);
+          renderBookings();
+          document.getElementById('export-bookings').disabled = false;
+        });
       }
     }
 
@@ -1159,11 +1321,14 @@
       metaEl.textContent = 'Fetching from Stripe…';
       tbody.innerHTML = '<tr><td colspan="6" class="td-empty">Loading…</td></tr>';
       try {
-        const res = await fetch('/api/admin/stripe-bookings', {
-          headers: { 'Authorization': 'Bearer ' + ADMIN_TOKEN }
-        });
-        const payload = await res.json().catch(() => ({}));
-        if (!res.ok || payload.error) throw new Error(payload.error || 'HTTP ' + res.status);
+        const [stripeRes, confRes] = await Promise.all([
+          fetch('/api/admin/stripe-bookings', { headers: { 'Authorization': 'Bearer ' + ADMIN_TOKEN } }),
+          fetch('/api/admin/booking-confirmations', { cache: 'no-store', headers: { 'Authorization': 'Bearer ' + ADMIN_TOKEN } }),
+        ]);
+        const payload = await stripeRes.json().catch(() => ({}));
+        if (!stripeRes.ok || payload.error) throw new Error(payload.error || 'HTTP ' + stripeRes.status);
+        const confPayload = await confRes.json().catch(() => ({ rows: [] }));
+        confirmedSet = new Set((confPayload.rows || []).map(r => r.session_id));
         const { bookings } = payload;
         bookingsData = bookings || [];
         // Populate session filter with unique session labels
@@ -1198,7 +1363,7 @@
       const filtered  = filterVal ? bookingsData.filter(b => b.session === filterVal) : bookingsData;
       expBtn.disabled = bookingsData.length === 0;
       if (filtered.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="8" class="td-empty">' +
+        tbody.innerHTML = '<tr><td colspan="10" class="td-empty">' +
           (bookingsData.length === 0 ? 'No paid bookings found.' : 'No bookings for this session.') +
           '</td></tr>';
         return;
@@ -1209,7 +1374,12 @@
         const consentDisplay = b.consent
           ? '<span style="color:' + (consentOk ? '#48C78E' : 'var(--gold)') + '">' + escHtml(b.consent) + '</span>'
           : '<span style="color:var(--muted-2)">–</span>';
+        const sent = confirmedSet.has(b.id);
+        const confirmCell = sent
+          ? '<span style="color:#48C78E;font-size:0.78rem;font-weight:600;">&#10003; Sent</span>'
+          : '<button class="row-edit-btn conf-send-btn" data-booking-id="' + escHtml(b.id) + '" style="background:rgba(201,168,76,0.1);border-color:rgba(201,168,76,0.3);color:var(--gold);">Send Email</button>';
         const tr = document.createElement('tr');
+        tr.dataset.bookingIdx = i;
         tr.innerHTML =
           '<td style="color:var(--muted-2);font-size:0.8rem">' + (i + 1) + '</td>' +
           '<td>' + escHtml(fmtDate(b.created_at)) + '</td>' +
@@ -1219,7 +1389,8 @@
           '<td>' + escHtml(b.whatsapp || '–') + '</td>' +
           '<td>' + consentDisplay + '</td>' +
           '<td><span class="form-chip chip-bookings">' + escHtml(b.session) + '</span></td>' +
-          '<td style="color:var(--gold);font-weight:600">' + escHtml(b.amount) + '</td>';
+          '<td style="color:var(--gold);font-weight:600">' + escHtml(b.amount) + '</td>' +
+          '<td>' + confirmCell + '</td>';
         tbody.appendChild(tr);
       });
     }
@@ -1264,6 +1435,268 @@
       });
       document.body.appendChild(a); a.click(); document.body.removeChild(a);
       URL.revokeObjectURL(url);
+    }
+
+    // ── Send Email (opens modal) ──────────────────────────────────────────────
+    document.getElementById('tbody-bookings').addEventListener('click', function(e) {
+      const btn = e.target.closest('.conf-send-btn');
+      if (!btn) return;
+      const b = bookingsData.find(x => x.id === btn.dataset.bookingId);
+      if (b) openSendModal(b, btn);
+    });
+
+    function openSendModal(b, btn) {
+      sendModalBooking = b;
+      sendModalBtn     = btn;
+      selectedTmplId   = null;
+      document.getElementById('send-modal-sub').textContent =
+        (b.participant || b.booker || '–') + ' — ' + b.email;
+      document.getElementById('send-modal-msg').textContent = '';
+      document.getElementById('send-modal-confirm').disabled = true;
+      document.getElementById('send-modal-confirm').textContent = 'Send Email';
+      document.getElementById('send-preview-wrap').hidden = true;
+
+      const picker = document.getElementById('tmpl-picker');
+      if (templatesData.length === 0) {
+        picker.innerHTML = '<p style="color:var(--muted-2);font-size:0.82rem;margin:0;">No templates yet — go to Email Templates to create one.</p>';
+      } else {
+        picker.innerHTML = '';
+        templatesData.forEach(t => {
+          const item = document.createElement('div');
+          item.className = 'tmpl-pick-item';
+          item.innerHTML = '<div class="tp-name">' + escHtml(t.name) + '</div><div class="tp-subj">' + escHtml(t.subject) + '</div>';
+          item.addEventListener('click', () => {
+            picker.querySelectorAll('.tmpl-pick-item').forEach(el => el.classList.remove('selected'));
+            item.classList.add('selected');
+            selectedTmplId = t.id;
+            updateSendPreview(t, b);
+            document.getElementById('send-modal-confirm').disabled = false;
+          });
+          picker.appendChild(item);
+        });
+      }
+      document.getElementById('send-modal').hidden = false;
+    }
+
+    function updateSendPreview(tmpl, b) {
+      const sd = clientResolveSession(b.session);
+      const vars = {
+        participant:   b.participant || b.booker || 'your child',
+        booker:        b.booker || 'Parent/Guardian',
+        session_dates: sd.dates,
+        session_time:  sd.time,
+      };
+      const subjectLine = clientSubVars(tmpl.subject, vars);
+      const bodyHtml    = clientSubVars(tmpl.body, vars);
+      const fullHtml    = clientWrapEmail(bodyHtml);
+      const frame = document.getElementById('email-preview');
+      frame.srcdoc = fullHtml;
+      frame.height = '420';
+      document.getElementById('send-preview-wrap').hidden = false;
+      document.getElementById('send-modal-title').textContent = 'Send Email — ' + subjectLine;
+    }
+
+    function clientResolveSession(label) {
+      if (label && label.includes('11') && label.includes('12'))
+        return { dates: 'Saturday & Sunday (11 & 12 July 2026)', time: '13:00 – 19:00 each day' };
+      if (label && label.includes('18') && label.includes('19'))
+        return { dates: 'Saturday & Sunday (18 & 19 July 2026)', time: '13:00 – 19:00 each day' };
+      return { dates: label || 'TBC', time: '13:00 – 19:00 each day' };
+    }
+
+    function clientSubVars(text, vars) {
+      return text
+        .replace(/\{\{participant\}\}/g, escHtml(vars.participant))
+        .replace(/\{\{booker\}\}/g, escHtml(vars.booker))
+        .replace(/\{\{session_dates\}\}/g, escHtml(vars.session_dates))
+        .replace(/\{\{session_time\}\}/g, escHtml(vars.session_time));
+    }
+
+    function clientWrapEmail(bodyHtml) {
+      return '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>' +
+        '<body style="margin:0;padding:0;background:#f0f0f2;font-family:\'Helvetica Neue\',Helvetica,Arial,sans-serif;">' +
+        '<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="background:#f0f0f2;padding:40px 16px;"><tr><td align="center">' +
+        '<table width="600" cellpadding="0" cellspacing="0" role="presentation" style="max-width:600px;width:100%;">' +
+        '<tr><td style="background:#0A1628;border-radius:8px 8px 0 0;padding:24px 40px;border-bottom:3px solid #C9A84C;">' +
+        '<img src="https://bunyaan.org.uk/assets/logo-nav.png" alt="Bunyaan" height="46" style="display:block;height:46px;width:auto;border:0;">' +
+        '<div style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-top:8px;">Summer Robotics Bootcamp 2026</div>' +
+        '</td></tr>' +
+        '<tr><td style="background:#111F3A;padding:36px 40px;">' + bodyHtml + '</td></tr>' +
+        '<tr><td style="background:#0A1628;border-radius:0 0 8px 8px;padding:18px 40px;border-top:1px solid rgba(201,168,76,0.12);">' +
+        '<p style="color:rgba(255,255,255,0.28);font-size:11px;margin:0;line-height:1.6;">Bunyaan SCIO &middot; Registered Scottish Charity SC055377 &middot; Edinburgh, Scotland<br>' +
+        '<a href="https://bunyaan.org.uk" style="color:rgba(201,168,76,0.5);text-decoration:none;">bunyaan.org.uk</a></p>' +
+        '</td></tr></table></td></tr></table></body></html>';
+    }
+
+    async function sendFromModal() {
+      if (!selectedTmplId || !sendModalBooking) return;
+      const b      = sendModalBooking;
+      const btn    = document.getElementById('send-modal-confirm');
+      const msgEl  = document.getElementById('send-modal-msg');
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      msgEl.textContent = '';
+      try {
+        const res = await fetch('/api/admin/send-confirmation', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + ADMIN_TOKEN },
+          body: JSON.stringify({
+            session_id:  b.id,
+            email:       b.email,
+            booker:      b.booker,
+            participant: b.participant,
+            session:     b.session,
+            template_id: selectedTmplId,
+          }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || data.error) throw new Error(data.error || 'HTTP ' + res.status);
+        confirmedSet.add(b.id);
+        if (sendModalBtn) {
+          const td = sendModalBtn.parentElement;
+          if (td) td.innerHTML = '<span style="color:#48C78E;font-size:0.78rem;font-weight:600;">&#10003; Sent</span>';
+        }
+        closeSendModal();
+      } catch (e) {
+        msgEl.style.color = '#ff6464';
+        msgEl.textContent = 'Error: ' + e.message;
+        btn.disabled = false;
+        btn.textContent = 'Send Email';
+      }
+    }
+
+    function closeSendModal() {
+      document.getElementById('send-modal').hidden = true;
+      document.getElementById('send-modal-title').textContent = 'Send Email';
+      sendModalBooking = null;
+      sendModalBtn     = null;
+      selectedTmplId   = null;
+    }
+
+    // ── Email Templates CRUD ──────────────────────────────────────────────────
+    async function loadTemplates() {
+      try {
+        const res  = await fetch('/api/admin/email-templates', { cache: 'no-store', headers: { 'Authorization': 'Bearer ' + ADMIN_TOKEN } });
+        const data = await res.json().catch(() => ({ templates: [] }));
+        templatesData = data.templates || [];
+        renderTemplateList();
+      } catch (_) {}
+    }
+
+    function renderTemplateList() {
+      const list = document.getElementById('tmpl-list');
+      if (!list) return;
+      if (templatesData.length === 0) {
+        list.innerHTML = '<div style="padding:2rem 1rem;text-align:center;color:var(--muted-2);font-size:0.82rem;">No templates yet.</div>';
+        showEmptyEditor();
+        return;
+      }
+      list.innerHTML = '';
+      templatesData.forEach(t => {
+        const item = document.createElement('div');
+        item.className = 'tmpl-list-item' + (t.id === activeTmplId ? ' active' : '');
+        item.innerHTML = '<div class="tmpl-name">' + escHtml(t.name) + '</div><div class="tmpl-subj">' + escHtml(t.subject) + '</div>';
+        item.addEventListener('click', () => selectTemplate(t.id));
+        list.appendChild(item);
+      });
+    }
+
+    function selectTemplate(id) {
+      activeTmplId = id;
+      const t = templatesData.find(x => x.id === id);
+      if (!t) return;
+      document.getElementById('tmpl-name').value    = t.name;
+      document.getElementById('tmpl-subject').value = t.subject;
+      document.getElementById('tmpl-body').value    = t.body;
+      showTemplateEditor();
+      renderTemplateList();
+    }
+
+    function newTemplate() {
+      activeTmplId = null;
+      document.getElementById('tmpl-name').value    = '';
+      document.getElementById('tmpl-subject').value = '';
+      document.getElementById('tmpl-body').value    = '';
+      showTemplateEditor();
+      renderTemplateList();
+      document.getElementById('tmpl-name').focus();
+    }
+
+    async function saveTemplate() {
+      const name    = document.getElementById('tmpl-name').value.trim();
+      const subject = document.getElementById('tmpl-subject').value.trim();
+      const body    = document.getElementById('tmpl-body').value;
+      if (!name || !subject || !body.trim()) { alert('Please fill in all fields.'); return; }
+      const saveBtn = document.getElementById('tmpl-save-btn');
+      saveBtn.disabled = true; saveBtn.textContent = 'Saving…';
+      try {
+        const method  = activeTmplId ? 'PATCH' : 'POST';
+        const payload = activeTmplId ? { id: activeTmplId, name, subject, body } : { name, subject, body };
+        const res  = await fetch('/api/admin/email-templates', {
+          method,
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + ADMIN_TOKEN },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || data.error) throw new Error(data.error || 'HTTP ' + res.status);
+        if (!activeTmplId && data.id) activeTmplId = data.id;
+        await loadTemplates();
+        if (activeTmplId) selectTemplate(activeTmplId);
+      } catch (e) {
+        alert('Save failed: ' + e.message);
+      } finally {
+        saveBtn.disabled = false; saveBtn.textContent = 'Save Template';
+      }
+    }
+
+    async function deleteTemplate() {
+      if (!activeTmplId) return;
+      const t = templatesData.find(x => x.id === activeTmplId);
+      if (!confirm('Delete "' + escHtml(t?.name || 'this template') + '"? This cannot be undone.')) return;
+      try {
+        const res  = await fetch('/api/admin/email-templates', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + ADMIN_TOKEN },
+          body: JSON.stringify({ id: activeTmplId }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || data.error) throw new Error(data.error || 'HTTP ' + res.status);
+        activeTmplId = null;
+        await loadTemplates();
+        showEmptyEditor();
+      } catch (e) {
+        alert('Delete failed: ' + e.message);
+      }
+    }
+
+    function showTemplatePreview() {
+      const subject = document.getElementById('tmpl-subject').value.trim();
+      const body    = document.getElementById('tmpl-body').value;
+      if (!body.trim()) { alert('Add a body first.'); return; }
+      const sampleVars = {
+        participant:   'Eyad Hammouda',
+        booker:        'Maysara',
+        session_dates: 'Saturday & Sunday (18 & 19 July 2026)',
+        session_time:  '13:00 – 19:00 each day',
+      };
+      const renderedBody = clientSubVars(body, sampleVars);
+      const fullHtml     = clientWrapEmail(renderedBody);
+      const pane  = document.getElementById('tmpl-preview-pane');
+      const frame = document.getElementById('tmpl-preview-frame');
+      frame.srcdoc = fullHtml;
+      frame.height = '600';
+      pane.hidden  = false;
+      pane.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function showTemplateEditor() {
+      document.getElementById('tmpl-editor').style.display       = 'flex';
+      document.getElementById('tmpl-empty-editor').style.display = 'none';
+    }
+
+    function showEmptyEditor() {
+      document.getElementById('tmpl-editor').style.display       = 'none';
+      document.getElementById('tmpl-empty-editor').style.display = 'flex';
     }
 
     // ── Firebase (team management only) ───────────────────────────────────────
