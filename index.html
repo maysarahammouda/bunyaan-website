@@ -38,6 +38,7 @@
       --gold-light:  #E8C96B;
       --gold-dim:    rgba(201,168,76,0.10);
       --gold-border: rgba(201,168,76,0.22);
+      --parchment:   #F4EFE6;
       --white:       #FFFFFF;
       --muted:       rgba(255,255,255,0.55);
       --muted-2:     rgba(255,255,255,0.30);
@@ -921,12 +922,23 @@
     font-size: 0.65rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
     color: var(--muted); white-space: nowrap;
   }
-  .supporter-logo-link { display: flex; align-items: center; opacity: 0.9; transition: opacity 0.2s; }
-  .supporter-logo-link:hover { opacity: 1; }
-  .supporter-logo-link img { height: 60px; width: auto; max-width: 100%; filter: invert(1); }
+  .supporter-logo-link {
+    display: flex; align-items: center; justify-content: center;
+    background: var(--parchment, #F4EFE6); border-radius: 8px;
+    padding: 0.5rem 1rem; height: 56px;
+    opacity: 0.95; transition: opacity 0.2s, transform 0.2s;
+  }
+  a.supporter-logo-link:hover { opacity: 1; transform: translateY(-2px); }
+  .supporter-logo-link img { height: 100%; width: auto; max-width: 100%; }
+  @media (min-width: 1000px) { .supporters-row { flex-wrap: nowrap; } }
+  @media (max-width: 640px) {
+    .supporters-row { gap: 0.9rem; }
+    .supporters-label { flex-basis: 100%; }
+    .supporter-logo-link { height: 52px; padding: 0.5rem 0.9rem; }
+  }
   .supporters-caption {
     font-size: 0.82rem; color: var(--muted);
-    max-width: 480px; margin-inline: auto;
+    max-width: 640px; margin-inline: auto;
     line-height: 1.6;
   }
   </style>
@@ -1442,8 +1454,17 @@
         <a href="https://www.ed.ac.uk" target="_blank" rel="noopener noreferrer" class="supporter-logo-link" aria-label="The University of Edinburgh">
           <img src="/assets/uoe-logo-bw.png" alt="The University of Edinburgh">
         </a>
+        <a href="https://www.corra.scot/" target="_blank" rel="noopener noreferrer" class="supporter-logo-link" aria-label="Corra Foundation">
+          <img src="/assets/corra-logo.png" alt="Corra Foundation">
+        </a>
+        <a href="http://www.dar-alarqam.org/" target="_blank" rel="noopener noreferrer" class="supporter-logo-link" aria-label="Dar Al-Arqam Islamic Centre">
+          <img src="/assets/dar-alarqam-logo.png" alt="Dar Al-Arqam Islamic Centre">
+        </a>
+        <a href="https://edmosque.org/" target="_blank" rel="noopener noreferrer" class="supporter-logo-link" aria-label="Edinburgh Central Mosque">
+          <img src="/assets/ecm-logo.png" alt="Edinburgh Central Mosque">
+        </a>
       </div>
-      <p class="supporters-caption r d1">Bunyaan is supported by the University of Edinburgh.</p>
+      <p class="supporters-caption r d1">Bunyaan is supported by the University of Edinburgh and Corra Foundation. Our lab is hosted by Dar Al-Arqam Islamic Centre, and our courses run at Edinburgh Central Mosque.</p>
     </div>
   </section>
 
