@@ -261,13 +261,6 @@
     .mod-term { font-size: 0.62rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
     .mod-name { font-family: var(--f-display); font-size: 1.25rem; font-weight: 700; line-height: 1.25; margin-block: 0.15rem 0.3rem; }
     .modules p { font-size: 0.9rem; }
-    .cal { margin-block-start: 2rem; display: grid; gap: 1rem; max-width: 820px; }
-    .cal-row { display: grid; grid-template-columns: 11rem 1fr; gap: 0.5rem 1.5rem; padding: 1.1rem 1.4rem; background: var(--navy-3); border: 1px solid var(--gold-border); border-radius: 8px; }
-    .cal-term { font-family: var(--f-display); font-size: 1.25rem; font-weight: 700; }
-    .cal-term small { display: block; font-family: var(--f-body); font-size: 0.7rem; font-weight: 400; color: var(--muted); letter-spacing: 0.06em; }
-    .cal-dates { color: var(--white); font-size: 0.95rem; }
-    .cal-dates span { display: block; color: var(--muted); font-size: 0.85rem; margin-block-start: 0.2rem; }
-    @media (max-width: 640px) { .cal-row { grid-template-columns: 1fr; } }
     @media (max-width: 1024px) {
       .footer-grid { grid-template-columns: 1fr 1fr; }
     }
@@ -339,27 +332,23 @@
         <span class="eyebrow r">Age groups</span>
         <h2 class="h2 r d1" id="groups-heading">Junior and Senior</h2>
         <div class="prose r d2">
-          <p>Each group has one module per school term, with one session a week. Sessions start at 60 minutes and may be extended later if that suits students and mentors. The outlines below describe the shape of the year. Pacing will vary by group, so some cohorts will move faster or slower through a term than others.</p>
+          <p>Each group runs one module per school term, with one session a week. Sessions start at 60 minutes and may be extended later if that suits students and mentors. Pacing will vary by group, so some cohorts will move faster or slower than others. The next two terms will be advertised later.</p>
         </div>
         <div class="cards" style="grid-template-columns:repeat(2,1fr)">
           <article class="card r d2">
             <span class="card-tag">Ages 8 to 12</span>
             <h3 class="card-title">Junior</h3>
-            <p>The transition from block-based coding into real programming, alongside first hands-on electronics and design work.</p>
+            <p>Moving from block-based coding into real programming.</p>
             <ul class="modules">
               <li><div class="mod-term">Term 1</div><div class="mod-name">From Blocks to Python</div><p>Moving from visual block coding into real Python, building toward a small game or program students design and demonstrate themselves.</p></li>
-              <li><div class="mod-term">Term 2</div><div class="mod-name">Circuits and Sensors</div><p>Hands-on electronics: wiring circuits, reading sensors, and controlling motors, building toward a small working invention that senses and responds to the world around it.</p></li>
-              <li><div class="mod-term">Term 3</div><div class="mod-name">Design and Build</div><p>An introduction to 3D design, creating real objects on screen and seeing a selection brought to life on Bunyaan's 3D printer.</p></li>
             </ul>
           </article>
           <article class="card r d3">
             <span class="card-tag">Ages 13 and over</span>
             <h3 class="card-title">Senior</h3>
-            <p>Deeper programming, physical computing projects, and one of two advanced specialisms in the final term.</p>
+            <p>Deeper programming, built around a real project of their own.</p>
             <ul class="modules">
               <li><div class="mod-term">Term 1</div><div class="mod-name">Python Programming</div><p>Structured programming with a real project of their own, with an emphasis on good habits, clear code, and problem-solving.</p></li>
-              <li><div class="mod-term">Term 2</div><div class="mod-name">Raspberry Pi and Smart Devices</div><p>Building working devices with real sensors and microcontrollers, culminating in a small team-built invention.</p></li>
-              <li><div class="mod-term">Term 3</div><div class="mod-name">One of two specialisms</div><p>Bunyaan runs one of two specialisms each year: CAD and 3D Design (advanced modelling and functional prototyping) or AI and ML (a hands-on introduction to how machine learning models are trained and used).</p></li>
             </ul>
           </article>
         </div>
@@ -377,27 +366,12 @@
         </div>
         <div class="prose r d3" style="margin-block-start:2rem">
           <p><strong>Where:</strong> Exhibition Hall, Edinburgh Central Mosque.</p>
-          <p>Places are limited to 16 per group.</p>
+          <p>Places are limited to 16 per group. Session times are confirmed with Edinburgh Central Mosque, working around the mosque's own scheduling.</p>
         </div>
       </div>
     </section>
 
-    <section id="calendar" class="alt" aria-labelledby="calendar-heading">
-      <div class="wrap">
-        <span class="eyebrow r">Term dates</span>
-        <h2 class="h2 r d1" id="calendar-heading">The year ahead</h2>
-        <div class="prose r d2">
-          <p>Sessions follow school term dates and pause for standard school holidays, plus Ramadan. Day and time are confirmed with Edinburgh Central Mosque, working around the mosque's own scheduling.</p>
-        </div>
-        <div class="cal r d3">
-          <div class="cal-row"><div class="cal-term">Term 1<small>Autumn</small></div><div class="cal-dates">3 October to 12 December 2026<span>No mid-term break. 11 consecutive Saturday sessions.</span></div></div>
-          <div class="cal-row"><div class="cal-term">Term 2<small>Spring</small></div><div class="cal-dates">6 January to 2 April 2027<span>Pauses for the February break and Ramadan.</span></div></div>
-          <div class="cal-row"><div class="cal-term">Term 3<small>Summer</small></div><div class="cal-dates">20 April to 29 June 2027</div></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="enrol" aria-labelledby="enrol-heading">
+    <section id="enrol" class="alt" aria-labelledby="enrol-heading">
       <div class="wrap">
         <span class="eyebrow r">Enrolment</span>
         <h2 class="h2 r d1" id="enrol-heading">How to enrol</h2>
