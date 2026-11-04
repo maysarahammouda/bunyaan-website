@@ -265,8 +265,9 @@
     @media (max-width: 1024px) {
       .footer-grid { grid-template-columns: 1fr 1fr; }
     }
+    .facts-two { grid-template-columns: repeat(2, 1fr); }
     @media (max-width: 768px) {
-      .cards, .facts { grid-template-columns: 1fr; }
+      .cards, .facts, .facts-two { grid-template-columns: 1fr; }
     }
     @media (max-width: 640px) {
       .footer-grid { grid-template-columns: 1fr; }
@@ -334,7 +335,7 @@
         <p class="lead r d2">Full details of this season's challenge: <a class="ext-link" href="https://www.firstinspires.org/programs/ftc/game-and-season" target="_blank" rel="noopener noreferrer">firstinspires.org/programs/ftc/game-and-season</a></p>
         <div class="actions r d3">
           <a href="https://forms.cloud.microsoft/e/VpyGL4HqYX" class="btn-primary" target="_blank" rel="noopener noreferrer" id="apply" aria-label="Apply now (opens in a new tab)">Apply now <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          <a href="#commitment" class="btn-outline">Commitment and cost</a>
+          <a href="#commitment" class="btn-outline">Commitment</a>
         </div>
       </div>
     </section>
@@ -362,18 +363,14 @@
     <section id="commitment" class="alt" aria-labelledby="commitment-heading">
       <div class="wrap">
         <span class="eyebrow r">Before you apply</span>
-        <h2 class="h2 r d1" id="commitment-heading">Commitment and cost</h2>
-        <div class="facts r d2">
+        <h2 class="h2 r d1" id="commitment-heading">Commitment</h2>
+        <div class="facts facts-two r d2">
           <div class="fact"><div class="fact-num">4 hours</div><div class="fact-label">Every weekend at our lab in Edinburgh, with mentors present throughout</div></div>
-          <div class="fact"><div class="fact-num">£50</div><div class="fact-label">Per month, covering the mentoring and the team's competition hardware</div></div>
           <div class="fact"><div class="fact-num">Ages 12-18</div><div class="fact-label">Open to young people in this age range</div></div>
         </div>
         <div class="prose r d3" style="margin-block-start:2rem">
           <p>There will be extra sessions as competitions approach.</p>
-          <p>If the team qualifies for national or international events, we will look at travel costs then and families may be asked to contribute.</p>
-        </div>
-        <div class="note r d3">
-          <p><strong>Nobody is turned away over money.</strong> If the fee is a problem, email <a href="mailto:ftc@bunyaan.org.uk">ftc@bunyaan.org.uk</a> in confidence.</p>
+          <p>There is no charge to join the team.</p>
         </div>
       </div>
     </section>
