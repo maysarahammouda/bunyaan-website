@@ -1650,9 +1650,12 @@
           gaBankBtn.textContent = 'Saving…';
           gaBankErr.textContent = '';
           try {
-            if (window.saveGiftAid) {
-              await window.saveGiftAid({ name, address, postcode, method: 'bank', declarationVersion: '2026-11' });
-            }
+            const gaRes = await fetch('/api/giftaid', {
+              method:  'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body:    JSON.stringify({ name, address, postcode }),
+            });
+            if (!gaRes.ok) throw new Error('save failed');
             document.getElementById('ga-bank-form-wrap').hidden = true;
             document.getElementById('ga-bank-success').hidden   = false;
           } catch (err) {
@@ -1715,11 +1718,6 @@
           });
           const data = await res.json();
           if (data.url) {
-            if (giftAid && window.saveGiftAid) {
-              try {
-                await window.saveGiftAid({ ...giftAid, amount, frequency, method: 'stripe', stripeSessionId: data.sessionId, declarationVersion: '2026-11' });
-              } catch (e) { /* Stripe metadata also holds the declaration */ }
-            }
             window.location.href = data.url;
           } else {
             throw new Error(data.error || 'Unexpected error.');

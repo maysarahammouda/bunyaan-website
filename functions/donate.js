@@ -68,6 +68,18 @@ export async function onRequestPost(context) {
       return Response.json({ error: session.error?.message || 'Stripe error.' }, { status: 500 });
     }
 
+    // Record the Gift Aid declaration server-side, linked to the Stripe session.
+    // A failure here must not block the donation: the declaration is also in Stripe metadata.
+    if (ga && context.env.bunyaan_waitlist) {
+      try {
+        await context.env.bunyaan_waitlist.prepare(`
+          INSERT INTO giftaid_declarations
+            (name, address, postcode, amount, frequency, method, stripe_session_id, declaration_version)
+          VALUES (?, ?, ?, ?, ?, 'stripe', ?, ?)
+        `).bind(ga.name, ga.address, ga.postcode, pence / 100, frequency, session.id, DECLARATION_VERSION).run();
+      } catch (e) { /* ignore */ }
+    }
+
     return Response.json({ url: session.url, sessionId: session.id });
 
   } catch (err) {
