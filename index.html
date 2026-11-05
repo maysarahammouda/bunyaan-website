@@ -1378,8 +1378,8 @@
             <div id="donate-form-wrap">
               <h3 class="donate-col-head">Donate online</h3>
               <div class="donate-freq" role="group" aria-label="Donation frequency">
-                <button type="button" class="donate-preset active" data-freq="once" aria-pressed="true">One-off</button>
-                <button type="button" class="donate-preset" data-freq="monthly" aria-pressed="false">Monthly</button>
+                <button type="button" class="donate-preset" data-freq="once" aria-pressed="false">One-off</button>
+                <button type="button" class="donate-preset active" data-freq="monthly" aria-pressed="true">Monthly</button>
               </div>
               <div class="donate-presets" role="group" aria-label="Preset donation amounts">
                 <button class="donate-preset" data-amount="10">£10</button>
@@ -1408,7 +1408,7 @@
                 </div>
               </div>
               <button class="donate-btn" id="donate-btn">
-                <span id="donate-btn-label">Donate securely</span>
+                <span id="donate-btn-label">Donate monthly</span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </button>
               <p class="donate-err" id="donate-err" aria-live="polite"></p>
@@ -1581,7 +1581,7 @@
       const errEl       = document.getElementById('donate-err');
       const presets     = document.querySelectorAll('.donate-presets .donate-preset');
       const freqBtns    = document.querySelectorAll('.donate-freq .donate-preset');
-      let frequency     = 'once';
+      let frequency     = 'monthly';
       const ARROW = ' <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
       const btnText = () => frequency === 'monthly' ? 'Donate monthly' : 'Donate securely';
       freqBtns.forEach(b => b.addEventListener('click', () => {
